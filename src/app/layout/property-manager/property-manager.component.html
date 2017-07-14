@@ -1,0 +1,364 @@
+<app-page-header [heading]="'Property Manager'| translate" [icon]="'fa-cogs'"></app-page-header>
+
+<app-page-modal [(visible)]="showProperty">
+  <app-page-header [heading]="'Add Property '| translate" [icon]="'fa fa-building'"></app-page-header>
+  <br/>
+  <div class="row">
+    <!--<div class="col col-xl-1">
+    </div>-->
+    <div class="col col-xl-12">
+      <div class="x_panel">
+        <!--<div class="card-block table-responsive">-->
+        <table class="table table-sm">
+          <tbody>
+            <tr>
+              <td><b><em>Property Group</em></b></td>
+              <td>
+                <select #selectPG class="form-control">
+                          <option *ngFor="let pg of propertyGroupListforPorperty" 
+                              [value]="pg.ID"
+                               [selected]="pg.ID == ddP">
+                              {{ pg.Name }}
+                           </option>
+                         </select>
+              </td>
+            </tr>
+            <tr>
+              <td><b><em>Property Name</em></b></td>
+              <td>
+                <div class="form-group">
+                  <input type="text" (keypress)="_keyPress($event)" id="pname" class="form-control" placeholder="{{'Property Name'| translate}}"
+                    [(ngModel)]="selectProperyName" required #property="ngModel" [maxLength]="textareaLength">
+                </div>
+                <span class="help-block" style="color:red" *ngIf="!property.valid && property.touched">{{'Please enter value in textbox'| translate}}</span>
+              </td>
+              <tr>
+                <td><b><em>Active</em></b></td>
+                <td>
+                  <input #cbproperty type="checkbox" [(ngModel)]="Pactive" (change)="logCheckbox(cbproperty)">
+                </td>
+              </tr>
+              <tr>
+                <td><b><em>Time Zone</em></b></td>
+                <td>
+                  <select #selectTime class="form-control" name="tz">
+                          <option *ngFor="let t of timezoneList" 
+                              [value]="t.ID"
+                               [selected]="t.ID == selectedTimezone" >
+                              {{ t.Displayformat }}
+                           </option>
+                         </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+
+                </td>
+                <td>
+                  <button type="reset" class="btn btn-secondary" (click)="onPropertyCancel()">{{'Cancel'|translate}}</button>
+                  <button type="submit" (click)="onPropertyDataSave()" class="btn btn-success">
+                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                  Save</button>
+                  <!--(click)="onDataSave()"-->
+                </td>
+          </tbody>
+        </table>
+        <!--</div>-->
+
+      </div>
+    </div>
+    <!--<div class="col col-xl-1">
+    </div>-->
+  </div>
+</app-page-modal>
+<app-page-modal [(visible)]="showPG">
+  <app-page-header [heading]="'Add Property Group'| translate" [icon]="'fa fa-bank'"></app-page-header>
+  <br/>
+  <div class="row">
+    <!--<div class="col col-xl-1">
+    </div>-->
+    <div class="col col-xl-12">
+      <div class="x_panel">
+        <!--<div class="card-block table-responsive">-->
+        <table class="table table-sm">
+          <tbody>
+            <tr>
+              <td><b><em>Customer</em></b> </td>
+              <td>
+                <select #selectCustomer class="form-control">
+                          <option *ngFor="let customer of customerArray" 
+                              [value]="customer.ID"
+                               [selected]="customer.id == ddCid"
+                               >
+                              {{ customer.Name }}
+                           </option>
+                         </select>
+              </td>
+            </tr>
+            <tr>
+              <td><b><em>Property Group Name</em></b></td>
+              <td>
+                <div class="form-group">
+                  <input (keypress)="_keyPress($event)" type="text" id="pgname" class="form-control" placeholder="{{'Property Group Name'| translate}}"
+                    [(ngModel)]="pgnameModal" name="pgname" required #group="ngModel" [maxLength]="textareaLength">
+                </div>
+                <span class="help-block" style="color:red" *ngIf="!group.valid && group.touched">{{'Please enter value in textbox'| translate}}</span>
+              </td>
+              <tr>
+                <td><b><em>Time Zone</em></b></td>
+                <td>
+                  <select #selectTimePG class="form-control" name="tz">
+                          <option *ngFor="let t of timezoneList" 
+                              [value]="t.ID"
+                               [selected]="t.ID == selectedTimezone"
+                               >
+                              {{ t.Displayformat }}
+                           </option>
+                         </select>
+                </td>
+              </tr>
+              <tr>
+                <td><b><em>Active</em></b></td>
+                <td>
+                  <input #cb1 type="checkbox" value="Active" [(ngModel)]="PGactive" (change)="logCheckbox(cb1)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+
+                </td>
+                <td>
+                  <button type="reset" class="btn btn-secondary" (click)="onPropertyGroupCancel()">{{'Cancel'|translate}}</button>
+                  <button type="submit" (click)="onPropertyGroupDataSave()" class="btn btn-success">
+                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                  Save</button>
+                  <!--(click)="onDataSave()"-->
+                </td>
+          </tbody>
+        </table>
+        <!--</div>-->
+
+      </div>
+    </div>
+    <!--<div class="col col-xl-1">
+    </div>-->
+  </div>
+</app-page-modal>
+<app-modal [(visible)]="success">
+  <div id="content">
+    <div class="notify successbox">
+      <h1>Success!</h1>
+      <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="error">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="warning">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Warning!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>Are you want to Delete this connection ?</p>
+      <button type="submit" class="btn btn-danger" (click)="onNo()">No</button>
+      <button type="submit" (click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="validation">
+  <div class="notify errorbox">
+    <h1>Warning!</h1>
+    <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+
+    <ul>
+      <li *ngFor="let item of alerts">
+        {{item.message}}
+      </li>
+    </ul>
+  </div>
+</app-modal>
+
+<accordion>
+  <accordion-group heading="Property Group " isGroupOpen="true">
+    <div class="row">
+      <div class="col-lg-2">
+      </div>
+      <div class="col-lg-8">
+        &nbsp;
+
+      </div>
+      <div class="col-lg-2">
+        <span class="float-right text-muted small">
+              <!--<b><em>4 minutes ago</em>-->
+               <button class="btn btn-primary" (click)="onAddNewConnection()">Add Property Group</button>
+    </span>
+      </div>
+    </div>  
+    <br/>
+    <div class="row">
+      <div class="col-lg-2">
+      </div>
+      <div class="col-lg-8">
+        <div class="list-group">
+          <div class="list-group-item clearfix d-block" *ngFor="let sor of propertGroupList " [ngClass]="{odd:sor.Active==0}">
+
+            <div *ngIf="sor.Active==1">
+              <i class="fa fa-bank fa-fw"></i> {{sor.Name}}&nbsp;
+              <!--<img src="assets/images/check.png" width="20px" />-->
+              <span class="badge badge-info">Active</span>
+              <span class="float-right text-muted small">
+          <button class="btn btn-warning" (click)="onPGEdit(sor)" aria-label="Delete">
+                                 <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                   </button>
+          <button class="btn btn-danger" (click)="onPGDelete(sor.ID)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+        </span>
+            </div>
+            <div *ngIf="sor.Active==0">
+              <i class="fa fa-bank fa-fw"></i> <em>{{sor.Name}}</em>&nbsp;
+              <!--<img src="assets/images/error.png" width="20px" />-->
+              <span class="badge badge-warning">InActive</span>
+              <span class="float-right text-muted small">
+          <button class="btn btn-warning" (click)="onPGEdit(sor)" aria-label="Delete">
+                                 <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                   </button>
+          <button class="btn btn-danger" (click)="onPGDelete(sor.ID)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+        </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div class="card-block table-responsive">
+      <table class="table table-sm">
+        <tbody>
+          <tr *ngFor="let sor of propertGroupList " [ngClass]="{odd:sor.Active==0}">
+            <td>
+              <div style="padding-left: 50%;">
+
+              </div>
+            </td>
+
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <b>Name:</b>
+                  </td>
+                  <td>
+                    {{sor.Name}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Status:</b>
+                  </td>
+                  <td>
+                    <div *ngIf="sor.Active==1; else login">
+                      <img src="assets/images/check.png" width="20px" />
+                    </div>
+                    <div>
+                      <ng-template #login><img src="assets/images/error.png" width="20px" /></ng-template>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+            <td>
+              <div style="padding-left: 50%;">
+                <button class="btn btn-warning" (click)="onPGEdit(sor)" aria-label="Delete">
+                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                   </button>
+                <button class="btn btn-danger" (click)="onPGDelete(sor.ID)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>-->
+  </accordion-group>
+</accordion>
+
+
+<br/>
+
+
+<accordion>
+  <accordion-group heading="Property" isGroupOpen="true">
+    <div class="row">
+      <div class="col-lg-2">
+      </div>
+      <div class="col-lg-8">
+        <select #SelectfilterPG class="form-control" (change)="onChangeFilter(SelectfilterPG.value)">
+          <option [value]="0" >--All--</option>
+                          <option *ngFor="let pg of propertGroupList" 
+                              [value]="pg.ID" >
+                              {{ pg.Name }}
+                           </option>
+                         </select>
+
+      </div>
+      <div class="col-lg-2">
+        <span class="float-right text-muted small">
+              <!--<em>4 minutes ago</em>-->
+               <button class="btn btn-primary" (click)="onAddProperty()">Add Property</button>
+    </span>
+      </div>
+    </div>
+
+
+    <br/>
+    <div class="row">
+      <div class="col-lg-2">
+      </div>
+      <div class="col-lg-8">
+        <div class="list-group">
+          <div class="list-group-item clearfix d-block" *ngFor="let sor of filterproperty " [ngClass]="{odd:sor.Active==0}">
+
+            <div *ngIf="sor.Active==1">
+              <i class="fa fa-building fa-fw"></i>{{sor.Name}}&nbsp;
+              <!--<img src="assets/images/check.png" width="20px" />-->
+              <span class="badge badge-info">Active</span>
+              <span class="float-right text-muted small">
+          <button class="btn btn-warning" (click)="onPropertyEdit(sor)" aria-label="Delete">
+                                 <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                   </button>
+          <button class="btn btn-danger" (click)="onPropertyDelete(sor.ID)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+        </span>
+            </div>
+            <div *ngIf="sor.Active==0">
+              <i class="fa fa-building fa-fw"></i> <em>{{sor.Name}}</em>&nbsp;
+              <!--<img src="assets/images/error.png" width="20px" />-->
+              <span class="badge badge-warning">InActive</span>
+              <span class="float-right text-muted small">
+          <button class="btn btn-warning" (click)="onPropertyEdit(sor)" aria-label="Delete">
+                                 <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                   </button>
+          <button class="btn btn-danger" (click)="onPropertyDelete(sor.ID)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+        </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

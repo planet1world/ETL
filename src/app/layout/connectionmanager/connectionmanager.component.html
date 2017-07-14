@@ -1,0 +1,139 @@
+<!--<router-outlet></router-outlet>-->
+<app-page-header [heading]="'Connection Manager'| translate" [icon]="'fa-share-alt'"></app-page-header>
+<app-modal [(visible)]="showDialog">
+  <div [ngSwitch]='status'>
+    <div *ngSwitchCase="'succes'">
+      <div id="content">
+        <div class="notify successbox">
+          <h1>Success!</h1>
+          <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+          <p>{{popmessage}}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'error'">
+      <div class="notify errorbox">
+        <h1>Warning!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>Are you want to Delete this connection ?</p>
+          <button type="submit"  class="btn btn-danger" >No</button>
+        <button type="submit"(click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
+
+      </div>
+    </div>
+    
+    <div *ngSwitchCase="'validation'">
+       <div class="notify errorbox">
+       <h1>Warning!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+     
+      <ul>
+        <li *ngFor="let item of alerts">
+          {{item.message}}
+        </li>
+      </ul>
+       </div>
+      
+    </div>
+  </div>
+
+
+</app-modal>
+<div class="pull-right">  
+    <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
+</div>
+<div class="row">
+    <div class="col col-xl-2">
+    </div>
+    <div class="col col-xl-8 col-lg-12">
+
+        <div class="card-block table-responsive">
+             <div class="form-group input-group">
+                 <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search Source/Destination Connection">
+                <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
+            </div>
+          
+            <hr>
+
+            <div class="card mb-3">
+                <div class="card-header">Source Connections
+                    <span *ngIf="showsource"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                </div>
+                <div class="card-block table-responsive">
+                    <table class="table">
+
+                        <tbody>
+                            <tr *ngFor="let sor of source | filter:{name: filterSource}">
+                                <td>
+                                    <div *ngIf="sor.provider==1" style="padding-left: 50%;">
+                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo" width="40px" class="user-avatar" /></span>                                    
+                                    </div>
+                                     <div *ngIf="sor.provider==2" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"  /></span>                                    
+                                    </div>
+                                     <div *ngIf="sor.provider==3" style="padding-left: 50%;">
+                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"  /></span>                                   
+                                    </div>
+                                     <div *ngIf="sor.provider==4" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"  /></span>    
+                                    </div>
+                                </td>
+                                <td>{{sor.name}}</td>
+                                <td>
+                                    <div style="padding-left: 50%;">
+                                        <button class="btn btn-danger"  (click)="onDelete(sor.id,1)" aria-label="Delete">
+                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                   </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>    
+            
+            <hr>
+            <div class="card mb-3">
+                <div class="card-header">Destination Source
+                    <span *ngIf="showdestination"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+                </div>
+                <div class="card-block table-responsive">
+                    <table class="table table-hover table-striped">
+
+                        <tbody>
+                            <tr *ngFor="let des of destination | filter:{name: filterSource}">
+                                <td>
+                                    <div *ngIf="des.provider==1" style="padding-left: 50%;">
+                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo"  width="40px" class="user-avatar"/></span>                                    
+                                    </div>
+                                     <div *ngIf="des.provider==2" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"/></span>                                    
+                                    </div>
+                                     <div *ngIf="des.provider==3" style="padding-left: 50%;">
+                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"/></span>                                   
+                                    </div>
+                                     <div *ngIf="des.provider==4" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"/></span>    
+                                    </div>
+                                </td>
+                                <td>{{des.name}}</td>
+                                <td>
+                                    <div style="padding-left: 50%;">
+                                         <button class="btn btn-danger"  (click)="onDelete(des.id,2)" aria-label="Delete">
+                                           <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,130 @@
+<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<div id="wizard" class="form_wizard wizard_horizontal">
+  <ul class="wizard_steps">
+    <li>
+      <a [routerLink]="['/create-product']" class="selected">
+                                        <span class="step_no">1</span>
+                                        <span class="step_descr">
+                                            Create New Product<br />
+                                            <b><small>Active</small></b>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a [routerLink]="['/property-manager']" onclick="return false;">
+                                        <span class="step_no">2</span>
+                                        <span class="step_descr">
+                                            Select Table<br />
+                                            <!--<small>Active</small>-->
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a href="#step-3" onclick="return false;">
+                                        <span class="step_no">3</span>
+                                        <span class="step_descr">
+                                            Create New Product<br />
+                                            <!--<small>Step 3 description</small>-->
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a href="#step-4" onclick="return false;">
+                                        <span class="step_no">4</span>
+                                        <span class="step_descr">
+                                           Save Product<br />
+                                            <!--<small>Step 4 description</small>-->
+                                        </span>
+                                    </a>
+    </li>
+
+  </ul>
+  <div class="row">
+    <div class="col col-xl-3">
+    </div>
+    <div class="col col-xl-6">
+      <div class="x_panel">
+        <div class="card mb-3">
+          <div class="card-header">Create New Product
+          </div>
+          <div class="card-block table-responsive">
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <td>
+                    <b><em>Property Group</em></b>
+                  </td>
+                  <td>
+                    <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)">
+                          <option *ngFor="let pg of propertygroup" 
+                              [value]="pg.ID"
+                              [selected]="pg.ID === selpropertyGroup">
+                              {{ pg.Name }}
+                           </option>
+                         </select>
+
+                  </td>
+                  <td>
+                    <span *ngIf="showpropertygroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b><em>Property</em></b>
+                  </td>
+                  <td>
+                    <select #selectProperty class="form-control">
+                          <option *ngFor="let p of propertyList" 
+                              [value]="p.ID"
+                               [selected]="p.ID == 0">
+                              {{ p.Name }}
+                           </option>
+                         </select>
+                  </td>
+                  <td>
+                    <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b><em>Product Name</em></b>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <input type="text" (keypress)="_keyPress($event)" id="pname" class="form-control" placeholder="{{'Product Name'| translate}}"
+                        [(ngModel)]="selectProperyName" required #property="ngModel" [maxLength]="textareaLength">
+                      <span class="help-block" style="color:red" *ngIf="!property.valid && property.touched">{{'Please enter value in textbox'| translate}}</span>
+                    </div>
+
+                  </td>
+                  <td>
+
+                  </td>
+                  <tr>
+                    <td>
+                      <b><em>Active</em></b>
+                    </td>
+                    <td>
+                      <input #cbproperty type="checkbox" (change)="logCheckbox(cbproperty)">
+                      <!--[(ngModel)]="Pactive" -->
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                    </td>
+                    <td>
+                      <button type="submit" (click)="onProductCreation()" class="btn btn-success">
+                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                  Save</button>
+                    </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-xl-3">
+    </div>
+  </div>
+</div>

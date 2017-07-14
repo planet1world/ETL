@@ -1,0 +1,181 @@
+<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<app-modal [(visible)]="error">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="validation">
+  <div class="notify errorbox">
+    <h1>Warning!</h1>
+    <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+
+    <ul>
+      <li *ngFor="let item of alerts">
+        {{item.message}}
+      </li>
+    </ul>
+  </div>
+</app-modal>
+
+<div id="wizard" class="form_wizard wizard_horizontal">
+  <ul class="wizard_steps">
+    <li>
+      <a [routerLink]="['/create-product']" class="done" onclick="return false;">
+                                        <span class="step_no">1</span>
+                                        <span class="step_descr">
+                                            Create New Product<br />
+                                            <b><small>Completed</small></b>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a [routerLink]="['/property-manager']" class="selected" onclick="return false;">
+                                        <span class="step_no">2</span>
+                                        <span class="step_descr">
+                                            Select Table<br />
+                                            <small>Active</small>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a [routerLink]="['/property-manager']" onclick="return false;">
+                                        <span class="step_no">3</span>
+                                        <span class="step_descr">
+                                            Configure Table<br />
+                                            <!--<small>Step 3 description</small>-->
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a href="#step-4"  onclick="return false;">
+                                        <span class="step_no">4</span>
+                                        <span class="step_descr">
+                                           Save Product<br />
+                                            <!--<small>Step 4 description</small>-->
+                                        </span>
+                                    </a>
+    </li>
+
+  </ul>
+  <div class="row">
+    <div class="col col-xl-3">
+    </div>
+    <div class="col col-xl-6">
+      <div class="x_panel">
+        <div class="card mb-3">
+          <div class="card-header">Product Name: {{name}}
+          </div>
+          <div class="card-block table-responsive">
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <td>
+                    <b><em>Template DB</em></b>
+                  </td>
+                  <td>
+                    <select #selectDB class="form-control" (change)="onChangeDB(selectDB.value)">
+                             <option [value]="0" >Select Template</option>
+                          <option *ngFor="let pg of template" 
+                              [value]="pg.Con"
+                              [selected]="pg.ID === selpropertyGroup">
+                              {{ pg.Name }}
+                           </option>
+                         </select>
+
+                  </td>
+                  <td>
+                    <span *ngIf="showtemplate"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b><em>Schema</em></b>
+                  </td>
+                  <td>
+                    <select #selectschema class="form-control">
+                           <option [value]="0" >Select Schema</option>
+                          <option *ngFor="let p of schemalist" 
+                              [value]="p.ID"
+                               [selected]="p.ID == 0">
+                              {{ p.Name }}
+                           </option>
+                         </select>
+                  </td>
+                  <td>
+                    <span *ngIf="showschema"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b><em>Product List</em></b>
+                  </td>
+                  <td>
+                    <select #selectlist class="form-control" (change)="onChangeProductList(selectlist.value)">
+                           <option [value]="0" >Select Product</option>
+                          <option *ngFor="let p of productlist" 
+                              [value]="p.ID"
+                               [selected]="p.ID == 0">
+                              {{ p.Name }}
+                           </option>
+                         </select>
+                  </td>
+                  <td>
+                    <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group input-group">
+                      <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search by Table Name">
+                      <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <input type="checkbox" [checked]="isAllChecked()" (change)="checkAll($event)">&nbsp;<b>Check ALL</b>
+                      <div class="checkbox" *ngFor="let table of tableList | filter:{Name: filterSource}; let i = index " [ngClass]="{odd:table.type===false,green:table.type===true}">
+
+                        <input type="checkbox" #i checked name="{{table.type}}" [(ngModel)]="table.type" (change)="logCheckbox(i,table.Name)">&nbsp;{{table.Name}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Selectd Table Count
+                  </td>
+                  <td>
+                    <span class="badge badge-info"> {{count}}</span>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    <button type="submit" (click)="onSaveTable()" class="btn btn-success">
+                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                  Save & Next</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-xl-3">
+    </div>
+  </div>
+</div>

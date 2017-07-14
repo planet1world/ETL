@@ -1,0 +1,234 @@
+<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<app-modal [(visible)]="error">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="validation">
+  <div class="notify errorbox">
+    <h1>Warning!</h1>
+    <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+
+    <ul>
+      <li *ngFor="let item of alerts">
+        {{item.message}}
+      </li>
+    </ul>
+  </div>
+</app-modal>
+
+<div id="wizard" class="form_wizard wizard_horizontal">
+  <ul class="wizard_steps">
+    <li>
+      <a [routerLink]="['/create-product']" class="done" onclick="return false;">
+                                        <span class="step_no">1</span>
+                                        <span class="step_descr">
+                                            Create New Product<br />
+                                            <b><small>Completed</small></b>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a [routerLink]="['/property-manager']" class="done" onclick="return false;">
+                                        <span class="step_no">2</span>
+                                        <span class="step_descr">
+                                            Select Table<br />
+                                            <small>Completed</small>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a [routerLink]="['/property-manager']" class="selected" onclick="return false;">
+                                        <span class="step_no">3</span>
+                                        <span class="step_descr">
+                                            Configure Table<br />
+                                            <small>Active</small>
+                                        </span>
+                                    </a>
+    </li>
+    <li>
+      <a href="#step-4" onclick="return false;">
+                                        <span class="step_no">4</span>
+                                        <span class="step_descr">
+                                           Save Product<br />
+                                            <!--<small>Step 4 description</small>-->
+                                        </span>
+                                    </a>
+    </li>
+
+  </ul>
+  <div class="row">
+    <div class="col col-xl-2">
+    </div>
+    <div class="col col-xl-8">
+      <div class="x_panel">
+        <div class="card mb-3">
+          <div class="card-header">Product Name: {{name}}
+          </div>
+          <div class="card-block table-responsive">
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group input-group">
+                      <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search by Table Name">
+                      <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
+                    </div>
+                  </td>
+                  <tr>
+                    <td>
+                      <b><em>Table</em></b>
+                    </td>
+                    <td>
+                      <table>
+                        <td>
+                          <button type="submit" class="btn btn-primary" (click)="onBack()" [disabled]="ToggleBack">
+                                <i class="fa fa-caret-left" aria-hidden="true"></i>
+                             </button>
+                        </td>
+                        <td>
+                          <select #selectable class="form-control" (change)="onChangeTable(selectable.value)">
+                             <option [value]="0" >Select Table</option>
+                          <option *ngFor="let t of table| filter:{Name:filterSource};"   [value]="t.Name"
+                            [selected]="t.Name === selectedtable" >
+                              {{ t.Name }}
+                           </option>
+                         </select>
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-primary" (click)="onNext()" [disabled]="ToggleNext">
+                                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                             </button>
+                        </td>
+                      </table>
+                    </td>
+                    <td>
+                      <span *ngIf="showtable"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b><em>Primary Key</em></b>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <div class="checkbox" *ngFor="let pk of primarykey let i = index " [ngClass]="{green:pk.Selected===true}">
+
+                          <input type="checkbox" #i checked name="{{pk.Selected}}" [(ngModel)]="pk.Selected">&nbsp;{{pk.Name}}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span *ngIf="showprimarykey"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                      <table class="card-block table" cellspacing="10">
+                        <thead class="thead-inverse">
+                          <th style="text-align:center">
+                            Available Column
+                          </th>
+                          <th>
+                          </th>
+                          <th style="text-align:center">
+                            Selected Column
+                          </th>
+                        </thead>
+                        <tbody>
+                          <tr style="border:thick">
+                            <td style="border: 2px solid blue;padding-left:10px" cellspacing="10">
+                              <span *ngIf="showavailablecolumn"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                              <div class="form-group">
+                                <div class="checkbox" *ngFor="let t of tableCol let i = index " [ngClass]="{green:t.Selected===true}">
+
+                                  <input type="checkbox" #i checked name="{{t.Selected}}" [(ngModel)]="t.Selected">&nbsp;{{t.Name}}
+                                </div>
+                              </div>
+                            </td>
+                            <td valign="centre" align="centre" style="padding-left:10px;padding-right:10px;text-align:center">
+
+                              <br/>
+                              <br/>
+                              <button type="submit" class="btn btn-primary" (click)="onPushAllLeft()" style="width:80px">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                             </button>
+                              <br/>
+                              <br/>
+
+                              <button type="submit" class="btn btn-warning" (click)="onPushLeft()" style="width:80px">
+                                   <i class="fa fa-angle-left" aria-hidden="true"></i>
+                             </button>
+
+                              <br/>
+                              <br/>
+                              <button type="submit" class="btn btn-primary" (click)="onPushAllRight()" style="width:80px">
+                                  <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                             </button>
+                              <br/>
+                              <br/>
+                              <button type="submit" class="btn btn-warning" (click)="onPushRight()" style="width:80px">
+                                  <i class="fa fa-angle-right" aria-hidden="true"></i>
+                              </button>
+                              <br/>
+                              <br/>
+                            </td>
+                            <td style="border: 2px solid blue;padding-left:10px">
+                              <span *ngIf="showselectedcolumn"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                              <div class="form-group">
+                                <div class="checkbox" *ngFor="let t of selectedtableCol let i = index " [ngClass]="{odd:t.Selected===true}">
+
+                                  <input type="checkbox" #i checked name="{{t.Selected}}" [(ngModel)]="t.Selected" [disabled]="t.Disable">&nbsp;{{t.Name}}
+                                </div>
+                              </div>
+                            </td>
+
+                          </tr>
+
+                          <tr>
+                            <td>
+                              <button type="submit" (click)="onSaveDraft()" class="btn btn-warning" [disabled]="ToggleButton">
+                               <i [ngClass]="{'fa fa-spinner fa-spin':savedraft===true}"></i>
+                              Save column settings</button>
+                            </td>
+                            <td>
+                            </td>
+                            <td valign="right" align="right">
+                              <!--<button type="submit" (click)="onNextTable()" class="btn btn-success">
+                              <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                                Save & Next</button>-->
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <button type="submit" (click)="onBackPage()" class="btn btn-error">
+                              
+                              Back</button>
+                            </td>
+                            <td>
+                            </td>
+                            <td valign="right" align="right">
+                              <button type="submit" (click)="onNextTable()" class="btn btn-success">
+                              <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                                Save & Next</button>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-xl-2">
+    </div>
+  </div>
+</div>

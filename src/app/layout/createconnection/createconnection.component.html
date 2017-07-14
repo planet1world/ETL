@@ -1,0 +1,230 @@
+<app-page-header [heading]="'Connection Detail'| translate" [icon]="'fa-'"></app-page-header>
+<app-modal [(visible)]="showDialog">
+  <div [ngSwitch]='status'>
+    <div *ngSwitchCase="'succes'">
+      <div id="content">
+        <div class="notify successbox">
+          <h1>Success!</h1>
+          <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+          <p>{{popmessage}}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'error'">
+      <div class="notify errorbox">
+        <h1>Warning!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>{{popmessage}}</p>
+      </div>
+    </div>
+    <div *ngSwitchCase="'validation'">
+      <div class="notify errorbox">
+        <h1>Warning!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+
+        <ul>
+          <li *ngFor="let item of alerts">
+            {{item.message}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+</app-modal>
+
+
+
+<div class="row">
+  <div class="col col-xl-2">
+  </div>
+  <div class="col col-xl-8 col-lg-12">
+    <div class="card mb-3">
+      <div class="card-header">
+        Create New Connection
+      </div>
+      <div class="card-block table-responsive">
+        <!--<form (ngSubmit)="onChangepassword(f)" #f="ngForm">-->
+        <table class="table">
+
+          <tbody>
+            <tr>
+              <td>Property Group</td>
+              <td colspan="2">
+                <select #selectPG (change)="onChangePG(selectPG.value)" class="form-control" name="pg" [(ngModel)]="selectedpgid">
+                       
+                          <option *ngFor="let pg of propertygroup" 
+                              [value]="pg.ID" 
+                              [selected]="pg.ID === selpropertyGroup"> 
+                              {{ pg.Name }}
+                           </option>
+                         </select>
+              </td>
+              <td>
+                <span *ngIf="showcpg"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Connection</td>
+              <td colspan="2">
+                <select #conn (change)="onChangeConnection(conn.value)" class="form-control " name="conn2" >
+                         
+                          <option *ngFor="let con of connection_array" 
+                              [value]="con.id" 
+                              [selected]="con.id === selectedConnection">
+                              {{ con.name }}
+                           </option>
+                         </select>
+              </td>
+              <td>
+                <span *ngIf="showconn"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+            <tr *ngIf="selectedSource">
+              <td>Property</td>
+              <td colspan="2">
+                <select #selectProperty (change)="onChangeProperty(selectProperty.value)" class="form-control " name="p">
+                          <option *ngFor="let p of property" 
+                              [value]="p.ID" 
+                              [selected]="p.ID === s">
+                              {{ p.Name }}
+                           </option>
+                         </select>
+              </td>
+              <td>
+                <span *ngIf="showp"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Connection Name</td>
+              <td colspan="2">
+                <input type="text" id="conname" class="form-control" placeholder="{{'Connection Name'| translate}}" [(ngModel)]="selectedconname"
+                  name="conname" required  #connection="ngModel" [maxLength]="textareaLength">
+                  <span class="help-block" style="color:red" *ngIf="!connection.valid && connection.touched">{{'Please enter value in textbox'| translate}}</span>
+
+              </td>
+            </tr>
+            <tr>
+              <td>Connectivity Type</td>
+              <td colspan="2">
+                <select #connType (change)="onChangeConnectionType(connType.value)" class="form-control " [disabled]="disabled" name="ct">
+                          <option *ngFor="let lang of connectionType" 
+                              [value]="lang.id" 
+                              [selected]="lang.id === SelectedConnectionType">
+                              {{ lang.name }}
+                           </option>
+                         </select>
+              </td>
+              <td>
+                <span *ngIf="showconntype"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Connection Provider</td>
+              <td colspan="2">
+                <select #connProv class="form-control" (change)="onConnectionProviderChange(connProv.value)" [disabled]="providerdisabled"
+                  name="cp">
+                          <option *ngFor="let lang of conEngineType" 
+                              [value]="lang.id" 
+                              [selected]="lang.id === selectconnectionproviderid">
+                              {{ lang.name }}
+                           </option>
+                         </select>
+              </td>
+              <td>
+                <span *ngIf="showconnprovider"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+            <tr *ngIf="selectedfolder">
+              <td>Folder Location</td>
+              <td colspan="2">
+                <input type="text" id="folder" class="form-control" placeholder="{{'Full Location Path'| translate}}" [(ngModel)]="selectedfolderlocation"
+                  name="folder" required  #folder="ngModel">
+                  <span class="help-block" style="color:red" *ngIf="!folder.valid && folder.touched">{{'Please enter folder location'| translate}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Server Name</td>
+              <td colspan="2">
+                <input type="text" id="servername" class="form-control" placeholder="{{'Server Address / IP'| translate}}" [(ngModel)]="selectedservername"
+                  name="servername" required   #server="ngModel">
+                 <span class="help-block" style="color:red" *ngIf="!server.valid && server.touched">{{'Please enter value in textbox'| translate}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>{{UN}}</td>
+              <td colspan="2">
+                <input type="text" id="uname" ngModel name="uname" class="form-control" placeholder="{{'User Name'| translate}}" [(ngModel)]="selectedusername"
+                  name="un" required #user="ngModel">
+                <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>{{Pass}}</td>
+              <td>
+                <input type="password" id="pas" class="form-control" placeholder="{{'*****'| translate}}" [(ngModel)]="selectedpassword"
+                  name="pass" required>
+              </td>
+              <td>
+                <button class="btn btn-primary" (click)="onTestConnection(); false">
+                   <i class="fa fa-check-square-o"></i> Test Connection</button>
+
+                <span *ngIf="showtest"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+              </td>
+            </tr>
+            <tr *ngIf="showDatabase">
+              <td>Database</td>
+              <td colspan="2">
+                <select #databaseSelect (change)="onChangeDB(databaseSelect.value)" class="form-control " name="d">
+                          <option *ngFor="let d of db" 
+                              [value]="d.db" >
+                              {{ d.db }}
+                           </option>
+                         </select>
+                <!--[(ngModel)]="selecteddatabase"-->
+              </td>
+              <td>
+                <span *ngIf="showdb"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+            <tr *ngIf="showSchema">
+              <td>Schema</td>
+              <td colspan="2">
+                <select #schemaSelect class="form-control " name="s">
+                          <option *ngFor="let lang of schema" 
+                              [value]="lang.db" >
+                              {{ lang.db }}
+                           </option>
+                         </select>
+                <!--[(ngModel)]="selectedschema"-->
+              </td>
+              <td>
+                <span *ngIf="showschema"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+
+              </td>
+              <td>
+                <button type="reset" class="btn btn-secondary" (click)="onClear()">{{'Reset'|translate}}</button>
+                <button type="submit" (click)="onDataSave()" class="btn btn-success">
+                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                  Save</button>
+                <!--(click)="onDataSave()"-->
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+        <!--</form>-->
+      </div>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;Dashboard
+        </a>
+        <a [routerLink]="['/connectionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <!--<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;Charts-->
+            <i class="fa fa-fw  fa fa-share-alt"></i>&nbsp;Connection Manager
+        </a>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+           
+            <i class="fa fa-fw fa fa-cogs"></i>&nbsp;MetaData&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+        </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/property-manager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          
+                         Property Manager
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/list-product']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          
+                         <i class="fa fa-fw  fa fa-suitcase"></i>&nbsp;Product Manager
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/tree-view']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          
+                         ETL Catalog
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <!--<a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item" disabled>
+         
+            <i class="fa fa-fw fa fa-wrench"></i>&nbsp;Job&Scheduler
+        </a>
+        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          
+            <i class="fa fa-fw fa fa-gear"></i>&nbsp;ETL Tracking
+        </a>
+        <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa fa-users"></i>&nbsp;Administration
+        </a>
+        <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-th-list"></i>&nbsp;Component
+        </a>-->
+        <!--<div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-plus"></i> &nbsp; Menu</span>&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a href="javascript:void(0)"><span>Submenu</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><span>Submenu</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><span>Submenu</span></a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;BlankPage
+        </a>
+        <a class="list-group-item more-themes" href="http://www.strapui.com/" >
+            More Themes
+        </a>-->
+    </ul>
+</nav>
+<!-- /menu footer buttons -->
+<div class="sidebar-footer">
+    <font size="2"><b>Version:{{version}} Copyright © FCS.</b></font>
+</div>
+<!-- /menu footer buttons -->

@@ -1,0 +1,91 @@
+<h4 class="text-muted">ETL Dashboard <small>Statistics Overview</small></h4>
+<!--<div class="row">
+    <div class="col-md-12">
+        <ngb-carousel>
+            <template ngbSlide *ngFor="let slider of sliders">
+                <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
+                <div class="carousel-caption">
+                    <h3>{{slider.label}}</h3>
+                    <p>{{slider.text}}</p>
+                </div>
+            </template>
+        </ngb-carousel>
+    </div>
+</div>-->
+<hr>
+<div class="row">
+    <div class="col-xl-3 col-lg-6">
+        <app-stat [bgClass]="'card-primary'" [icon]="'fa-share-alt'" [count]="26" [label]="'Source Connection'" (event)="onSource($event)" ></app-stat>
+    </div>   
+    <div class="col-xl-3 col-lg-6">
+        <app-stat [bgClass]="'card-success'" [icon]="'fa fa-bank'" [count]="124" [label]="'Properties'" ></app-stat>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+        <app-stat [bgClass]="'card-danger'" [icon]="'fa fa-database'" [count]="13" [label]="'Jobs'"></app-stat>
+    </div>
+     <div class="col-xl-3 col-lg-6">
+        <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="12" [label]="'Job Run(in last 7 Days)'" ></app-stat>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col col-sm-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                Data Processed (in Last 7 Days)
+            </div>
+            <div class="card-block">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                </canvas>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+            </div>
+        </div>
+    </div>
+    <div class="col col-sm-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                 Data Processed (in Last 12 Month)
+            </div>
+            <div class="card-block">
+                <!--<canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                </canvas>-->
+                 <canvas baseChart [datasets]="barChartDataMonth" [colors]="lineChartColors" [labels]="barChartLabelsMonth" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<hr />
+<ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
+<hr />-->
+<!--<div class="row">-->
+    <!--<div class="col-lg-8">
+    <div class="card card-default">
+    <div class="card-header">
+                <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+            </div>-->
+            <!-- /.card-header -->
+            <!--<app-timeline></app-timeline>-->
+            <!-- /.card-body -->
+        <!--</div>-->
+        <!-- /.card -->
+    <!--</div>-->
+    <!-- /.col-lg-8 -->
+    <!--<div class="col-lg-4">
+    <div class="card card-default">
+    <div class="card-header">
+    <i class="fa fa-bell fa-fw"></i> Notifications card-->
+            <!--</div>-->
+            <!-- /.card-header -->
+            <!--<app-notification></app-notification>-->
+            <!-- /.card-body -->
+        <!--</div>-->
+        <!-- /.card -->
+
+        <!--<app-chat></app-chat>-->
+        <!-- /.card .chat-card -->
+    <!--</div>-->
+    <!-- /.col-lg-4 -->
+<!--</div>-->
