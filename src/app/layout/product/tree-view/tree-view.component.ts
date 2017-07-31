@@ -16,36 +16,47 @@ export class TreeViewComponent implements OnInit {
   error = false;
   dialog = false;
   save = false;
-  ToggleButton=false;
-  showtree=false;
+  ToggleButton = false;
+  ToggleBack = false;
+  showtree = false;
+  ToggleCancel = false;
 
   constructor(private data: Data, public ServiceURL: ERService, public router: Router) {
     this.bindTree(this.data.selectedproduct[0].ID, this.data.selectedproduct[0].PropertyID);
+    if (this.data.EditProduct) {
+      this.ToggleBack = true;
+      this.ToggleButton = true;
+    }
   }
 
   ngOnInit() {
   }
 
   bindTree(productid: number, propertyid: number) {
-    this.showtree=true;
+    this.showtree = true;
+    
     this.ServiceURL.GetTreeView(productid, propertyid)
       .subscribe(
       (data: any[]) => {
         this.nodes = data;
-        this.showtree=false;
-
+        this.showtree = false;
+        if (this.nodes.length == 0)
+          this.ToggleButton = true;
       },
       (error) => {
 
         const errorData = error.json();
         console.log('error:', errorData);
-        this.showtree=false;
+        this.showtree = false;
       }
       );
   }
   onBack() {
     this.router.navigate(['../product-step3']);
 
+  }
+  onCancel() {
+    this.router.navigate(['../list-product']);
   }
   onCommit() {
     this.save = true;
@@ -54,10 +65,11 @@ export class TreeViewComponent implements OnInit {
       (data: any) => {
         this.save = false;
         this.dialog = true;
-        console.log(data);
+        this.data.selectedproduct = [];
         this.popmessage = data;
         this.success = true;
-        this.ToggleButton=true;
+        this.ToggleButton = true;
+        this.ToggleBack = true;
       },
       (error) => {
         console.log('error:', error);
@@ -69,8 +81,9 @@ export class TreeViewComponent implements OnInit {
         this.save = false;
       }
       );
-   
-
+  }
+  Ok() {
+    this.router.navigate(['../list-product']);
   }
 
 }

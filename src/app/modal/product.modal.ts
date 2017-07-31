@@ -4,6 +4,8 @@ export class Product {
     Active: number;
     ID: number;
     Operation: string;
+    PropertyGroupName:string;
+    PropertyName:string;
 
 }
 export class Template {
@@ -11,7 +13,7 @@ export class Template {
     Name: number;
     ID: number;
     ProductMasterID: number;
-    TableMasterID: string;
+    TableMasterID: number;
     PrimaryKeyMasterID: string;
     RequestInfo: string;
 
@@ -22,9 +24,10 @@ export class DropDownClass {
     ID: number;
 }
 export class ProductTableList {
-    Name: number;
+    Name: string;
     ID: number;
-    type: boolean
+    type: boolean;
+    Disable:boolean;
 }
 
 export class ProductTable {

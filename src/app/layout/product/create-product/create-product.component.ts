@@ -29,10 +29,8 @@ export class CreateProductComponent implements OnInit {
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.getActivePropertyGroup();
     this.getPropertyData();
-    if(this.data.EditProduct==true)
-    {
-      this.selectProperyName=this.data.selectedproduct[0].Name;
-    }  
+    this.data.EditProduct=false;
+   
   }
   @ViewChild('selectPG') selectPG;
   @ViewChild('selectProperty') selectProperty;
@@ -140,6 +138,42 @@ export class CreateProductComponent implements OnInit {
     
     }
 
+  }
+  onSaveAndCancle()
+  {
+    if (this.Isvaladiate()) {
+     this.save = true;
+      const obj = new Product();
+      obj.PropertyID = this.selectProperty.nativeElement.value;
+      obj.Name = this.selectProperyName;
+      obj.Active = this.isActive;
+      obj.Operation = 'InsertRecord';
+      this.ServiceURL.PostProductOperation(obj)
+        .subscribe
+        (
+        (data: Product[]) => {
+          this.save = false;          
+          this.data.selectedproduct = [];         
+          this.router.navigate(['../list-product']);
+
+        },
+        (error) => {
+          const errorData = error.json();
+          this.save = false;
+          this.error = true;
+          this.popmessage = errorData.Message;
+
+        });
+    }
+    else {
+      this.validation=true;     
+    
+    }
+
+  }
+  onCancle()
+  {
+   this.router.navigate(['../list-product']);
   }
   Isvaladiate():boolean {
       this.alerts = [];

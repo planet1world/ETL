@@ -35,6 +35,7 @@ export class servicelist {
     InsertProductColoumn:string;
     Treeview:string;
     GetProductCommited:string;
+    AutoSelection:string;
 
     constructor(private http: Http) {
         this.getUrl()
@@ -92,6 +93,7 @@ export class servicelist {
         this.InsertProductColoumn = url + "api/Product/ProcessProductTable";
         this.Treeview=url+"api/Product/TreeView";
         this.GetProductCommited=url+ "api/Product/GetProductCommited";
+        this.AutoSelection=url+"api/Product/AutoSelection";
     }
 
 }

@@ -350,8 +350,28 @@ export class ERService {
             );
     }
 
+
+    AutoSelectforTable(connectionstring: string, tablelname: any[], productid: string, propertyid: string, schemaid: string) {
+
+
+        let body = { 'tblst': tablelname, 'templateDBconString': connectionstring, 'productid': Number(productid), 'propertyid': Number(propertyid), 'schemaid': Number(schemaid) }
+        console.log(body);
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+
+        return this.http.post(this.serviceUrl.AutoSelection, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+
     GetTreeView(productid: number, proprtyid: number) {
-        let params: URLSearchParams = new URLSearchParams();     
+        let params: URLSearchParams = new URLSearchParams();
         params.set('productid', String(productid));
         params.set('propertyid', String(proprtyid));
 
@@ -369,8 +389,8 @@ export class ERService {
             );
     }
 
-     GetProductCommited(productid: number, proprtyid: number) {
-        let params: URLSearchParams = new URLSearchParams();     
+    GetProductCommited(productid: number, proprtyid: number) {
+        let params: URLSearchParams = new URLSearchParams();
         params.set('productid', String(productid));
         params.set('propertyid', String(proprtyid));
 

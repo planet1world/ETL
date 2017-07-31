@@ -5,6 +5,7 @@ import { ProductStep3RoutingModule } from './product-step3-routing.module';
 import { ProductStep3Component } from './product-step3.component';
 import { PageHeaderModule, ModalModule, SharedPipesModule } from '../../../shared';
 import { HttpModule, Http } from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 
@@ -17,6 +18,7 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
         SharedPipesModule,
         ProductStep3RoutingModule,
         PageHeaderModule,
+        NgbModule.forRoot(),
         TranslateModule.forRoot(
             {
                 provide: TranslateLoader,

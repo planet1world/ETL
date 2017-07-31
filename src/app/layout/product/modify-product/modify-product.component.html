@@ -5,7 +5,7 @@
       <a [routerLink]="['/create-product']" class="selected">
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
-                                            Create New Product<br />
+                                            Modify Product<br />
                                             <b><small>Active</small></b>
                                         </span>
                                     </a>
@@ -45,7 +45,7 @@
     <div class="col col-xl-6">
       <div class="x_panel">
         <div class="card mb-3">
-          <div class="card-header">Create New Product
+          <div class="card-header">Modify Product
           </div>
           <div class="card-block table-responsive">
             <table class="table table-sm">
@@ -55,17 +55,12 @@
                     <b><em>Property Group</em></b>
                   </td>
                   <td>
-                    <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)">
-                          <option *ngFor="let pg of propertygroup" 
-                              [value]="pg.ID"
-                              [selected]="pg.ID === selpropertyGroup">
-                              {{ pg.Name }}
-                           </option>
-                         </select>
+                   <input type="text"  class="form-control"
+                        [(ngModel)]="showPropertyGroup" [disabled]=true>
 
                   </td>
                   <td>
-                    <span *ngIf="showpropertygroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                    
                   </td>
                 </tr>
                 <tr>
@@ -73,16 +68,11 @@
                     <b><em>Property</em></b>
                   </td>
                   <td>
-                    <select #selectProperty class="form-control">
-                          <option *ngFor="let p of propertyList" 
-                              [value]="p.ID"
-                               [selected]="p.ID == 0">
-                              {{ p.Name }}
-                           </option>
-                         </select>
+                     <input type="text"  class="form-control"
+                        [(ngModel)]="showProperty" [disabled]=true>
                   </td>
                   <td>
-                    <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                   
                   </td>
                 </tr>
                 <tr>
@@ -92,7 +82,7 @@
                   <td>
                     <div class="form-group">
                       <input type="text" (keypress)="_keyPress($event)" id="pname" class="form-control" placeholder="{{'Product Name'| translate}}"
-                        [(ngModel)]="selectProperyName" required #property="ngModel" [maxLength]="textareaLength">
+                        [(ngModel)]="selectPropertyName" required #property="ngModel" [maxLength]="textareaLength">
                       <span class="help-block" style="color:red" *ngIf="!property.valid && property.touched">{{'Please enter value in textbox'| translate}}</span>
                     </div>
 
@@ -105,18 +95,25 @@
                       <b><em>Active</em></b>
                     </td>
                     <td>
-                      <input #cbproperty type="checkbox" (change)="logCheckbox(cbproperty)">
+                      <input #cbproperty type="checkbox" #i checked name="{{isChecked}}" [(ngModel)]="isChecked" (change)="logCheckbox(cbproperty)">
                       <!--[(ngModel)]="Pactive" -->
                     </td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>
-                    </td>
-                    <td>
-                      <button type="submit" (click)="onProductCreation()" class="btn btn-success">
-                  <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
-                  Save</button>
+                   
+                    <td colspan="3">
+                      <button type="submit" (click)="onEditSave()" class="btn btn-success">
+                      <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                       Save</button>
+                        <button type="submit" (click)="onCancle()" class="btn btn-danger">
+                        Cancle</button>
+                        <button type="submit" (click)="onViewSummary()" class="btn btn-info">
+                     
+                        View Summary </button>
+                        <button type="submit" (click)="onAddTable()" class="btn btn-primary">
+                         
+                       	Add table(s)</button>
                     </td>
               </tbody>
             </table>

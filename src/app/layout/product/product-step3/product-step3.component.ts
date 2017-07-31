@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Product, ProductTableStructure, Template, DropDownClass, ProductTableList, ProductTable, CheckBox, TableColumn } from '../../../modal/product.modal';
 import { Data } from '../../../shared/data/data';
 import { ERService } from '../../../shared/services/er-service.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product-step3',
@@ -14,7 +15,9 @@ export class ProductStep3Component implements OnInit {
   productname: Product[];
   name: string;
   table: any[];
-  draftTable: any[] = [];
+  alert: Array<any> = [];
+  draftTable: Array<string> = [];
+  allreadyselectedtable: Array<string> = [];
   primarykey: CheckBox[];
   tableCol: TableColumn[];
   selectedtableCol: TableColumn[] = [];
@@ -34,10 +37,11 @@ export class ProductStep3Component implements OnInit {
   savedraft = false;
   save = false;
   showtable = false;
+  auto = false;
   tabelname: string;
   tablemaxcount: number;
   selectedtable: string;
-  count: number = 1;
+  count: number = -1;
   constructor(private data: Data, public ServiceURL: ERService, public router: Router) {
     this.productname = this.data.selectedproduct;
     this.name = this.productname[0].Name;
@@ -51,39 +55,75 @@ export class ProductStep3Component implements OnInit {
   onBack() {
 
     this.ToggleNext = false;
-    if (this.count >= 1 && this.count <= this.tablemaxcount) {
-      this.selectedtable = this.table[this.count - 1].Name;
-      this.onChangeTable(this.selectedtable);
-      if (this.count == 1) {
-        this.ToggleBack = true;
-      } else {
-        this.count = this.count - 1;
-      }
-
+    this.count = this.count - 1;
+    if (this.count <= 0) {
+      console.log('onBack Count:', this.count);
+      this.ToggleBack = true;
+      this.count = 0;
     }
-    console.log(this.selectedtable);
-    // this.onSaveDraft();
+    this.selectedtable = this.table[this.count].Name;
+    this.onChangeTable(this.selectedtable);
   }
   onNext() {
-
+    console.log(this.tablemaxcount, ':table count');
     this.ToggleBack = false;
-    if (this.count >= 1 && this.count <= this.tablemaxcount) {
-      this.selectedtable = this.table[this.count - 1].Name;
-      this.onChangeTable(this.selectedtable);
-      if (this.count == this.tablemaxcount) {
-        this.ToggleNext = true;
-        this.count = this.tablemaxcount;
-      }
-      else {
-        this.count = this.count + 1;
-      }
+    this.count = this.count + 1;
+    if (this.count >= this.tablemaxcount - 1) {
+      console.log('onNext count:', this.count);
+      this.ToggleNext = true;
+      this.count = this.tablemaxcount - 1;
     }
-    console.log(this.selectedtable);
-    // this.onSaveDraft();  
+    this.selectedtable = this.table[this.count].Name;
+    this.onChangeTable(this.selectedtable);
+
   }
   onBackPage() {
     this.router.navigate(['../product-step2']);
+  }
+  public closeAlert(alert: any) {
+    const index: number = this.alert.indexOf(alert);
+    this.alert.splice(index, 1);
+  }
+  onAuto() {
+    this.auto = true;
+    this.ServiceURL.AutoSelectforTable(this.data.templateconnectionstring, this.data.selectedtablelist, String(this.data.selectedproduct[0].ID),
+      String(this.data.selectedproduct[0].PropertyID), String(this.data.SchemaId))
+      .subscribe(
+      (data: any) => {
+        for (let d of this.data.selectedtablelist) {
+          if (this.draftTable.some(x => x === this.tabelname)) {
 
+          }
+          else {
+            this.draftTable.push(d);
+          }
+        }
+
+        this.auto = false;
+        this.alert = [];
+        this.alert.push({
+          id: 1,
+          type: 'success',
+          message: "All table are selected ",
+        });
+
+
+      },
+      (error) => {
+        console.log('error:', error);
+        const errorData = error.json();
+        console.log('error:', errorData);
+        this.auto = false;
+        this.alert = [];
+        this.alert.push({
+          id: 1,
+          type: 'danger',
+          message: "Opps!! some thing gone wrong.",
+        });
+
+      }
+
+      );
   }
 
 
@@ -93,6 +133,17 @@ export class ProductStep3Component implements OnInit {
     this.selectedtableCol = [];
     this.tabelname = tabelname;
     this.ToggleButton = false;
+    this.count = this.table.findIndex(item => item.Name === tabelname);
+    if (this.count == 0) {
+      this.ToggleBack = true;
+      this.ToggleNext = false;
+
+    }
+    else if (this.count == this.tablemaxcount - 1) {
+      this.ToggleNext = true;
+      this.ToggleBack = false;
+
+    }
 
     this.fetchPrimaryKey(this.data.templateconnectionstring, tabelname);
     this.fetchColumnfromTemplate(this.data.templateconnectionstring, tabelname);
@@ -105,7 +156,18 @@ export class ProductStep3Component implements OnInit {
       (data: CheckBox[]) => {
         this.primarykey = data;
         this.showprimarykey = false;
+        for (let d of this.primarykey) {
+          if (d.Selected == true) {
+            // console.log(this.allreadyselectedtable);
+            if (this.allreadyselectedtable.some(x => x == tablename)) {
 
+            }
+            else {
+              this.allreadyselectedtable.push(tablename);
+            }
+          }
+        }
+        // }
       },
       (error) => {
         const errorData = error.json();
@@ -218,13 +280,12 @@ export class ProductStep3Component implements OnInit {
 
     if (countPK > 0) {
       if (this.selectedtableCol.length > 0) {
-        if (this.draftTable.some(x => x.Name === this.tabelname)) {
+        let t = this.tabelname;
+        if (this.draftTable.some(x => x === this.tabelname)) {
 
         }
         else {
-          this.draftTable.push({
-            Name: this.tabelname,
-          });
+          this.draftTable.push(t);
         }
         console.log(this.draftTable);
         let obj = new ProductTableStructure();
@@ -278,9 +339,15 @@ export class ProductStep3Component implements OnInit {
   }
 
   onNextTable() {
-    if (this.draftTable.length == this.data.selectedtablelist.length)
-    { this.router.navigate(['../tree-view']); }
+    let finalarray = this.arrayUnique(this.draftTable, this.allreadyselectedtable);
+    console.log(JSON.stringify(finalarray));
+    console.log(JSON.stringify(this.draftTable));
+    console.log(JSON.stringify(this.allreadyselectedtable));
+    if (finalarray.length == this.data.selectedtablelist.length) {
+      this.router.navigate(['../tree-view']);
+    }
     else {
+
       this.alerts.push({
         id: 1,
         type: 'danger',
@@ -289,6 +356,25 @@ export class ProductStep3Component implements OnInit {
       this.validation = true;
     }
 
+  }
+
+  arrayUnique(array1, array2) {
+    // var a = array.concat();
+    // for (var i = 0; i < a.length; ++i) {
+    //   for (var j = i + 1; j < a.length; ++j) {
+    //     if (a[i] === a[j])
+    //       a.splice(j--, 1);
+    //   }
+    // }
+
+    // return a;
+    let newArray = array1.concat(array2).sort(function (a, b) {
+      return a > b ? 1 : a < b ? -1 : 0;
+    });
+
+    return newArray.filter(function (item, index) {
+      return newArray.indexOf(item) === index;
+    });
   }
 
 

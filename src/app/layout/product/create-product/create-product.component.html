@@ -28,7 +28,7 @@
       <a [routerLink]="['/create-product']" class="selected">
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
-                                            Create New Product<br />
+                                            Create Product<br />
                                             <b><small>Active</small></b>
                                         </span>
                                     </a>
@@ -37,7 +37,7 @@
       <a [routerLink]="['/property-manager']" onclick="return false;">
                                         <span class="step_no">2</span>
                                         <span class="step_descr">
-                                            Select Table<br />
+                                            Select Table(s)<br />
                                             <!--<small>Active</small>-->
                                         </span>
                                     </a>
@@ -46,7 +46,7 @@
       <a href="#step-3" onclick="return false;">
                                         <span class="step_no">3</span>
                                         <span class="step_descr">
-                                            Create New Product<br />
+                                            Configure Table(s)<br />
                                             <!--<small>Step 3 description</small>-->
                                         </span>
                                     </a>
@@ -135,12 +135,16 @@
                     <td></td>
                   </tr>
                   <tr>
-                    <td>
-                    </td>
-                    <td>
+                   
+                    <td colspan="2">
                       <button type="submit" (click)="onProductCreation()" class="btn btn-success">
                   <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
-                  Save</button>
+                    Create and Add tables</button>
+                     <button type="submit" (click)="onSaveAndCancle()" class="btn btn-warning">
+                  
+                    Create and Close</button>
+                     <button type="submit" (click)="onCancle()" class="btn btn-danger">                  
+                    	Cancel</button>
                     </td>
               </tbody>
             </table>

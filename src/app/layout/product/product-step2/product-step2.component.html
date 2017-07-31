@@ -27,7 +27,7 @@
       <a [routerLink]="['/create-product']" class="done" onclick="return false;">
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
-                                            Create New Product<br />
+                                            Create Product<br />
                                             <b><small>Completed</small></b>
                                         </span>
                                     </a>
@@ -36,7 +36,7 @@
       <a [routerLink]="['/property-manager']" class="selected" onclick="return false;">
                                         <span class="step_no">2</span>
                                         <span class="step_descr">
-                                            Select Table<br />
+                                            Select Table(s)<br />
                                             <small>Active</small>
                                         </span>
                                     </a>
@@ -45,13 +45,13 @@
       <a [routerLink]="['/property-manager']" onclick="return false;">
                                         <span class="step_no">3</span>
                                         <span class="step_descr">
-                                            Configure Table<br />
+                                            Configure Table(s)<br />
                                             <!--<small>Step 3 description</small>-->
                                         </span>
                                     </a>
     </li>
     <li>
-      <a href="#step-4"  onclick="return false;">
+      <a href="#step-4" onclick="return false;">
                                         <span class="step_no">4</span>
                                         <span class="step_descr">
                                            Save Product<br />
@@ -93,28 +93,10 @@
                 </tr>
                 <tr>
                   <td>
-                    <b><em>Schema</em></b>
+                    <b><em>Source System</em></b>
                   </td>
                   <td>
-                    <select #selectschema class="form-control">
-                           <option [value]="0" >Select Schema</option>
-                          <option *ngFor="let p of schemalist" 
-                              [value]="p.ID"
-                               [selected]="p.ID == 0">
-                              {{ p.Name }}
-                           </option>
-                         </select>
-                  </td>
-                  <td>
-                    <span *ngIf="showschema"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b><em>Product List</em></b>
-                  </td>
-                  <td>
-                    <select #selectlist class="form-control" (change)="onChangeProductList(selectlist.value)">
+                    <select #selectlist class="form-control" >
                            <option [value]="0" >Select Product</option>
                           <option *ngFor="let p of productlist" 
                               [value]="p.ID"
@@ -127,7 +109,24 @@
                     <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
                   </td>
                 </tr>
-
+                <tr>
+                  <td>
+                    <b><em>Destination Schema</em></b>
+                  </td>
+                  <td>
+                    <select #selectschema class="form-control" (change)="onChangeProductList(selectschema.value)">
+                           <option [value]="0" >Select Schema</option>
+                          <option *ngFor="let p of schemalist" 
+                              [value]="p.ID"
+                               [selected]="p.ID == 0">
+                              {{ p.Name }}
+                           </option>
+                         </select>
+                  </td>
+                  <td>
+                    <span *ngIf="showschema"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                  </td>
+                </tr>
                 <tr>
                   <td colspan="3">
                     <div class="form-group input-group">
@@ -142,7 +141,7 @@
                       <input type="checkbox" [checked]="isAllChecked()" (change)="checkAll($event)">&nbsp;<b>Check ALL</b>
                       <div class="checkbox" *ngFor="let table of tableList | filter:{Name: filterSource}; let i = index " [ngClass]="{odd:table.type===false,green:table.type===true}">
 
-                        <input type="checkbox" #i checked name="{{table.type}}" [(ngModel)]="table.type" (change)="logCheckbox(i,table.Name)">&nbsp;{{table.Name}}
+                        <input type="checkbox" #i checked name="{{table.type}}" [(ngModel)]="table.type" [disabled]="table.Disable" (change)="logCheckbox(i,table.Name)">&nbsp;{{table.Name}}
                       </div>
                     </div>
                   </td>
@@ -159,6 +158,9 @@
                 </tr>
                 <tr>
                   <td>
+                    <button type="submit" (click)="onCancle()" class="btn btn-danger">
+                  
+                    	Cancel</button>
                   </td>
                   <td>
                   </td>

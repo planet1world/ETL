@@ -12,14 +12,20 @@ import { Data } from '../../../shared/data/data';
 })
 export class ListProductComponent implements OnInit {
   propertygroup: PropertyGroup[];
+  pg: PropertyGroup[];
   propertyList: Property[];
-    property: Property[];
-    productlist:Product[];
-    product:Product[];
-    filterSource='';
+  property: Property[];
+  productlist: Product[];
+  product: Product[];
+  filterSource = '';
+  pgName = '';
   showpropertygroup = false;
-  showproperty=false;
-  constructor(public ServiceURL: ERService, public router: Router,private data: Data) {
+  showproperty = false;
+  deleteProductId: number;
+  warning = false;
+  showDialog=false;
+  popmessage='';
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();
@@ -31,13 +37,40 @@ export class ListProductComponent implements OnInit {
   onAddNewProduct() {
     this.router.navigate(['../create-product']);
   }
-  onPGEdit(sor){  
-    let plst: Product[]=[]; 
-     plst.push(sor);
-     this.data.selectedproduct = plst;  
-     this.data.EditProduct=true;  
-    this.router.navigate(['../product-step2']);
+  onPGEdit(sor) {
+    let plst: Product[] = [];
+    plst.push(sor);
+    console.log(sor);
+    this.data.selectedproduct = plst;
+    this.router.navigate(['../modify-product']);
   }
+  onPGDelete(id: number) {
+    this.deleteProductId = id;
+    this.warning = true;
+  }
+  onDeleteConfirmation() {
+    const pro = new Product();
+    pro.Operation = 'DeleteRecord';
+    pro.ID = this.deleteProductId;
+    this.ServiceURL.PostProductOperation(pro)
+      .subscribe(
+      (data: any) => {
+        this.popmessage=data;      
+        this.showDialog=true;
+        this.getProductData();
+        this.warning = false;
+
+      },
+      (error) => {
+        const errorData = error.json();
+        console.log('error:', errorData);
+
+      });
+  }
+  onNo() {
+    this.warning = false;
+  }
+
   getActivePropertyGroup() {
     const obj = new PropertyGroup();
     obj.Operation = 'GetRecordsByStatus';
@@ -60,7 +93,7 @@ export class ListProductComponent implements OnInit {
 
 
   }
-   getPropertyData() {
+  getPropertyData() {
 
     const obj = new Property();
     obj.Operation = 'GetInfo';
@@ -81,9 +114,9 @@ export class ListProductComponent implements OnInit {
       });
   }
 
-  getProductData(){
-    const pro=new Product();
-    pro.Operation='GetAllProduct';
+  getProductData() {
+    const pro = new Product();
+    pro.Operation = 'GetAllProduct';
     this.ServiceURL.PostProductOperation(pro)
       .subscribe(
       (data: Product[]) => {
@@ -99,22 +132,28 @@ export class ListProductComponent implements OnInit {
 
       });
   }
-   onChangePG(id: number) 
-   {
-      if (this.property.length > 0) {
-      if (id == 0)
+  onChangePG(id: number) {
+    console.log('any:', id)
+    this.pg = this.propertygroup.filter(item => item.ID == id);
+    if (this.property.length > 0) {
+      if (id == 0) {
         this.propertyList = this.property;
-      else
+      }
+      else {
         this.propertyList = this.property.filter(propertyList => propertyList.PropertyGroupID == id);
+        this.productlist = this.product.filter(productlist => productlist.PropertyGroupName == this.pg[0].Name);
+      }
     }
-   }
-   onChangeProperty(id: number)
-   {
-      if (this.product.length > 0) {
-      if (id == 0)
+  }
+  onChangeProperty(id: number) {
+    if (this.product.length > 0) {
+      if (id == 0) {
         this.productlist = this.product;
-      else
+        this.productlist = this.product.filter(productlist => productlist.PropertyGroupName == this.pg[0].Name);
+      }
+      else {
         this.productlist = this.product.filter(productlist => productlist.PropertyID == id);
+      }
     }
-   }
+  }
 }

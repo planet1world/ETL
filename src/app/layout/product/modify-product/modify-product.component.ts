@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ERService } from '../../../shared/services/er-service.service';
+import { Data } from '../../../shared/data/data';
 import { PropertyGroup, Property } from '../../../modal/propertygroup-modal.modal';
-
+import { Product } from '../../../modal/product.modal';
 @Component({
   selector: 'app-modify-product',
   templateUrl: './modify-product.component.html',
@@ -14,83 +15,71 @@ export class ModifyProductComponent implements OnInit {
   property: Property[];
   propertyList: Property[];
   isActive: number;
-  showpropertygroup = false;
-  showproperty = false;
+  showPropertyGroup = '';
+  showProperty = '';
   textareaLength = 30;
   selpropertyGroup = 0;
-  selectProperyName = '';
-  save=false;
-  constructor(public ServiceURL: ERService, public router: Router) {
-    this.getActivePropertyGroup();
-    this.getPropertyData();
+  selectPropertyName = '';
+  save = false;
+  isChecked=false;
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
+    this.showPropertyGroup = this.data.selectedproduct[0].PropertyGroupName;
+    this.showProperty = this.data.selectedproduct[0].PropertyName;
+    this.selectPropertyName = this.data.selectedproduct[0].Name;
+    this.isChecked=this.data.selectedproduct[0].Active==1?true:false;
   }
 
   ngOnInit() {
   }
-  getActivePropertyGroup() {
-    const obj = new PropertyGroup();
-    obj.Operation = 'GetRecordsByStatus';
-    obj.Active = 1;
-    this.showpropertygroup = true;
-    this.ServiceURL.CreatePropertyGroup(obj)
-      .subscribe(
-      (data: PropertyGroup[]) => {
-        this.propertygroup = data;
-        let selectpush = new PropertyGroup();
-        selectpush.ID = 0;
-        selectpush.Name = 'Select Property Group';
-        this.propertygroup.push(selectpush);
-        // this.selpropertyGroup = 0;
-        this.showpropertygroup = false;
-      },
-      (error) => {
 
-        const errorData = error.json();
-        console.log('error:', errorData);
-        this.showpropertygroup = false;
-
-      });
-
-
-  }
-  onProductCreation() {
-
-  }
-  getPropertyData() {
-    const obj = new Property();
-    obj.Operation = 'GetInfo';
-    this.showproperty = true;
-    this.ServiceURL.PropertyOperation(obj)
-      .subscribe(
-      (data: Property[]) => {
-        this.propertyList = data;
-        this.property = data;
-        this.showproperty = false;
-
-      },
-      (error) => {
-        const errorData = error.json();
-        console.log('error:', errorData);
-        this.showproperty = false;
-
-      });
-  }
-
-  onChangePG(id: number) {
-    if (this.property.length > 0) {
-      if (id == 0)
-        this.propertyList = this.property;
-      else
-        this.propertyList = this.property.filter(propertyList => propertyList.PropertyGroupID == id);
-    }
-  }
   logCheckbox(element: HTMLInputElement) {
     if (element.checked)
       this.isActive = 1;
     else
       this.isActive = 0;
   }
+  onEditSave() {
+    this.save=true;
+    if (this.selectPropertyName != '') {
+      const obj = new Product();
+      obj.ID = this.data.selectedproduct[0].ID;
+      obj.Name = this.selectPropertyName;
+      obj.Active = this.isActive;
+      obj.Operation = 'UpdateRecord';
+      this.ServiceURL.PostProductOperation(obj)
+        .subscribe
+        (
+        (data: any) => {
+          this.save = false;
+          this.data.selectedproduct[0].Name =this.selectPropertyName ;
+          // this.router.navigate(['../list-product']);
 
+        },
+        (error) => {
+          const errorData = error.json();
+          this.save = false;
+         
+
+        });
+
+    }
+
+
+  }
+  onCancle() {
+    this.data.selectedproduct = [];
+    this.router.navigate(['../list-product']);
+
+  }
+  onViewSummary() {
+    this.data.EditProduct=true;
+    this.router.navigate(['../tree-view']);
+
+  }
+  onAddTable() {
+    this.router.navigate(['../product-step2']);
+
+  }
   _keyPress(event: any) {
     const pattern = /[a-zA-Z0-9 ]/;
     let inputChar = String.fromCharCode(event.charCode);

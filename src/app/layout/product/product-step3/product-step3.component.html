@@ -27,7 +27,7 @@
       <a [routerLink]="['/create-product']" class="done" onclick="return false;">
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
-                                            Create New Product<br />
+                                            Create Product<br />
                                             <b><small>Completed</small></b>
                                         </span>
                                     </a>
@@ -36,7 +36,7 @@
       <a [routerLink]="['/property-manager']" class="done" onclick="return false;">
                                         <span class="step_no">2</span>
                                         <span class="step_descr">
-                                            Select Table<br />
+                                            Select Table(s)<br />
                                             <small>Completed</small>
                                         </span>
                                     </a>
@@ -45,7 +45,7 @@
       <a [routerLink]="['/property-manager']" class="selected" onclick="return false;">
                                         <span class="step_no">3</span>
                                         <span class="step_descr">
-                                            Configure Table<br />
+                                            Configure Table(s)<br />
                                             <small>Active</small>
                                         </span>
                                     </a>
@@ -70,6 +70,9 @@
           <div class="card-header">Product Name: {{name}}
           </div>
           <div class="card-block table-responsive">
+            <p *ngFor="let alert of alert">
+                <ngb-alert [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+            </p>
             <table class="table table-sm">
               <tbody>
                 <tr>
@@ -104,6 +107,11 @@
                                 <i class="fa fa-caret-right" aria-hidden="true"></i>
                              </button>
                         </td>
+                            <td>
+                               <button type="submit" class="btn btn-sucess" (click)="onAuto()" >
+                                 <i [ngClass]="{'fa fa-spinner fa-spin':auto===true}"></i>Auto Select
+                             </button>
+                            </td>
                       </table>
                     </td>
                     <td>
@@ -154,18 +162,6 @@
 
                               <br/>
                               <br/>
-                              <button type="submit" class="btn btn-primary" (click)="onPushAllLeft()" style="width:80px">
-                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                             </button>
-                              <br/>
-                              <br/>
-
-                              <button type="submit" class="btn btn-warning" (click)="onPushLeft()" style="width:80px">
-                                   <i class="fa fa-angle-left" aria-hidden="true"></i>
-                             </button>
-
-                              <br/>
-                              <br/>
                               <button type="submit" class="btn btn-primary" (click)="onPushAllRight()" style="width:80px">
                                   <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                              </button>
@@ -176,6 +172,22 @@
                               </button>
                               <br/>
                               <br/>
+                              <br/>
+                              <br/>
+                              <button type="submit" class="btn btn-primary" (click)="onPushAllLeft()" style="width:80px">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                             </button>
+                              <br/>
+                              <br/>
+
+                              <button type="submit" class="btn btn-warning" (click)="onPushLeft()" style="width:80px">
+                                   <i class="fa fa-angle-left" aria-hidden="true"></i>
+                             </button>
+                              <br/>
+                              <br/>
+                              <button type="submit" (click)="onSaveDraft()" class="btn btn-warning" [disabled]="ToggleButton">
+                               <i [ngClass]="{'fa fa-spinner fa-spin':savedraft===true}"></i>
+                              Save column settings</button>
                             </td>
                             <td style="border: 2px solid blue;padding-left:10px">
                               <span *ngIf="showselectedcolumn"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
@@ -191,9 +203,7 @@
 
                           <tr>
                             <td>
-                              <button type="submit" (click)="onSaveDraft()" class="btn btn-warning" [disabled]="ToggleButton">
-                               <i [ngClass]="{'fa fa-spinner fa-spin':savedraft===true}"></i>
-                              Save column settings</button>
+
                             </td>
                             <td>
                             </td>

@@ -25,18 +25,17 @@ export class ProductStep2Component implements OnInit {
     showproperty = false;
     showschema = false;
     save = false;
-    error=false;
+    error = false;
     conString: string;
     filterSource = '';
-    popmessage='';
+    popmessage = '';
     validation = false;
     alerts = [];
 
     name: string;
     constructor(private data: Data, public router: Router, public ServiceURL: ERService) {
         this.count = 0;
-        this.productname = this.data.selectedproduct;
-        console.log(this.productname);
+        this.productname = this.data.selectedproduct;       
         this.name = this.productname[0].Name;
         this.getTemplate();
         this.getSchema();
@@ -48,44 +47,42 @@ export class ProductStep2Component implements OnInit {
     logCheckbox(element: HTMLInputElement, tablename: string) {
         if (element.checked) {
             this.count = this.count + 1;
-            this.temp.push({
-                Name: tablename,
-            }
-            );
+            // this.temp.push({
+            //     Name: tablename,
+            // }
+            // );
         }
         else {
             if (this.count > 0)
                 this.count = this.count - 1;
-            this.temp = this.temp.filter(item => item.Name !== tablename);
+            // this.temp = this.temp.filter(item => item.Name !== tablename);
         }
 
 
     }
 
-checkAll(ev) {
-    console.log(ev);
-    this.tableList.forEach(x => x.type = ev.target.checked)
-    if(ev.target.checked)
-    {
-        this.count=this.tableList.length;
-         for (let d of this.tableList)
-          this.temp.push({
-                Name: d.Name,
-            }
-            );
-    }
-    else
-    {
-        this.count=0;
-        this.temp=[];
+    checkAll(ev) {
+        console.log(ev);
+        this.tableList.forEach(x => x.type = ev.target.checked)
+        if (ev.target.checked) {
+            this.count = this.tableList.length;
+            // for (let d of this.tableList)
+            //     this.temp.push({
+            //         Name: d.Name,
+            //     }
+            //     );
+        }
+        else {
+            this.count = 0;
+            // this.temp = [];
+        }
+
     }
 
-  }
-
-  isAllChecked() {
-    // console.log('fired');
-    return this.tableList.every(_ => _.type);
-  }
+    isAllChecked() {
+        // console.log('fired');
+        return this.tableList.every(_ => _.type);
+    }
 
 
     getTemplate() {
@@ -106,7 +103,9 @@ checkAll(ev) {
 
             },
             (error) => {
-
+                const errorData = error.json();
+                console.log('error:', errorData);
+                this.showschema = false;
             }
             );
     }
@@ -152,16 +151,25 @@ checkAll(ev) {
         this.showproperty = true;
         let obj = new Template();
         obj.Connectionstring = this.conString;
-        obj.ProductMasterID = id;
+        obj.ProductMasterID = this.selectlist.nativeElement.value;;
+        obj.TableMasterID= this.productname[0].ID;//passing productid to TableMasterID
+        obj.PrimaryKeyMasterID=this.selectschema.nativeElement.value;//passing schemaid to PrimaryKeyMasterID
+        this.count = 0;
         this.ServiceURL.getTemplateTableList(obj)
             .subscribe(
             (data: ProductTableList[]) => {
+
                 for (let d of data) {
                     this.tableList.push({
                         ID: d.ID,
-                        type: false,
+                        type: d.type,
                         Name: d.Name,
+                        Disable: d.Disable
                     });
+                    if (d.type == true) {
+                        this.count = this.count + 1;
+                    }
+
                 }
 
                 this.showproperty = false;
@@ -173,6 +181,12 @@ checkAll(ev) {
             }
             );
 
+    }
+
+    onCancle()
+    {
+        this.data.selectedproduct=[];
+        this.router.navigate(['../list-product']);
     }
 
     onSaveTable() {
@@ -196,12 +210,36 @@ checkAll(ev) {
         else {
             this.save = true;
             let tablename = [];
-            for (let name of this.temp) {
+            // for (let name of this.temp) {
+            //     let obj = new ProductTable();
+            //     obj.Name = name.Name;
+            //     obj.DestinationDBSchemaID = this.selectschema.nativeElement.value;
+            //     obj.statusID = 3;
+            //     obj.RequestInfo = 'AddTable';
+            //     obj.PrimaryKey = '';
+            //     obj.PropertyID = 0;
+            //     obj.ProductID = this.productname[0].ID;
+            //     obj.ID = 0;
+            //     tablename.push(obj);
+            // }
+
+            for (let name of this.tableList) {
                 let obj = new ProductTable();
                 obj.Name = name.Name;
                 obj.DestinationDBSchemaID = this.selectschema.nativeElement.value;
                 obj.statusID = 3;
-                obj.RequestInfo = 'AddTable';
+                if (name.type == true) {
+                    obj.RequestInfo = 'AddTable';
+                    this.temp.push({
+                        Name: name.Name,
+                    }
+                    );
+
+                }
+                else {
+                    obj.RequestInfo = 'RemoveTableForProduct';
+                }
+
                 obj.PrimaryKey = '';
                 obj.PropertyID = 0;
                 obj.ProductID = this.productname[0].ID;
@@ -214,14 +252,14 @@ checkAll(ev) {
                 (data: any) => {
                     this.save = false;
                     this.data.selectedtablelist = this.temp;
-                    this.data.SchemaId=this.selectschema.nativeElement.value;
+                    this.data.SchemaId = this.selectschema.nativeElement.value;
                     this.data.templateconnectionstring = this.conString;
                     this.router.navigate(['../product-step3']);
                 },
                 (error) => {
                     const errorData = error.json();
                     console.log('error:', errorData);
-                    // this.showproperty = false;
+                    this.save = false;
                 }
                 );
         }
