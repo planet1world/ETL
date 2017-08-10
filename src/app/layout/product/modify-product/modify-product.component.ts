@@ -21,12 +21,15 @@ export class ModifyProductComponent implements OnInit {
   selpropertyGroup = 0;
   selectPropertyName = '';
   save = false;
-  isChecked=false;
+  isChecked = false;
+  success = false;
+  error = false;
+  popmessage = '';
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.showPropertyGroup = this.data.selectedproduct[0].PropertyGroupName;
     this.showProperty = this.data.selectedproduct[0].PropertyName;
     this.selectPropertyName = this.data.selectedproduct[0].Name;
-    this.isChecked=this.data.selectedproduct[0].Active==1?true:false;
+    this.isChecked = this.data.selectedproduct[0].Active == 1 ? true : false;
   }
 
   ngOnInit() {
@@ -39,7 +42,7 @@ export class ModifyProductComponent implements OnInit {
       this.isActive = 0;
   }
   onEditSave() {
-    this.save=true;
+    this.save = true;
     if (this.selectPropertyName != '') {
       const obj = new Product();
       obj.ID = this.data.selectedproduct[0].ID;
@@ -51,15 +54,18 @@ export class ModifyProductComponent implements OnInit {
         (
         (data: any) => {
           this.save = false;
-          this.data.selectedproduct[0].Name =this.selectPropertyName ;
+          this.data.selectedproduct[0].Name = this.selectPropertyName;
+          this.success = true;
+          this.popmessage = data;
           // this.router.navigate(['../list-product']);
 
         },
         (error) => {
           const errorData = error.json();
+          // console.log(errorData);
           this.save = false;
-         
-
+          this.error = true;
+          this.popmessage = errorData.Message;
         });
 
     }
@@ -72,11 +78,12 @@ export class ModifyProductComponent implements OnInit {
 
   }
   onViewSummary() {
-    this.data.EditProduct=true;
+    this.data.viewProductSummary = true;
     this.router.navigate(['../tree-view']);
 
   }
   onAddTable() {
+    this.data.viewProductSummary = false;
     this.router.navigate(['../product-step2']);
 
   }

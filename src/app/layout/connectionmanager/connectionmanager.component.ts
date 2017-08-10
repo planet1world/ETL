@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ERService } from '../../shared/services/er-service.service';
+import { ConnectionClass, TestConnection, SourceConnectionClass } from '../../modal'
 
 @Component({
   selector: 'app-connectionmanager',
@@ -9,15 +10,35 @@ import { ERService } from '../../shared/services/er-service.service';
   styleUrls: ['./connectionmanager.component.scss']
 })
 export class ConnectionmanagerComponent implements OnInit {
+  testcon: TestConnection;
+  updateConnectionObject: SourceConnectionClass;
   source = [];
   destination = [];
+  textareaLength = 30;
+  editObjectID: number;
+  edittypeID: number;
   showDialog = false;
+  showtest = false;
+  selectedpassword = ''
   status = '';
   showsource = true;
   showdestination = true;
   deleteId: number;
   selectedfunction: number;
-   filterSource='';
+  filterSource = '';
+  viewConnection = false;
+  objConnectionView = new ConnectionClass();
+  UN = '';
+  Pass = '';
+  ServerName = '';
+  showDatabase = false;
+  showSchema = false;
+  selectedfolder = false;
+  selectedSource = false;
+  editConnection = false;
+  showTestDialog = false;
+  popmessage = '';
+  save = false;
   constructor(public router: Router, public ServiceURL: ERService) {
 
   }
@@ -26,7 +47,9 @@ export class ConnectionmanagerComponent implements OnInit {
     this.getConnectionDestination();
     this.getConnectionSource();
   }
-
+  NO() {
+    this.showDialog = false;
+  }
   onDelete(id: any, choice: number) {
 
     this.selectedfunction = choice;
@@ -34,6 +57,173 @@ export class ConnectionmanagerComponent implements OnInit {
     this.status = 'error';
     this.showDialog = true;
   }
+  onEdit(id: number, choice: number, provider: number) {
+    this.editObjectID = id;
+    this.edittypeID = choice;
+    this.selectedpassword='';
+    if (provider == 1 || provider == 4) {
+      this.UN = 'FTP User Name';
+      this.Pass = 'FTP Password';
+      this.ServerName = 'FTP Server Name';
+    }
+    else {
+      this.UN = 'User Name';
+      this.Pass = 'Password';
+      this.ServerName = 'Server Name'
+    }
+    this.ServiceURL.getConnectionView(id, choice)
+      .subscribe(
+      (data: ConnectionClass) => {
+        this.objConnectionView = data;
+
+        this.editConnection = true;
+      },
+      (error) => {
+        const errorData = error.json();
+        console.log('error:', errorData);
+      }
+      );
+
+  }
+
+  onView(id: number, choice: number, provider: number) {
+    if (provider == 1 || provider == 4) {
+      this.UN = 'FTP User Name';
+      this.Pass = 'FTP Password';
+      this.ServerName = 'FTP Server Name';
+    }
+    else {
+      this.UN = 'User Name';
+      this.Pass = 'Password';
+      this.ServerName = 'Server Name'
+    }
+    this.ServiceURL.getConnectionView(id, choice)
+      .subscribe(
+      (data: ConnectionClass) => {
+        this.objConnectionView = data;
+        if (choice == 2) {
+
+          this.showDatabase = true;
+          this.showSchema = true;
+          this.selectedfolder = false;
+          this.selectedSource = false;
+        }
+        else {
+          this.selectedSource = true;
+        }
+        this.viewConnection = true;
+      },
+      (error) => {
+        const errorData = error.json();
+        console.log('error:', errorData);
+      }
+      );
+  }
+
+  onTestConnection() {
+
+    this.showtest = true;
+    this.testcon = {
+      provider: this.objConnectionView.ConnectionProviderID,
+      servername: this.objConnectionView.ServerName,
+      username: this.objConnectionView.UserName,
+      password: this.selectedpassword,
+      databasename: '',
+    }
+
+    this.ServiceURL.getTestConnection(this.testcon)
+      .subscribe(
+      (data: any[]) => {
+
+        for (let dbname of data) {
+
+          this.objConnectionView.Version = dbname.Version;
+        };
+        this.showtest = false;
+        this.popmessage = 'Server connection successfully established'
+        this.status = 'succes';
+        this.showTestDialog = true;
+
+      }
+      ,
+      (error) => {
+        const errorData = error.json();
+        console.log('error:', errorData);
+        this.popmessage = 'Ops!! Server Connection Failed'
+        this.showtest = false;
+        this.status = 'error';
+        this.showTestDialog = true;
+      });
+
+  }
+
+  onEditClose() {
+    this.editConnection = false;
+  }
+  onCloseEdit()
+  {
+    console.log('click');
+           this.showTestDialog = false;
+            this.editConnection = false;
+  }
+  onUpdate() {
+    if (this.selectedpassword != '' && this.objConnectionView.UserName !='') {
+      this.updateConnectionObject = {
+        connectionid: this.editObjectID,
+        propertygroupid: 0,
+        propetyid: 0,
+        connectionname: this.objConnectionView.ConnectionName,
+        connectiontypeid: 0,
+        connectionproviderid: this.objConnectionView.ConnectionProviderID,
+        servername: this.objConnectionView.ServerName,
+        username: this.objConnectionView.UserName,
+        password: this.selectedpassword,
+        databasename: '',
+        databaseversion: this.objConnectionView.Version,
+        schema: '',
+        folderlocation: '',
+        requestinfo: 'UpdateRecord'
+      }
+      this.save = true;
+      this.ServiceURL.postNewConnectionData(this.updateConnectionObject)
+        .subscribe(
+        (data: any) => {
+          this.save = false;
+          this.popmessage = data;
+          this.status = 'OK';
+          this.showTestDialog = true;
+          if (this.edittypeID == 1) {
+            this.getConnectionSource();
+           
+          } else {
+            this.getConnectionDestination();
+          
+          }
+        }
+        ,
+        (error) => {
+          const errorData = error.json();
+          this.save = false;
+          console.log('error:', errorData);
+          this.popmessage = errorData.Message;
+          this.status = 'error';
+          this.showTestDialog = true;
+        });
+
+    }
+    else {
+        this.popmessage = 'User Name & Password required';
+          this.status = 'error';
+          this.showTestDialog = true;
+
+    }
+
+
+
+
+  }
+
+
   onDeleteConfirmation() {
     this.showDialog = false;
     this.showsource = true;

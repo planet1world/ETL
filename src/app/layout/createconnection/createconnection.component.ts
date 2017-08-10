@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ERService } from '../../shared/services/er-service.service';
-import { TestConnection } from './newconnection.interface';
-import { SourceConnectionClass } from './sourceconnectionclass.interface';
-import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
+import { PropertyGroup, Property,TestConnection,SourceConnectionClass } from '../../modal';
 
 
 @Component({
@@ -307,7 +305,8 @@ export class CreateconnectionComponent implements OnInit {
         databasename: this.selecteddatabase,
         databaseversion: this.dbversion,
         schema: this.selectedschema,
-        folderlocation: this.selectedfolderlocation
+        folderlocation: this.selectedfolderlocation,
+        requestinfo:'Insert'
       }
 
       this.save = true;

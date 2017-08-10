@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ConnectionmanagerRoutingModule } from './connectionmanager-routing.module';
 import { ConnectionmanagerComponent } from './connectionmanager.component';
-import { PageHeaderModule,ModalModule,SharedPipesModule } from './../../shared';
+import { PageHeaderModule, ModalModule, SharedPipesModule, PageModalModule } from './../../shared';
 import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
@@ -17,7 +17,9 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
     PageHeaderModule, 
     SharedPipesModule,
     ModalModule,
+    PageModalModule,
     ReactiveFormsModule,
+    NgbModule.forRoot(),
     TranslateModule.forRoot(
       {
         provide: TranslateLoader,

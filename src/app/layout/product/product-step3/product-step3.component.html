@@ -62,8 +62,8 @@
 
   </ul>
   <div class="row">
-    <div class="col col-xl-2">
-    </div>
+     <div class="col col-xl-2">
+    </div> 
     <div class="col col-xl-8">
       <div class="x_panel">
         <div class="card mb-3">
@@ -108,9 +108,9 @@
                              </button>
                         </td>
                             <td>
-                               <button type="submit" class="btn btn-sucess" (click)="onAuto()" >
+                               <!-- <button type="submit" class="btn btn-sucess" (click)="onAuto()" >
                                  <i [ngClass]="{'fa fa-spinner fa-spin':auto===true}"></i>Auto Select
-                             </button>
+                             </button> -->
                             </td>
                       </table>
                     </td>
@@ -219,7 +219,10 @@
                               
                               Back</button>
                             </td>
-                            <td>
+                            <td  valign="centre" align="right">
+                               <button type="submit" class="btn btn-primary" (click)="onAuto()" >
+                                 <i [ngClass]="{'fa fa-spinner fa-spin':auto===true}"></i>Auto Select All & Next
+                             </button>
                             </td>
                             <td valign="right" align="right">
                               <button type="submit" (click)="onNextTable()" class="btn btn-success">
@@ -238,7 +241,7 @@
         </div>
       </div>
     </div>
-    <div class="col col-xl-2">
-    </div>
+     <div class="col col-xl-2">
+    </div> 
   </div>
 </div>

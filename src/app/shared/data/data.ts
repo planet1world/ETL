@@ -9,6 +9,7 @@ export class Data {
     public templateconnectionstring:string;
     public SchemaId:number;
     public EditProduct:boolean;
+    public viewProductSummary:boolean;
     public constructor() { } 
 }
 // @Injectable()

@@ -1,4 +1,22 @@
 <app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<app-modal [(visible)]="success">
+  <div id="content">
+    <div class="notify successbox">
+      <h1>Success!</h1>
+      <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="error">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
 <div id="wizard" class="form_wizard wizard_horizontal">
   <ul class="wizard_steps">
     <li>
@@ -40,9 +58,9 @@
 
   </ul>
   <div class="row">
-    <div class="col col-xl-3">
-    </div>
-    <div class="col col-xl-6">
+    <!-- <div class="col col-xl-3">
+    </div> -->
+    <div class="col  col-lg-12">
       <div class="x_panel">
         <div class="card mb-3">
           <div class="card-header">Modify Product
@@ -107,7 +125,7 @@
                       <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
                        Save</button>
                         <button type="submit" (click)="onCancle()" class="btn btn-danger">
-                        Cancle</button>
+                        Cancel</button>
                         <button type="submit" (click)="onViewSummary()" class="btn btn-info">
                      
                         View Summary </button>
@@ -121,7 +139,7 @@
         </div>
       </div>
     </div>
-    <div class="col col-xl-3">
-    </div>
+    <!-- <div class="col col-xl-3">
+    </div> -->
   </div>
 </div>

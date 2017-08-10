@@ -99,13 +99,14 @@ export class ProductStep3Component implements OnInit {
           }
         }
 
-        this.auto = false;
-        this.alert = [];
-        this.alert.push({
-          id: 1,
-          type: 'success',
-          message: "All table are selected ",
-        });
+        // this.auto = false;
+        // this.alert = [];
+        // this.alert.push({
+        //   id: 1,
+        //   type: 'success',
+        //   message: "All table are selected ",
+        // });
+        this.router.navigate(['../tree-view']);
 
 
       },
@@ -340,9 +341,9 @@ export class ProductStep3Component implements OnInit {
 
   onNextTable() {
     let finalarray = this.arrayUnique(this.draftTable, this.allreadyselectedtable);
-    console.log(JSON.stringify(finalarray));
-    console.log(JSON.stringify(this.draftTable));
-    console.log(JSON.stringify(this.allreadyselectedtable));
+    // console.log(JSON.stringify(finalarray));
+    // console.log(JSON.stringify(this.draftTable));
+    // console.log(JSON.stringify(this.allreadyselectedtable));
     if (finalarray.length == this.data.selectedtablelist.length) {
       this.router.navigate(['../tree-view']);
     }

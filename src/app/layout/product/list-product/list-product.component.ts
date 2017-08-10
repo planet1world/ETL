@@ -29,6 +29,7 @@ export class ListProductComponent implements OnInit {
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();
+    this.data.viewProductSummary=false;
 
   }
 
@@ -43,6 +44,13 @@ export class ListProductComponent implements OnInit {
     console.log(sor);
     this.data.selectedproduct = plst;
     this.router.navigate(['../modify-product']);
+  }
+  onView(sor){
+     let plst: Product[] = [];
+    plst.push(sor);
+    this.data.selectedproduct = plst;
+    this.data.viewProductSummary=true;
+    this.router.navigate(['../tree-view']);
   }
   onPGDelete(id: number) {
     this.deleteProductId = id;

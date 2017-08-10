@@ -20,10 +20,11 @@ export class TreeViewComponent implements OnInit {
   ToggleBack = false;
   showtree = false;
   ToggleCancel = false;
+  message='';
 
   constructor(private data: Data, public ServiceURL: ERService, public router: Router) {
     this.bindTree(this.data.selectedproduct[0].ID, this.data.selectedproduct[0].PropertyID);
-    if (this.data.EditProduct) {
+    if (this.data.viewProductSummary) {
       this.ToggleBack = true;
       this.ToggleButton = true;
     }
@@ -41,7 +42,11 @@ export class TreeViewComponent implements OnInit {
         this.nodes = data;
         this.showtree = false;
         if (this.nodes.length == 0)
-          this.ToggleButton = true;
+          {
+            this.message='Nothing has been configured yet for :'+this.data.selectedproduct[0].Name ;
+            this.ToggleButton = true;
+          }
+          
       },
       (error) => {
 

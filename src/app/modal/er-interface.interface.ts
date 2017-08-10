@@ -12,5 +12,14 @@ export interface SourceConnectionClass{
     databaseversion:string;
     schema:string;
     folderlocation:string;
+    requestinfo:string;
 
+}
+export interface TestConnection {
+    servername: string; // text  
+    username: string; // radio
+    password: string; // select (primitive)
+    databasename: string; // select (object)
+    provider: number;
+   
 }

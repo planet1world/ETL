@@ -3,8 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import 'rxjs/Rx';
 import { servicelist } from '../../services/servicelist';
-import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
-import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
+// import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
+import { ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable, ProductTableStructure } from '../../modal';
+// import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
 export class ERService {
     token: string;
@@ -76,6 +77,22 @@ export class ERService {
             (response: Response) => {
                 const data = response.json();
                 return data;
+            }
+            );
+    }
+    getConnectionView(coneectionid: number, sourceid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('id', String(coneectionid));
+        params.set('sourceid', String(sourceid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        let requestOptions = new RequestOptions({ headers: header });
+        requestOptions.search = params;
+        return this.http.get(this.serviceUrl.ViewConnection, requestOptions)
+            .map(
+            (response: Response) => {
+                return response.json();;
             }
             );
     }

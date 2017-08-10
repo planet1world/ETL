@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './shared/modules/spinner/spinner.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Data} from './shared/data/data';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 
 
@@ -40,6 +41,7 @@ import {Data} from './shared/data/data';
         HttpModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        
        TranslateModule.forRoot(
            { 
           provide: TranslateLoader,
@@ -48,7 +50,7 @@ import {Data} from './shared/data/data';
         }
        )
     ],
-    providers: [AuthService,servicelist,Alertlist,CookieService,ERService,Data ],
+    providers: [AuthService,servicelist,Alertlist,CookieService,ERService,Data,{provide: LocationStrategy, useClass: HashLocationStrategy} ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

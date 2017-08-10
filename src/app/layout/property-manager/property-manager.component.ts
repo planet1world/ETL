@@ -24,6 +24,8 @@ export class PropertyManagerComponent implements OnInit {
   selectedTimezone: number;
   textareaLength = 30;
   popmessage: string;
+  connection: string;
+  header: string;
   error = false;
   success = false;
   warning = false;
@@ -43,12 +45,23 @@ export class PropertyManagerComponent implements OnInit {
   PGactive = false;
   Pactive = false;
   alerts = [];
+  pgdisabled = false;
+  propertynamedisabled = false;
+  checkboxdisabled = false;
+  timezonedisabled = false;
+  customerdisabled = false;
+  pgnamedisabled = false;
+  pgtimedisabled = false;
+  pgcheckboxdisabled = false;
+  showPropertyButton = false;
+  showPGButton = false;
   specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
   constructor(public ServiceURL: ERService, public router: Router) { }
   @ViewChild('selectCustomer') selectCustomer;
   @ViewChild('selectPG') selectPG;
   @ViewChild('selectTime') selectTime;
   @ViewChild('selectTimePG') selectTimePG;
+ 
   ngOnInit() {
     this.getCustomer();
     this.getPropertyGroupData();
@@ -56,14 +69,22 @@ export class PropertyManagerComponent implements OnInit {
     this.getTimezoneList();
     this.getActivePropertyGroup();
   }
-  onAddNewConnection() {
+  onAddNewPG() {
+    this.customerdisabled = false;
+    this.pgnamedisabled = false;
+    this.pgtimedisabled = false;
+    this.pgcheckboxdisabled = false;
+    this.showPGButton = true;
     this.showPG = true;
     this.PGactive = false;
     this.pgnameModal = '';
+    this.header = 'Add New Property Group';
   }
   onPropertyGroupCancel() {
     this.showPG = false;
   }
+
+
 
   checkForSpecialChar(value: string): boolean {
     for (let i = 0; i < this.specialChars.length; i++) {
@@ -75,12 +96,19 @@ export class PropertyManagerComponent implements OnInit {
   }
 
   onAddProperty() {
+    this.header = 'Add New Property';
     this.getActivePropertyGroup();
     this.Pactive = false;
     this.selectProperyName = '';
     this.showProperty = true;
     this.isActive = 0;
     this.productId = 0;
+    this.showPropertyButton = true;
+    this.pgdisabled = false;
+    this.propertynamedisabled = false;
+    this.checkboxdisabled = false;
+    this.timezonedisabled = false;
+    this.showPropertyButton = true;
 
   }
   onPropertyCancel() {
@@ -101,7 +129,39 @@ export class PropertyManagerComponent implements OnInit {
     }
   }
 
+  onConfirmPropertyDelete() {
+    const obj = new Property();
+    obj.Name = this.selectProperyName;
+    obj.PropertyGroupID = this.selectPG.nativeElement.value;
+    obj.TimeZone = this.selectTime.nativeElement.value;
+    obj.Active = this.isActive;
+    obj.ID = this.productId;
+    obj.Operation = 'DeleteRecord';
+    this.ServiceURL.PropertyOperation(obj)
+      .subscribe(
+      (data: any) => {
+        this.save = false;
+        this.isUpdate = false;
+        this.isDelete = false;
+        this.showProperty = false;
+        this.success = true;
+        this.popmessage = data;
+        this.getPropertyData();
 
+      },
+      (error) => {
+        this.save = false;
+        this.isUpdate = false;
+        this.isDelete = false;
+        this.showProperty = false;
+        const errorData = error.json();
+        this.error = true;
+        this.popmessage = errorData.Message;
+        console.log('error:', errorData);
+
+      });
+
+  }
   onPropertyDataSave() {
     if (this.selectProperyName == '' || this.selectProperyName == undefined) {
       this.alerts = [];
@@ -114,6 +174,7 @@ export class PropertyManagerComponent implements OnInit {
       this.validation = true;
     }
     else {
+
       if (this.checkForSpecialChar(this.selectProperyName)) {
         this.alerts = [];
 
@@ -124,8 +185,11 @@ export class PropertyManagerComponent implements OnInit {
         });
         this.validation = true;
       }
+
       else {
         this.save = true;
+
+
         const obj = new Property();
         obj.Name = this.selectProperyName;
         obj.PropertyGroupID = this.selectPG.nativeElement.value;
@@ -138,21 +202,18 @@ export class PropertyManagerComponent implements OnInit {
           obj.Operation = 'UpdateRecord';
 
         }
-        else if (this.isDelete) {
-          obj.Operation = 'DeleteRecord';
-        }
         else {
           obj.Operation = 'InsertRecord';
         }
         this.ServiceURL.PropertyOperation(obj)
           .subscribe(
-          (date: any) => {
+          (data: any) => {
             this.save = false;
             this.isUpdate = false;
             this.isDelete = false;
             this.showProperty = false;
             this.success = true;
-            this.popmessage = "Data Saved"
+            this.popmessage = data;
             this.getPropertyData();
 
           },
@@ -167,13 +228,8 @@ export class PropertyManagerComponent implements OnInit {
             console.log('error:', errorData);
 
           });
-
-
       }
-
     }
-
-
   }
 
   getActivePropertyGroup() {
@@ -213,6 +269,39 @@ export class PropertyManagerComponent implements OnInit {
     else
       this.isActive = 0;
   }
+  onDeletConfirmationPG() {
+    this.save = true;
+    const obj = new PropertyGroup();
+    obj.Name = this.pgnameModal;
+    obj.CustomerID = this.selectCustomer.nativeElement.value;
+    obj.Active = this.isActive;
+    obj.ID = this.productId;
+    obj.TimeZone = this.selectTimePG.nativeElement.value;
+    obj.Operation = 'DeleteRecord';
+    this.ServiceURL.CreatePropertyGroup(obj)
+      .subscribe(
+      (data: any) => {
+        this.save = false;
+        this.isUpdate = false;
+        this.isDelete = false;
+        this.showPG = false;
+        this.success = true;
+        this.popmessage = data;
+        this.getPropertyGroupData();
+
+      },
+      (error) => {
+        this.save = false;
+        this.isUpdate = false;
+        this.isDelete = false;
+        this.showPG = false;
+        const errorData = error.json();
+        this.error = true;
+        this.popmessage = errorData.Message;
+        console.log('error:', errorData);
+
+      });
+  }
   onPropertyGroupDataSave() {
     if (this.pgnameModal == '' || this.pgnameModal == undefined) {
       this.alerts = [];
@@ -225,6 +314,7 @@ export class PropertyManagerComponent implements OnInit {
       this.validation = true;
     }
     else {
+
       if (this.checkForSpecialChar(this.pgnameModal)) {
         this.alerts = [];
 
@@ -235,6 +325,7 @@ export class PropertyManagerComponent implements OnInit {
         });
         this.validation = true;
       }
+
       else {
         this.save = true;
         const obj = new PropertyGroup();
@@ -255,13 +346,13 @@ export class PropertyManagerComponent implements OnInit {
         }
         this.ServiceURL.CreatePropertyGroup(obj)
           .subscribe(
-          (date: any) => {
+          (data: any) => {
             this.save = false;
             this.isUpdate = false;
             this.isDelete = false;
             this.showPG = false;
             this.success = true;
-            this.popmessage = "Data Saved"
+            this.popmessage = data;
             this.getPropertyGroupData();
 
           },
@@ -341,12 +432,44 @@ export class PropertyManagerComponent implements OnInit {
 
   }
   onPGDelete(id: number) {
+    this.connection = 'PropertyGroup';
     this.warning = true;
     this.productId = id;
     this.operationno = 1;
+
   }
   onPGEdit(iobj: PropertyGroup) {
-    this.PGactive = false;
+    this.header = 'Edit Property Group';
+    
+    this.customerdisabled = false;
+    this.pgnamedisabled = false;
+    this.pgtimedisabled = false;
+    this.pgcheckboxdisabled = false;
+    this.showPGButton = true;
+    this.pgnameModal = iobj.Name;
+    this.productId = iobj.ID;
+    this.ddCid = iobj.CustomerID;
+    //  if (iobj.Active == 1) {
+    //   this.PGactive = true;
+
+    // }
+    // else {
+    //   this.PGactive = false;
+
+    // }
+    this.PGactive = iobj.Active == 1 ? true : false;
+    this.selectedTimezone = iobj.TimeZone;
+    this.showPG = true;
+    this.isUpdate = true;
+
+  }
+  onViewPg(iobj: PropertyGroup) {
+    this.header = 'View Property Group';
+    this.customerdisabled = true;
+    this.pgnamedisabled = true;
+    this.pgtimedisabled = true;
+    this.pgcheckboxdisabled = true;
+    this.PGactive = true;
     this.pgnameModal = iobj.Name;
     this.productId = iobj.ID;
     this.ddCid = iobj.CustomerID;
@@ -354,17 +477,29 @@ export class PropertyManagerComponent implements OnInit {
     this.selectedTimezone = iobj.TimeZone;
     this.showPG = true;
     this.isUpdate = true;
+    this.showPGButton = false;
+
   }
   onDeleteConfirmation() {
+    // this.connection = this.operationno == 1 ? 'PropertyGroup' : 'Property';
     this.warning = false;
     this.isDelete = true;
-    if (this.operationno == 1)
-      this.onPropertyGroupDataSave();
-    else
-      this.onPropertyDataSave();
+    if (this.operationno == 1) {
+
+      this.onDeletConfirmationPG();
+    }
+    else {
+
+      this.onConfirmPropertyDelete();
+    }
+
+
+
+
   }
 
-  onPropertyEdit(objp: Property) {
+  onViewP(objp: Property) {
+    this.header = 'View Property';
     this.selectProperyName = objp.Name;
     this.productId = objp.ID;
     this.ddP = objp.PropertyGroupID;
@@ -381,9 +516,39 @@ export class PropertyManagerComponent implements OnInit {
     this.showProperty = true;
     this.isUpdate = true;
 
+    this.pgdisabled = true;
+    this.propertynamedisabled = true;
+    this.checkboxdisabled = true;
+    this.timezonedisabled = true;
+    this.showPropertyButton = false;
+  }
+  onPropertyEdit(objp: Property) {
+    this.header = 'Edit Property';
+    this.selectProperyName = objp.Name;
+    this.productId = objp.ID;
+    this.ddP = objp.PropertyGroupID;
+    if (objp.Active == 1) {
+      this.Pactive = true;
+      console.log('1:', this.Pactive);
+    }
+    else {
+      this.Pactive = false;
+      console.log('0:', this.Pactive);
+    }
+    // this.Pactive = objp.Active == 1 ? true : false;
+    this.selectedTimezone = objp.TimeZone;
+    this.showProperty = true;
+    this.isUpdate = true;
+    this.pgdisabled = false;
+    this.propertynamedisabled = false;
+    this.checkboxdisabled = false;
+    this.timezonedisabled = false;
+    this.showPropertyButton = true;
+
   }
 
   onPropertyDelete(id: number) {
+    this.connection = 'Property';
     this.warning = true;
     this.productId = id;
     this.operationno = 2;

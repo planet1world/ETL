@@ -1,45 +1,329 @@
 <!--<router-outlet></router-outlet>-->
 <app-page-header [heading]="'Connection Manager'| translate" [icon]="'fa-share-alt'"></app-page-header>
 <app-modal [(visible)]="showDialog">
-  <div [ngSwitch]='status'>
-    <div *ngSwitchCase="'succes'">
-      <div id="content">
-        <div class="notify successbox">
-          <h1>Success!</h1>
-          <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
-          <p>{{popmessage}}</p>
+    <div [ngSwitch]='status'>
+        <div *ngSwitchCase="'succes'">
+            <div id="content">
+                <div class="notify successbox">
+                    <h1>Success!</h1>
+                    <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+                    <p>{{popmessage}}</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div *ngSwitchCase="'error'">
-      <div class="notify errorbox">
-        <h1>Warning!</h1>
-        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
-        <p>Are you want to Delete this connection ?</p>
-          <button type="submit"  class="btn btn-danger" >No</button>
-        <button type="submit"(click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
+        <div *ngSwitchCase="'error'">
+            <div class="notify errorbox">
+                <h1>Warning!</h1>
+                <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+                <p>Are you want to Delete this connection ?</p>
+                <button type="submit" class="btn btn-danger" (click)="NO()">No</button>
+                <button type="submit" (click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
 
-      </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="'validation'">
+            <div class="notify errorbox">
+                <h1>Warning!</h1>
+                <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+
+                <ul>
+                    <li *ngFor="let item of alerts">
+                        {{item.message}}
+                    </li>
+                </ul>
+            </div>
+
+        </div>
     </div>
-    
-    <div *ngSwitchCase="'validation'">
-       <div class="notify errorbox">
-       <h1>Warning!</h1>
-        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
-     
-      <ul>
-        <li *ngFor="let item of alerts">
-          {{item.message}}
-        </li>
-      </ul>
-       </div>
-      
-    </div>
-  </div>
 
 
 </app-modal>
-<div class="pull-right">  
+<app-page-modal [(visible)]="viewConnection">
+
+    <div>
+
+        <div>
+            <div>
+                <div class="card-header">
+                    View Connection Detail
+                </div>
+                <div class="card-block table-responsive">
+                    <table class="table table-sm">
+
+                        <tbody>
+                            <tr>
+                                <td><b>Property Group</b></td>
+                                <td>
+                                    {{objConnectionView.PropertGroup}}
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td><b>Connection</b></td>
+                                <td>
+                                    {{objConnectionView.Connection}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="selectedSource">
+                                <td><b>Property</b></td>
+                                <td>
+                                    {{objConnectionView.Property}}
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td><b>Connection Name</b></td>
+                                <td>
+                                    {{objConnectionView.ConnectionName}}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Connectivity Type</b></td>
+                                <td>
+                                    {{objConnectionView.ConnectivityType}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Connection Provider</b></td>
+                                <td>
+                                    {{objConnectionView.ConnectionProvider}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="selectedfolder">
+                                <td><b>Folder Location</b></td>
+                                <td>
+                                    {{objConnectionView.PropertGroup}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{ServerName}}</b></td>
+                                <td>
+                                    {{objConnectionView.ServerName}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{UN}}</b></td>
+                                <td>
+                                    {{objConnectionView.UserName}}
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="showDatabase">
+                                <td><b>Database</b></td>
+                                <td>
+                                    {{objConnectionView.Database}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="showSchema">
+                                <td><b>Schema</b></td>
+                                <td>
+                                    {{objConnectionView.Schema}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Version</b></td>
+                                <td>
+                                    {{objConnectionView.Version}}
+                                </td>
+
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</app-page-modal>
+<app-page-modal [(visible)]="editConnection">
+    <app-modal [(visible)]="showTestDialog">
+        <div [ngSwitch]='status'>
+            <div *ngSwitchCase="'succes'">
+                <div id="content">
+                    <div class="notify successbox">
+                        <h1>Success!</h1>
+                        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+                        <p>{{popmessage}}</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="'OK'">
+                <div id="content">
+                    <div class="notify successbox">
+                        <h1>Success!</h1>
+                        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+                        <p>{{popmessage}}</p>
+                        <button id="OK" (click)="onCloseEdit()" class="btn default">OK</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="'error'">
+                <div class="notify errorbox">
+                    <h1>Warning!</h1>
+                    <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+                    <p>{{popmessage}}</p>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </app-modal>
+    <div>
+
+        <div>
+            <div>
+                <div class="card-header">
+                    Edit Connection Detail
+                </div>
+                <div class="card-block table-responsive">
+                    <table class="table table-sm">
+
+                        <tbody>
+                            <tr>
+                                <td><b>Property Group</b></td>
+                                <td>
+                                    {{objConnectionView.PropertGroup}}
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td><b>Connection</b></td>
+                                <td>
+                                    {{objConnectionView.Connection}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="selectedSource">
+                                <td><b>Property</b></td>
+                                <td>
+                                    {{objConnectionView.Property}}
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td><b>Connection Name</b></td>
+                                <td>
+
+                                    <input type="text" id="conname" class="form-control" placeholder="{{'Connection Name'| translate}}" [(ngModel)]="objConnectionView.ConnectionName"
+                                        name="conname" required #connection="ngModel" [maxLength]="textareaLength">
+                                    <span class="help-block" style="color:red" *ngIf="!connection.valid && connection.touched">{{'Please enter value in textbox'| translate}}</span>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Connectivity Type</b></td>
+                                <td>
+                                    {{objConnectionView.ConnectivityType}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Connection Provider</b></td>
+                                <td>
+                                    {{objConnectionView.ConnectionProvider}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="selectedfolder">
+                                <td><b>Folder Location</b></td>
+                                <td>
+                                    {{objConnectionView.PropertGroup}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{ServerName}}</b></td>
+                                <td>
+                                    {{objConnectionView.ServerName}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{UN}}</b></td>
+                                <td>
+
+                                    <input type="text" id="uname" ngModel name="uname" class="form-control" placeholder="{{'User Name'| translate}}" [(ngModel)]="objConnectionView.UserName"
+                                        name="un" required #user="ngModel">
+                                    <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{Pass}}</td>
+                                <td>
+                                    <input type="password" id="pas" class="form-control" placeholder="{{'*****'| translate}}" [(ngModel)]="selectedpassword"
+                                        name="pass" required>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="onTestConnection(); false">
+                                     <i class="fa fa-check-square-o"></i> Test Connection</button>
+
+                                    <span *ngIf="showtest"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+                                </td>
+                            </tr>
+                            <tr *ngIf="showDatabase">
+                                <td><b>Database</b></td>
+                                <td>
+                                    {{objConnectionView.Database}}
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="showSchema">
+                                <td><b>Schema</b></td>
+                                <td>
+                                    {{objConnectionView.Schema}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Version</b></td>
+                                <td>
+                                    {{objConnectionView.Version}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="reset" class="btn btn-default" (click)="onEditClose()">{{'Close'|translate}}</button>
+                                </td>
+                                <td>
+                                    <button type="reset" class="btn btn-primary" (click)="onUpdate()">{{'Update'|translate}}
+                                         <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</app-page-modal>
+
+
+
+
+<div class="pull-right">
     <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
 </div>
 <div class="row">
@@ -48,82 +332,91 @@
     <div class="col col-xl-8 col-lg-12">
 
         <div class="card-block table-responsive">
-             <div class="form-group input-group">
-                 <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search Source/Destination Connection">
+            <div class="form-group input-group">
+                <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search Source/Destination Connection">
                 <span class="input-group-btn"><button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button></span>
             </div>
-          
+
             <hr>
 
             <div class="card mb-3">
                 <div class="card-header">Source Connections
                     <span *ngIf="showsource"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
                 </div>
-                <div class="card-block table-responsive">
-                    <table class="table">
+                 <div class="card-block table-responsive">
+                    <table class="table table-hover table-striped">
 
                         <tbody>
                             <tr *ngFor="let sor of source | filter:{name: filterSource}">
                                 <td>
                                     <div *ngIf="sor.provider==1" style="padding-left: 50%;">
-                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo" width="40px" class="user-avatar" /></span>                                    
+                                        <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo" width="40px" class="user-avatar" /></span>
                                     </div>
-                                     <div *ngIf="sor.provider==2" style="padding-left: 50%;">
-                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"  /></span>                                    
+                                    <div *ngIf="sor.provider==2" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"  /></span>
                                     </div>
-                                     <div *ngIf="sor.provider==3" style="padding-left: 50%;">
-                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"  /></span>                                   
+                                    <div *ngIf="sor.provider==3" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"  /></span>
                                     </div>
-                                     <div *ngIf="sor.provider==4" style="padding-left: 50%;">
-                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"  /></span>    
+                                    <div *ngIf="sor.provider==4" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"  /></span>
                                     </div>
                                 </td>
                                 <td>{{sor.name}}</td>
                                 <td>
-                                    <div style="padding-left: 50%;">
-                                        <button class="btn btn-danger"  (click)="onDelete(sor.id,1)" aria-label="Delete">
-                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                   </button>
+                                    <div style="padding-left: 5%;">
+                                        <button class="btn btn-primary" (click)="onView(sor.id,1,sor.provider)" aria-label="View">
+                                        <i class="fa fa-eye " aria-hidden="true"></i>
+                                       </button>
+                                        <button class="btn btn-warning" (click)="onEdit(sor.id,1,sor.provider)" aria-label="Delete">
+                                        <i class="fa fa-pencil " aria-hidden="true"></i>
+                                       </button>
+                                        <button class="btn btn-danger" (click)="onDelete(sor.id,1)" aria-label="Delete">
+                                        <i class="fa fa-trash-o " aria-hidden="true"></i>
+                                       </button>
                                     </div>
                                 </td>
-
                             </tr>
-
-
                         </tbody>
                     </table>
-                </div>
-            </div>    
-            
+                </div> 
+            </div>
+
             <hr>
-            <div class="card mb-3">
+             <div class="card mb-3">
                 <div class="card-header">Destination Connection
                     <span *ngIf="showdestination"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
 
                 </div>
-                <div class="card-block table-responsive">
+                 <div class="card-block table-responsive">
                     <table class="table table-hover table-striped">
 
                         <tbody>
                             <tr *ngFor="let des of destination | filter:{name: filterSource}">
                                 <td>
                                     <div *ngIf="des.provider==1" style="padding-left: 50%;">
-                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo"  width="40px" class="user-avatar"/></span>                                    
+                                        <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                     <div *ngIf="des.provider==2" style="padding-left: 50%;">
-                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"/></span>                                    
+                                    <div *ngIf="des.provider==2" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                     <div *ngIf="des.provider==3" style="padding-left: 50%;">
-                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"/></span>                                   
+                                    <div *ngIf="des.provider==3" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                     <div *ngIf="des.provider==4" style="padding-left: 50%;">
-                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"/></span>    
+                                    <div *ngIf="des.provider==4" style="padding-left: 50%;">
+                                        <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"/></span>
                                     </div>
                                 </td>
                                 <td>{{des.name}}</td>
                                 <td>
-                                    <div style="padding-left: 50%;">
-                                         <button class="btn btn-danger"  (click)="onDelete(des.id,2)" aria-label="Delete">
+                                    <div style="padding-left: 5%;">
+                                        <button class="btn btn-primary" (click)="onView(des.id,2,des.provider)" aria-label="View">
+                                        <i class="fa fa fa-eye" aria-hidden="true"></i>
+                                       </button>
+                                        <button class="btn btn-warning" (click)="onEdit(des.id,2,des.provider)" aria-label="Edit">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                       </button>
+                                        <button class="btn btn-danger" (click)="onDelete(des.id,2)" aria-label="Delete">
                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
                                         </button>
                                     </div>
@@ -133,7 +426,8 @@
 
                         </tbody>
                     </table>
-                </div>
-            </div>
+                </div> 
+            </div> 
         </div>
     </div>
+</div>

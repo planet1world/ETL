@@ -29,7 +29,7 @@ export class CreateProductComponent implements OnInit {
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.getActivePropertyGroup();
     this.getPropertyData();
-    this.data.EditProduct=false;
+    this.data.viewProductSummary=false;
    
   }
   @ViewChild('selectPG') selectPG;
