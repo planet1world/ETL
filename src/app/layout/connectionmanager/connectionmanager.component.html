@@ -96,10 +96,10 @@
                                 </td>
 
                             </tr>
-                            <tr *ngIf="selectedfolder">
+                            <tr *ngIf="isfolderflag">
                                 <td><b>Folder Location</b></td>
                                 <td>
-                                    {{objConnectionView.PropertGroup}}
+                                    {{objConnectionView.Folderlocation}}
                                 </td>
                             </tr>
                             <tr>
@@ -196,7 +196,7 @@
                         <tbody>
                             <tr>
                                 <td><b>Property Group</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.PropertGroup}}
                                 </td>
 
@@ -204,14 +204,14 @@
 
                             <tr>
                                 <td><b>Connection</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.Connection}}
                                 </td>
 
                             </tr>
                             <tr *ngIf="selectedSource">
                                 <td><b>Property</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.Property}}
                                 </td>
 
@@ -219,47 +219,48 @@
 
                             <tr>
                                 <td><b>Connection Name</b></td>
-                                <td>
+                                <td colspan="2">
 
                                     <input type="text" id="conname" class="form-control" placeholder="{{'Connection Name'| translate}}" [(ngModel)]="objConnectionView.ConnectionName"
                                         name="conname" required #connection="ngModel" [maxLength]="textareaLength">
-                                    <span class="help-block" style="color:red" *ngIf="!connection.valid && connection.touched">{{'Please enter value in textbox'| translate}}</span>
+                                    <!-- <span class="help-block" style="color:red" *ngIf="!connection.valid && connection.touched">{{'Please enter value in textbox'| translate}}</span> -->
 
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Connectivity Type</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.ConnectivityType}}
                                 </td>
 
                             </tr>
                             <tr>
                                 <td><b>Connection Provider</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.ConnectionProvider}}
                                 </td>
 
                             </tr>
-                            <tr *ngIf="selectedfolder">
+                            <tr *ngIf="isfolderflag">
                                 <td><b>Folder Location</b></td>
-                                <td>
-                                    {{objConnectionView.PropertGroup}}
+                                <td colspan="2">
+                                    <input type="text" id="folder" class="form-control" placeholder="{{'Full Location Path'| translate}}" [(ngModel)]="objConnectionView.Folderlocation"
+                                       name="folder" required  #folder="ngModel">
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>{{ServerName}}</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.ServerName}}
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>{{UN}}</b></td>
-                                <td>
+                                <td colspan="2">
 
                                     <input type="text" id="uname" ngModel name="uname" class="form-control" placeholder="{{'User Name'| translate}}" [(ngModel)]="objConnectionView.UserName"
                                         name="un" required #user="ngModel">
-                                    <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span>
+                                    <!-- <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span> -->
                                 </td>
                             </tr>
                             <tr>
@@ -278,21 +279,21 @@
                             </tr>
                             <tr *ngIf="showDatabase">
                                 <td><b>Database</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.Database}}
                                 </td>
 
                             </tr>
                             <tr *ngIf="showSchema">
                                 <td><b>Schema</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.Schema}}
                                 </td>
 
                             </tr>
                             <tr>
                                 <td><b>Version</b></td>
-                                <td>
+                                <td colspan="2">
                                     {{objConnectionView.Version}}
                                 </td>
 
@@ -301,7 +302,7 @@
                                 <td>
                                     <button type="reset" class="btn btn-default" (click)="onEditClose()">{{'Close'|translate}}</button>
                                 </td>
-                                <td>
+                                <td >
                                     <button type="reset" class="btn btn-primary" (click)="onUpdate()">{{'Update'|translate}}
                                          <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
                                     </button>
@@ -322,10 +323,17 @@
 
 
 
-
-<div class="pull-right">
-    <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
+<div class="row">
+    <div class="col col-xl-10">
+    </div>
+     <div class="col col-xl-2">
+          <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
+    </div>
+    
 </div>
+<!-- <div class="pull-right">
+    <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
+</div> -->
 <div class="row">
     <div class="col col-xl-2">
     </div>

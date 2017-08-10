@@ -11,4 +11,5 @@ export class ConnectionClass {
     Database: string;
     Schema: string;
     Version: string;
+    Folderlocation:string;
 }

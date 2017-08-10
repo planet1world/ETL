@@ -31,9 +31,10 @@ export class ConnectionmanagerComponent implements OnInit {
   UN = '';
   Pass = '';
   ServerName = '';
+  folderlocation='';
   showDatabase = false;
   showSchema = false;
-  selectedfolder = false;
+  isfolderflag = false;
   selectedSource = false;
   editConnection = false;
   showTestDialog = false;
@@ -65,11 +66,13 @@ export class ConnectionmanagerComponent implements OnInit {
       this.UN = 'FTP User Name';
       this.Pass = 'FTP Password';
       this.ServerName = 'FTP Server Name';
+      this.isfolderflag=true;
     }
     else {
       this.UN = 'User Name';
       this.Pass = 'Password';
       this.ServerName = 'Server Name'
+      this.isfolderflag=false;
     }
     this.ServiceURL.getConnectionView(id, choice)
       .subscribe(
@@ -91,11 +94,14 @@ export class ConnectionmanagerComponent implements OnInit {
       this.UN = 'FTP User Name';
       this.Pass = 'FTP Password';
       this.ServerName = 'FTP Server Name';
+      this.isfolderflag= true;
     }
+
     else {
       this.UN = 'User Name';
       this.Pass = 'Password';
       this.ServerName = 'Server Name'
+      this.isfolderflag = false;
     }
     this.ServiceURL.getConnectionView(id, choice)
       .subscribe(
@@ -105,7 +111,6 @@ export class ConnectionmanagerComponent implements OnInit {
 
           this.showDatabase = true;
           this.showSchema = true;
-          this.selectedfolder = false;
           this.selectedSource = false;
         }
         else {
@@ -167,7 +172,8 @@ export class ConnectionmanagerComponent implements OnInit {
             this.editConnection = false;
   }
   onUpdate() {
-    if (this.selectedpassword != '' && this.objConnectionView.UserName !='') {
+    console.log(this.objConnectionView.ConnectionName);
+    if (this.selectedpassword != '' && this.objConnectionView.UserName !='' && this.objConnectionView.ConnectionName !='') {
       this.updateConnectionObject = {
         connectionid: this.editObjectID,
         propertygroupid: 0,
@@ -181,7 +187,7 @@ export class ConnectionmanagerComponent implements OnInit {
         databasename: '',
         databaseversion: this.objConnectionView.Version,
         schema: '',
-        folderlocation: '',
+        folderlocation: this.objConnectionView.Folderlocation,
         requestinfo: 'UpdateRecord'
       }
       this.save = true;
@@ -212,7 +218,7 @@ export class ConnectionmanagerComponent implements OnInit {
 
     }
     else {
-        this.popmessage = 'User Name & Password required';
+        this.popmessage = 'Connection Name/User Name/Password required';
           this.status = 'error';
           this.showTestDialog = true;
 
