@@ -37,6 +37,13 @@ export class servicelist {
     GetProductCommited:string;
     AutoSelection:string;
     ViewConnection:string;
+    GetPropertyList:string;
+    AddJob:string;
+    GetJobForProduct:string;
+    GetTableForJob:string;
+    ExtCntrlInsertion:string;
+    GetMasterData:string;
+    GetExtractControl:string;
 
     constructor(private http: Http) {
         this.getUrl()
@@ -95,7 +102,15 @@ export class servicelist {
         this.Treeview=url+"api/Product/TreeView";
         this.GetProductCommited=url+ "api/Product/GetProductCommited";
         this.AutoSelection=url+"api/Product/AutoSelection";
-        this.ViewConnection=url+"api/ConnectionManager/GetViewAndEditConnection"
+        this.ViewConnection=url+"api/ConnectionManager/GetViewAndEditConnection";
+        this.GetPropertyList=url+"api/Property/GetPropertyByPropertyGroup";
+        this.AddJob=url+"api/Job/AddJob";
+        this.GetJobForProduct=url+"api/Job/GetJobForProduct";
+        this.GetTableForJob=url+"api/Job/GetTableForJob";
+        this.ExtCntrlInsertion=url+"api/Job/ExtCntrlInsertion";
+        this.GetMasterData=url+"api/Job/GetMasterList";
+        this.GetExtractControl=url+"api/Job/GetListofExtractControl";
+
     }
 
 }

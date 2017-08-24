@@ -3,15 +3,10 @@ import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { ChangepasswordModule } from './changepassword/changepassword.module';
 import { HeaderComponent, SidebarComponent, FooterComponent } from '../shared';
 import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-
-
-
-
 
 
 @NgModule({
@@ -19,7 +14,6 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
         CommonModule,
         NgbDropdownModule.forRoot(),
         LayoutRoutingModule,
-        ChangepasswordModule,
         NgbModule.forRoot(),
         TranslateModule.forRoot(
             {
@@ -33,9 +27,8 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
-        FooterComponent,      
+        FooterComponent,    
         
-
     ]
 })
 export class LayoutModule { }

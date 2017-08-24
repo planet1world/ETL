@@ -11,7 +11,7 @@ export class LayoutComponent implements OnInit {
          this.translate.use(localStorage.getItem('lang'));
      }
     ngOnInit() {
-        console.log("hi");
+        
         if (this.router.url === '/') {
             this.router.navigate(['/dashboard']);
         }

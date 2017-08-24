@@ -35,7 +35,7 @@ export class ProductStep2Component implements OnInit {
     name: string;
     constructor(private data: Data, public router: Router, public ServiceURL: ERService) {
         this.count = 0;
-        this.productname = this.data.selectedproduct;       
+        this.productname = this.data.selectedproduct;
         this.name = this.productname[0].Name;
         this.getTemplate();
         this.getSchema();
@@ -152,8 +152,8 @@ export class ProductStep2Component implements OnInit {
         let obj = new Template();
         obj.Connectionstring = this.conString;
         obj.ProductMasterID = this.selectlist.nativeElement.value;;
-        obj.TableMasterID= this.productname[0].ID;//passing productid to TableMasterID
-        obj.PrimaryKeyMasterID=this.selectschema.nativeElement.value;//passing schemaid to PrimaryKeyMasterID
+        obj.TableMasterID = this.productname[0].ID;//passing productid to TableMasterID
+        obj.PrimaryKeyMasterID = this.selectschema.nativeElement.value;//passing schemaid to PrimaryKeyMasterID
         this.count = 0;
         this.ServiceURL.getTemplateTableList(obj)
             .subscribe(
@@ -183,9 +183,8 @@ export class ProductStep2Component implements OnInit {
 
     }
 
-    onCancle()
-    {
-        this.data.selectedproduct=[];
+    onCancle() {
+        this.data.selectedproduct = [];
         this.router.navigate(['../list-product']);
     }
 

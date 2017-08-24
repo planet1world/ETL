@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Product} from '../../modal/product.modal'
+import {Product,Job} from '../../modal'
  
 @Injectable()
 export class Data { 
@@ -10,6 +10,7 @@ export class Data {
     public SchemaId:number;
     public EditProduct:boolean;
     public viewProductSummary:boolean;
+    public selectedJob:Job;
     public constructor() { } 
 }
 // @Injectable()

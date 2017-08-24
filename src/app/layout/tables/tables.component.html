@@ -18,7 +18,16 @@
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
-                            <td>Mark</td>
+                            <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                    <select (change)="onSelect($event.target.value, i)">
+                                        <option [value]="0" >Select Connectiontype</option>
+                                        <option *ngFor="let con of connectiontype" 
+                                            [value]="con.ID" >
+                                            {{ con.Name }}
+                                         </option>
+                                          </select>
+                                </div></td>
                             <td>Otto</td>
                             <td>@mdo</td>
                         </tr>
@@ -157,13 +166,31 @@
                 <tbody>
                     <tr>
                         <th scope="row">1</th>
-                        <td>Mark</td>
+                        <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                <select (change)="onSelect($event.target.value, i)">
+                                    <option [value]="0" >Select Connectiontype</option>
+                                    <option *ngFor="let con of connectiontype" 
+                                        [value]="con.ID" >
+                                        {{ con.Name }}
+                                     </option>
+                                      </select>
+                            </div></td>
                         <td>Otto</td>
                         <td>@mdo</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td>Jacob</td>
+                        <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                <select (change)="onSelect($event.target.value, i)">
+                                    <option [value]="0" >Select Connectiontype</option>
+                                    <option *ngFor="let con of connectiontype" 
+                                        [value]="con.ID" >
+                                        {{ con.Name }}
+                                     </option>
+                                      </select>
+                            </div></td>
                         <td>Thornton</td>
                         <td>@fat</td>
                     </tr>
@@ -176,7 +203,7 @@
             </table>
         </div>
     </div>
-    <!--<div class="col col-xl-6 col-lg-12">
+    <div class="col col-xl-6 col-lg-12">
         <div class="card mb-3">
             <div class="card-header">Inverse table</div>
             <div class="card-block table-responsive">
@@ -192,13 +219,31 @@
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
-                            <td>Mark</td>
+                            <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                    <select (change)="onSelect($event.target.value, i)">
+                                        <option [value]="0" >Select Connectiontype</option>
+                                        <option *ngFor="let con of connectiontype" 
+                                            [value]="con.ID" >
+                                            {{ con.Name }}
+                                         </option>
+                                          </select>
+                                </div></td>
                             <td>Otto</td>
                             <td>@mdo</td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
-                            <td>Jacob</td>
+                            <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                    <select (change)="onSelect($event.target.value, i)">
+                                        <option [value]="0" >Select Connectiontype</option>
+                                        <option *ngFor="let con of connectiontype" 
+                                            [value]="con.ID" >
+                                            {{ con.Name }}
+                                         </option>
+                                          </select>
+                                </div></td>
                             <td>Thornton</td>
                             <td>@fat</td>
                         </tr>
@@ -227,13 +272,31 @@
                     <tbody>
                         <tr>
                             <td>/index.html</td>
-                            <td>1265</td>
+                            <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                    <select (change)="onSelect($event.target.value, i)">
+                                        <option [value]="0" >Select Connectiontype</option>
+                                        <option *ngFor="let con of connectiontype" 
+                                            [value]="con.ID" >
+                                            {{ con.Name }}
+                                         </option>
+                                          </select>
+                                </div></td>
                             <td>32.3%</td>
                             <td>$321.33</td>
                         </tr>
                         <tr>
                             <td>/about.html</td>
-                            <td>261</td>
+                            <td> <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+                                    <select (change)="onSelect($event.target.value, i)" item-width="20px">
+                                        <option [value]="0" >Select Connectiontype</option>
+                                        <option *ngFor="let con of connectiontype" 
+                                            [value]="con.ID" >
+                                            {{ con.Name }}
+                                         </option>
+                                          </select>
+                                </div></td>
                             <td>33.3%</td>
                             <td>$234.12</td>
                         </tr>
@@ -348,5 +411,5 @@
                 </tbody>
             </table>
         </div>
-    </div>-->
+    </div>
 </div>

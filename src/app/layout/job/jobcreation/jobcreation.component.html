@@ -1,0 +1,181 @@
+<div class="container">
+  <form class="form-horizontal" (ngSubmit)="onJobFormSubmit(f)" #f="ngForm">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <h2>Create Job</h2>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="name">Property Group</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-bank"></i></div>
+            <!-- <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required autofocus> -->
+            <select #propertygroupDD class="form-control" name="pgDD" id="propertygroupDD" (change)="onPropertGroupDDChange(propertygroupDD.value)">
+                <option [value]="0" >Select Property Group</option>
+              <option *ngFor="let pg of pgList" 
+                  [value]="pg.ID"
+                   [selected]="pg.ID == selectPgId"
+                   >
+                  {{ pg.Name }}
+               </option>
+             </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+          <span *ngIf="flagPropertyGroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+          <span class="text-danger align-middle">
+                          <!-- Put name validation error messages here -->
+                      </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="email">Property</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-building"></i></div>
+            <!-- <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus> -->
+            <select #propertyDD class="form-control" name="pDD" id="propertyDD" (change)="onPropertyDDChange(propertyDD.value)">
+                <option [value]="0" >Select Property</option>
+              <option *ngFor="let p of propertyList" 
+                  [value]="p.ID"
+                   [selected]="p.ID == selectPropertyId"
+                   >
+                  {{ p.Name }}
+               </option>
+             </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+          <span *ngIf="flagProperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+          <span class="text-danger align-middle">
+                          <!-- Put e-mail validation error messages here -->
+                      </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="password">Product</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-suitcase"></i></div>
+            <!-- <input type="password" name="password" class="form-control" id="password" placeholder="Password" required> -->
+            <select #productDD class="form-control" name="productDD" id="productDD" (change)="onProductDDChange(productDD.value)">
+                <option [value]="0" >Select Product</option>
+              <option *ngFor="let product of productList" 
+                  [value]="product.ID"
+                   [selected]="product.ID == selectProductId"
+                   >
+                  {{ product.Name }}
+               </option>
+             </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+          <span *ngIf="flagProduct"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+          <span class="text-danger align-middle">
+                          <!-- <i class="fa fa-close"> Example Error Message</i> -->
+                      </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="password">Job Name</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem">
+              <i class="fa fa-wrench"></i>
+            </div>
+            <input type="text" ngModelGroup="jobtext" [disabled]="isDisable" [(ngModel)]="jobname" name="product-name" class="form-control" id="product-name" placeholder="Job Name" ngModel name="productname"
+              required #productname="ngModel" minlength="4">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+          <div *ngIf="!productname.valid && (productname.touched||productname.dirty)">
+            <span class="text-danger align-middle" *ngIf="productname.errors.required">
+                          <i class="fa fa-close"> job name is required</i>
+                      </span>
+            <span class="text-danger align-middle" *ngIf="productname.errors.minlength">
+                        <i class="fa fa-close"> must be at least 4 characters long</i>
+                    </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="description">Description</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem">
+              <i class="fa fa-bars"></i>
+            </div>
+            <input type="text"  ngModelGroup="jobd" [disabled]="isDisable" [(ngModel)]="jobdesc" name="product-description" class="form-control" id="product-desc" placeholder="Job Description" ngModel
+              name="productdesc" required #productdesc="ngModel" minlength="4">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+          <div *ngIf="!productdesc.valid && (productdesc.touched||productdesc.dirty)">
+            <span class="text-danger align-middle" *ngIf="productdesc.errors.required">
+                          <i class="fa fa-close"> job description is required</i>
+                      </span>
+            <span class="text-danger align-middle" *ngIf="productdesc.errors.minlength">
+                        <i class="fa fa-close"> must be at least 4 characters long</i>
+                    </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 field-label-responsive">
+        <label for="password">Active</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <!-- <div class="input-group-addon" style="width: 2.6rem">
+              <i class="fa fa-bars"></i>
+            </div> -->
+            <input #productActive  [(ngModel)]="isChecked" type="checkbox" ngModel name="productActive" id="chkActive" >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-danger"><i class="fa fa-window-close "></i> Cancel</button>
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+            <i [ngClass]="{'fa fa-spinner fa-spin':flagSave===true}"></i>
+          <i class="fa fa-angle-double-right "></i> Next</button>
+      </div>
+    </div>
+  </form>
+</div>

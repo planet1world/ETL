@@ -1,0 +1,178 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search by Table Name">
+                    <div class="input-group-addon" style="width: 2.6rem">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <!-- <span class="input-group-btn"><i class="fa fa-search"></i></span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <!-- <div class="col-md-1"></div> -->
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header card-primary">
+
+                    <b>Select tables to be included on the job</b>
+                </div>
+                <div class="card-block table-responsive">
+                    <div class="panel-body">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Table Name</th>
+                                    <th>Source Type</th>
+                                    <th>Engine Type</th>
+                                    <th>Connection</th>
+                                    <th style="width:10px">Load Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <td>
+                                        <input type="checkbox" (change)="checkAll($event)"> Check for same source
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-database"></i></div>
+                                            <select (change)="onSourceSelectAll($event.target.value)">
+                                                <option [value]="0" >--Select--</option>
+                                                <option *ngFor="let con of connectiontype" 
+                                                    [value]="con.ID" >
+                                                    {{ con.Name }}
+                                                 </option>
+                                                  </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-server"></i></div>
+                                            <select (change)="onEngineSelectAll($event.target.value)">
+                                                        <option [value]="0" >--Select--</option>
+                                                        <option *ngFor="let con of engineall" 
+                                                            [value]="con.ID">
+                                                            {{ con.Name }}
+                                                         </option>
+                                                          </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-exchange"></i></div>
+                                            <select (change)="onConnectionSelectAll($event.target.value)">
+                                                            <option [value]="0" >--Select--</option>
+                                                            <option *ngFor="let con of connectionall" 
+                                                                [value]="con.ConnectionID" >
+                                                                {{ con.ConnectionName }}
+                                                             </option>
+                                                </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-th"></i></div>
+                                            <select (change)="onLoadSelectAll($event.target.value)">
+                                                            <option [value]="0" >--Select--</option>
+                                                            <option *ngFor="let con of loadtype" 
+                                                                [value]="con.ID" >
+                                                                {{ con.LoadName }}
+                                                             </option>
+                                                </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let table of extracContol |filter:{DestinationTableName: filterSource};let i = index">
+                                    <th scope="row">{{i+1}}</th>
+                                    <td><b>{{table.DestinationTableName}}</b></td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-database"></i></div>
+                                            <select [disabled]="isChecked" (change)="onSourceSelect($event.target.value, i,table.DestinationTableName)">
+                                            <option [value]="0" >--Select--</option>
+                                            <option *ngFor="let con of connectiontype" 
+                                                [value]="con.ID" >
+                                                {{ con.Name }}
+                                             </option>
+                                              </select>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-server"></i></div>
+                                            <select [disabled]="isChecked" (change)="onEngineSelect($event.target.value, i,table.DestinationTableName)">
+                                                <option [value]="0" >--Select--</option>
+                                                <option *ngFor="let con of filterconnectionengine[i]" 
+                                                    [value]="con.ID">
+                                                    {{ con.Name }}
+                                                 </option>
+                                                  </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-exchange"></i></div>
+                                            <select [disabled]="isChecked" (change)="onConnectionSelect($event.target.value, i,table.DestinationTableName)">
+                                                <option [value]="0" >--Select--</option>
+                                                <option *ngFor="let con of filterconnection[i]" 
+                                                    [value]="con.ConnectionID" [selected]="con.ID == table.LoadTypeID">
+                                                    {{ con.ConnectionName }}
+                                                 </option>
+                                           </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-th"></i></div>
+                                            <select [disabled]="isChecked" (change)="onLoadSelect($event.target.value, i,table.DestinationTableName)">
+                                                <option [value]=0 >--Select--</option>
+                                                <option *ngFor="let con of loadtype" 
+                                                    [value]="con.ID" [selected]="con.ID == table.LoadTypeID">
+                                                    {{ con.LoadName }}
+                                                 </option>
+                                    </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>
+                                Total Table Count: <span class="label label-info">{{tableCount}}</span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-1"></div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <button type="submit" class="btn btn-danger">
+              <i class="fa fa-angle-double-left " (click)="onBack()"></i> Back</button>
+            <div class="float-right text-muted small">
+                <button type="submit" class="btn btn-success" (click)="onNext3Step()">
+              <i [ngClass]="{'fa fa-spinner fa-spin':flagSave===true}"></i>
+            <i class="fa fa-angle-double-right "></i> Next</button>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>

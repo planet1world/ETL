@@ -122,8 +122,12 @@ export class AuthService {
 
   isAuthenticated() {
     const now = new Date();
+    // console.log(new Date(localStorage.getItem('expires')));
+    // console.log( new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
+
 
     if (new Date(localStorage.getItem('expires')) >= new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())) {
+    //  console.log( localStorage.getItem('token') != null);
       return localStorage.getItem('token') != null;
     }
     return false;

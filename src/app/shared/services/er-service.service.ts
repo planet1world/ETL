@@ -4,7 +4,10 @@ import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angul
 import 'rxjs/Rx';
 import { servicelist } from '../../services/servicelist';
 // import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
-import { ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable, ProductTableStructure } from '../../modal';
+import {
+    ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable,
+    ProductTableStructure, Job, JobTables
+} from '../../modal';
 // import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
 export class ERService {
@@ -372,7 +375,7 @@ export class ERService {
 
 
         let body = { 'tblst': tablelname, 'templateDBconString': connectionstring, 'productid': Number(productid), 'propertyid': Number(propertyid), 'schemaid': Number(schemaid) }
-        console.log(body);
+        //console.log(body);
         const header = new Headers();
         header.append('Content-Type', 'application/json');
         header.append('Authorization', 'Bearer ' + this.getToken())
@@ -421,6 +424,107 @@ export class ERService {
             (response: Response) => {
                 const data = response.json();
                 return data;
+            }
+            );
+    }
+    GetPropertyList(propertygroupid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('propertygroupid', String(propertygroupid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetPropertyList, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    AddJob(jobobject: Job) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.AddJob, JSON.stringify(jobobject), { headers: header })
+            .map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+    GetTableForJob(jobid: number, productid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetTableForJob, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    GetJobForProduct(porpertyid: number, productid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('propertyid', String(porpertyid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetJobForProduct, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    ExtractionControl(tableobject: JobTables[]) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.ExtCntrlInsertion, JSON.stringify(tableobject), { headers: header })
+            .map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+    GetMaterList(porpertyid: number, productid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('propertyid', String(porpertyid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetMasterData, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    GetExtractControl(productid : number, jobid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetExtractControl, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
             }
             );
     }

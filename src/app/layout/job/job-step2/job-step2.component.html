@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <input type="text" class="form-control" [(ngModel)]="filterSource" placeholder="Search by Table Name">
+                    <div class="input-group-addon" style="width: 2.6rem">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <!-- <span class="input-group-btn"><i class="fa fa-search"></i></span> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header card-primary">
+                    <input type="checkbox" (change)="checkAll($event)">
+                    <i class="fa fa-table" aria-hidden="true"></i>
+                    <b>Select tables to be included on the job</b>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let table of tablelist | filter:{TableNamewithSchema: filterSource}; let i = index ">
+                            <div class="checkbox">
+                                <input type="checkbox" id="i" #i checked name="{{table.Selected}}"
+                                 [(ngModel)]="table.Selected" [disabled]="table.Disable"/>
+                                <label for="checkbox">
+                                  {{table.TableNamewithSchema}}
+                              </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>
+                                Total Table Count: <span class="label label-info">{{tableCount}}</span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-danger">
+              <i class="fa fa-angle-double-left " (click)="onBack()"></i> Back</button>
+            <div class="float-right text-muted small">
+                <button type="submit" class="btn btn-success" (click)="onNext3Step()">
+              <i [ngClass]="{'fa fa-spinner fa-spin':flagSave===true}"></i>
+            <i class="fa fa-angle-double-right "></i> Next</button>
+            </div>
+        </div>
+    </div>
+</div>
