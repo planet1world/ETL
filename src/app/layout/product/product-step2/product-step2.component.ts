@@ -151,7 +151,7 @@ export class ProductStep2Component implements OnInit {
         this.showproperty = true;
         let obj = new Template();
         obj.Connectionstring = this.conString;
-        obj.ProductMasterID = this.selectlist.nativeElement.value;;
+        obj.ProductMasterID = this.selectlist.nativeElement.value;
         obj.TableMasterID = this.productname[0].ID;//passing productid to TableMasterID
         obj.PrimaryKeyMasterID = this.selectschema.nativeElement.value;//passing schemaid to PrimaryKeyMasterID
         this.count = 0;

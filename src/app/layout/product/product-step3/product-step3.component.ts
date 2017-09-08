@@ -270,17 +270,30 @@ export class ProductStep3Component implements OnInit {
     this.alerts = [];
     let countPK = 0;
     let countColn = 0;
+    let isColumnSelected=this.selectedtableCol.length>0?true:false;
 
     for (let d of this.primarykey) {
       console.log(this.primarykey);
-      if (d.Selected == true) {
+      if (d.Selected == true) {      
         countPK = countPK + 1;
       }
     }
 
 
     if (countPK > 0) {
-      if (this.selectedtableCol.length > 0) {
+      if (isColumnSelected) {
+        let primaryKeyinSelectedColumn=this.primarykey.filter(i=>i.Selected==true);
+        countPK=0;
+        console.log('primrykey',primaryKeyinSelectedColumn);
+        for (let p of primaryKeyinSelectedColumn) {
+          let istrue=this.selectedtableCol.find(i=>i.Name==p.Name)===undefined?false:true;
+          console.log(this.selectedtableCol.find(i=>i.Name==p.Name));
+          if (istrue) {      
+            countPK = countPK + 1;
+          }
+        }
+         if(countPK==primaryKeyinSelectedColumn.length)
+          {
         let t = this.tabelname;
         if (this.draftTable.some(x => x === this.tabelname)) {
 
@@ -315,6 +328,17 @@ export class ProductStep3Component implements OnInit {
           }
 
           );
+        }
+        else{
+
+          this.alerts.push({
+            id: 3,
+            type: 'danger',
+            message: 'Selected Primary Key is Not Avilable in Column',
+          });
+          this.validation = true;
+          console.log('Select at least one coloumn')
+        }
 
       }
       else {
