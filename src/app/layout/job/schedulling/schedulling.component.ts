@@ -24,6 +24,7 @@ export class SchedullingComponent implements OnInit {
   success=false;
   error=false;
   popmessage="";
+  flagNext=false;
   Job = new JobSchedule();
 
   constructor(private cdr: ChangeDetectorRef, private data: Data, public ServiceURL: ERService,public router:Router) {
@@ -96,6 +97,7 @@ export class SchedullingComponent implements OnInit {
     else {
       this.Job.Enable = 0;
     }
+    this.flagNext=true;
     this.ServiceURL.JobScheduling(this.Job)
       .subscribe((data) => {
        this.popmessage=data;
@@ -107,6 +109,7 @@ export class SchedullingComponent implements OnInit {
         console.log('error:', errorData);
         this.popmessage= errorData.Message;
         this.error=true;
+        this.flagNext=false;
       });
   }
   onBack() {
