@@ -13,7 +13,7 @@
       <div class="col-md-5" [hidden]="flagonce">
         <div class="col-md-3">
           <div class="form-group">
-            <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange($event)"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange()"></ngb-timepicker>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-4" [hidden]="flagevery">        
            
-                <input type="number" min="1" max="31" [(ngModel)]="dayVal_day" (ngModelChange)="onDayChange($event)" >
+                <input type="number" min="1" max="31" [(ngModel)]="dayVal_day" (ngModelChange)="onDayChange()" >
         
                   <select   name="hourDD" id="hourDD" (change)="onHourChange($event.target.value)">
                       <option [value]="8" >hour(s)</option>
@@ -37,7 +37,7 @@
                       <option [value]="2" >second(s)</option>
                     </select>
               
-         </div>
+        </div>
        
         </div>
         <div class="row" [hidden]="flagevery" >
@@ -46,7 +46,7 @@
              </div>
              <div class="col-md-3">
                 <div class="form-group">
-                    <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange($event)"></ngb-timepicker>
+                    <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange()"></ngb-timepicker>
                   </div>
              </div>
         </div>
@@ -56,7 +56,7 @@
              </div>
              <div class="col-md-3">
                 <div class="form-group">
-                    <ngb-timepicker [(ngModel)]="endTime" [meridian]="meridian" (ngModelChange)="endTimeChange($event)"></ngb-timepicker>
+                    <ngb-timepicker [(ngModel)]="endTime" [meridian]="meridian" (ngModelChange)="endTimeChange()"></ngb-timepicker>
                   </div>
              </div>
         </div>
