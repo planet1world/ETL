@@ -44,6 +44,15 @@ export class servicelist {
     ExtCntrlInsertion:string;
     GetMasterData:string;
     GetExtractControl:string;
+    UpdateConAndLoadExtractControl:string;
+    GetTableListforJobMapping:string;
+    FetchSourceTable:string
+    AutoMappingOfColumn:string;
+    UpdateColumnMappingExtractControl:string;
+    GetSummaryOfTableByJobID:string;
+    UpdateFilterForJobTables:string;
+    JobScheduling:string;
+
 
     constructor(private http: Http) {
         this.getUrl()
@@ -110,6 +119,15 @@ export class servicelist {
         this.ExtCntrlInsertion=url+"api/Job/ExtCntrlInsertion";
         this.GetMasterData=url+"api/Job/GetMasterList";
         this.GetExtractControl=url+"api/Job/GetListofExtractControl";
+        this.UpdateConAndLoadExtractControl=url+"api/Job/UpdateConAndLoadExtractControl";
+        this.GetTableListforJobMapping=url+"api/Job/GetTableListforJobMapping";
+        this.FetchSourceTable=url+"api/Job/FetchSourceTable";
+        this.AutoMappingOfColumn=url+"api/Job/AutoMappingOfColumn";
+        this.UpdateColumnMappingExtractControl=url+"api/Job/UpdateColumnMappingExtractControl";
+        this.GetSummaryOfTableByJobID=url+"api/Job/GetSummaryOfTableByJobID";
+        this.UpdateFilterForJobTables=url+"api/Job/UpdateFilterForJobTables";
+        this.JobScheduling=url+"api/Job/JobScheduling";
+       
 
     }
 

@@ -87,8 +87,7 @@
               <td colspan="2">
                 <select #selectProperty (change)="onChangeProperty(selectProperty.value)" class="form-control " name="p">
                           <option *ngFor="let p of property" 
-                              [value]="p.ID" 
-                              [selected]="p.ID === s">
+                              [value]="p.ID" >
                               {{ p.Name }}
                            </option>
                          </select>

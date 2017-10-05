@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card md-3">
+        <div class="card-header card-primary">
+        </div>
+        <div class="card-block table-responsive">
+          <div class="panel-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Destination<br/> Table
+                  </th>
+                  <th>Source<br/> Table
+                  </th>
+                  <th>ConEngine<br/>Type</th>
+                  <th>Mapped Column
+                    <br/> (Count)
+                  </th>
+                  <th>Filter Criteria</th>
+                  <th>LoadType</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let des of sumarryData;let i = index" id="changeColor">
+                  <td>
+                    <span id="changeColor"> {{des.DTableName}}</span>
+
+                  </td>
+                  <td>
+                    {{des.STableName}}
+                  </td>
+                  <td>
+                    {{des.ConEngineType}}
+                  </td>
+                  <td>
+                    {{des.MappedCount}}
+                  </td>
+                  <td>
+
+                    {{des.FilterCondition}}
+
+
+                  </td>
+                  <td>
+                    {{des.ProcessType}}
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-2">
+      <button type="submit" (click)="onBackJob5()" class="btn btn-danger">
+                          <i class="fa fa-angle-double-left " ></i> 
+                          Back
+          </button>
+
+
+    </div>
+    <div class="col-md-8"></div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success" (click)="onNextSchedule()"> 
+          <i [ngClass]="{'fa fa-spinner fa-spin':flagNext===true}"></i>
+           Next <i class="fa fa-angle-double-right "></i></button>
+
+
+    </div>
+  </div>
+</div>

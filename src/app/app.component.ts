@@ -11,13 +11,15 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit {
     private subscription: Subscription;
-    constructor(public router: Router, private translate: TranslateService, private activatedRoute: ActivatedRoute) { }
+    constructor(public router: Router, private translate: TranslateService, private activatedRoute: ActivatedRoute) {
+        this.translate.use(localStorage.getItem('lang'));
+     }
     ngOnInit() {
         // this.translate.addLangs(["en", "fr", "cn", "hi"]);
 
         // let browserLang = this.translate.getBrowserLang();
         // this.translate.use(browserLang.match(/en|fr|cn|hi/) ? browserLang : 'en');
-       this.translate.use(localStorage.getItem('lang'));
+      
         this.subscription = this.activatedRoute.queryParams.subscribe(
             (param: any) => {
                 let locale = param['locale'];
@@ -25,6 +27,6 @@ export class AppComponent implements OnInit {
                     this.translate.use(locale);
                 }
             });
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
     }
 }

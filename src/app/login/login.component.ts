@@ -3,7 +3,7 @@ import { Login } from './login.model';
 import { NgForm } from '@angular/forms';
 import { Response, Http } from '@angular/http';
 import { AuthService } from '../shared/services/auth.service';
-import { Observable } from 'rxjs/Observable';
+ 
 import { Router } from '@angular/router';
 import { TranslateService, TranslateModule } from 'ng2-translate';
 import { Alertlist } from '../services/alertlistservice';

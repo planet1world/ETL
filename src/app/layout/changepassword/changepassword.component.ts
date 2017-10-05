@@ -24,7 +24,6 @@ export class ChangepasswordComponent implements OnInit {
   @ViewChild('f') ChangePasswordForm: NgForm;
   constructor(public ServiceURL: AuthService, private alert: Alertlist, public translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang'));
-
   }
 
   ngOnInit() {
@@ -36,11 +35,7 @@ export class ChangepasswordComponent implements OnInit {
   onChangepassword(form: NgForm) {
     const value = form.value
     const changepassObject: ChangePass =
-      new ChangePass(value.oldpass,
-        value.password, value.confirmPassword)
-      ;
-
-
+      new ChangePass(value.oldpass,value.password, value.confirmPassword) ;
     this.ServiceURL.changePassword(changepassObject)
       .subscribe(
       (data: any) => {
@@ -66,11 +61,7 @@ export class ChangepasswordComponent implements OnInit {
             type: 'danger',
             message: this.alert.getalertString(localStorage.getItem('lang'), value[0]),
           });
-
-
         });
-
-
         console.log('error:', JSON.stringify(errorData));
       }
       );

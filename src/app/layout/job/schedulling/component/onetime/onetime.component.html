@@ -1,0 +1,34 @@
+<fieldset>
+  <legend>One-time occurrence</legend>
+  <div class="row">
+
+    <div class="col-md-1" style="padding-top:33px;">
+      <label for="date">Date:</label>
+    </div>
+    <div class="col-md-3">
+      <!-- <form class="form-inline mb-3"> -->
+      <div class="form-group">
+        <div class="input-group" style="padding-top:33px;">
+          <input class="form-control paddingdate" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="onetimeDate" 
+          
+          (ngModelChange)="sendDate($event)" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-addon" (click)="d.toggle()">
+            <span class="fa fa-calendar"></span>
+          </div>
+        </div>
+      </div>
+      <!-- </form> -->
+    </div>
+    <div class="col-md-1" style="padding-top:33px;">
+      <label for="date">Time:</label>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <ngb-timepicker [(ngModel)]="defaultTime" [meridian]="meridian"  (ngModelChange)="sendTime($event)"></ngb-timepicker>
+      </div>
+    </div>
+    <div class="col-md-5"></div>
+
+
+  </div>
+</fieldset>

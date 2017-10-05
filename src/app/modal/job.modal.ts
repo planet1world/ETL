@@ -1,4 +1,4 @@
-import { ConEngineType, ConnectionClass, ConnectionType } from '../modal';
+import { ConEngineType, ConnectionClass, ConnectionType,TableColumn } from '../modal';
 export class Job {
     JobID: number;
     JobName: string;
@@ -38,6 +38,10 @@ export class ExtractControl {
     JobID: number;
     LoadTypeID: number;
     StatusID: number;
+    SourceTypeName:string;
+    EngineTypeName:string;
+    ConnectionName:string;
+    LoadName:string;
 }
 /// <summary>
 /// Load type Incremental/Turncate etc 
@@ -58,4 +62,43 @@ export class MasterClass {
     EngineType: ConEngineType[];
     ConnectionList: ConnectionClass[];
     LoadList: TableLoadType[];
+}
+
+export class JobTableList{
+    ConnectionString:string;
+    TableName:string;
+    Schema:string;
+    DataBase:string;
+    ConnectionType:string;
+    ExtractControlID:number;
+}
+export class AutoMapping{
+    ColumnName:TableColumn;
+    Source:TableColumn[];
+    AutoMapped:string;
+    DestinationTableName:string;
+    SourceTableName:string;
+}
+
+export class AutoMappingRequest{
+    Productid:number;
+    DestinationTable:string;
+    SourceData:JobTableList
+}
+export class PostAutoColumnMapping
+{
+    ExtractControlID:number;
+    AutoMapping:AutoMapping[];
+}
+export class JobSummaryTables
+{
+    ExtractControlID:number;
+    DTableName:string;
+    STableName:string;
+    FilterCondition:string;
+    MappedCount:number;
+    ProcessType:string;
+    JobID:number;
+    ConEngineType:string;
+
 }

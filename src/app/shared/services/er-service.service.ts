@@ -6,7 +6,7 @@ import { servicelist } from '../../services/servicelist';
 // import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
 import {
     ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable,
-    ProductTableStructure, Job, JobTables
+    ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule
 } from '../../modal';
 // import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
@@ -512,7 +512,7 @@ export class ERService {
             }
             );
     }
-    GetExtractControl(productid : number, jobid: number) {
+    GetExtractControl(productid: number, jobid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
         params.set('productid', String(productid));
@@ -528,4 +528,106 @@ export class ERService {
             }
             );
     }
+    UpdateExtractByLoadandConnetion(listofobject: ExtractControl[]) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.UpdateConAndLoadExtractControl, JSON.stringify(listofobject),
+            { headers: header }).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+    GetTableListforJobMapping(jobid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetTableListforJobMapping, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    FetchSourceTableforMapping(objtable: JobTableList) {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.FetchSourceTable, JSON.stringify(objtable),
+            { headers: header }).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+
+    }
+    PostAutoMappingOfColumn(source: any) {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.AutoMappingOfColumn, JSON.stringify(source), { headers: header }
+        ).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+    PostUpdateColumnMapping(data: any) {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.UpdateColumnMappingExtractControl, JSON.stringify(data), { headers: header }
+        ).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+    JobStep5SummaryData(productid: number, jobid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        params.set('productid', String(productid));
+        const header = this.CallHeader();
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+
+        return this.http.get(this.serviceUrl.GetSummaryOfTableByJobID, requestOption)
+            .map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+
+    }
+
+    UpdateFilterForTableJob(obj:JobSummaryTables[])
+    {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.UpdateFilterForJobTables, JSON.stringify(obj), { headers: header }
+        ).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+
+    JobScheduling(obj:JobSchedule)
+    {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.JobScheduling, JSON.stringify(obj), { headers: header }
+        ).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+
+    }
+
+    CallHeader() {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return header;
+
+    }
+
 }

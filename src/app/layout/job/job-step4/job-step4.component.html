@@ -1,0 +1,150 @@
+<div class="container">
+    <!-- <div class="form-horizontal"> -->
+
+    <div class="row">
+
+        <div class="col-md-2 field-label-responsive">
+            <label for="table">Destination Table</label>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
+
+                    <select #destinationtableDD class="form-control" name="destinationtableDD" id="destinationtableDD" (change)="onDestinationTableDDChange($event.target.value)">
+                                 <option [value]="0" >Select table</option>
+                                 <option *ngFor="let t of jobTableList" [value]="t.TableName" [selected]="t.TableName==selectDesTable">
+                                 {{ t.TableName }}
+                                   </option>
+                     </select>
+                </div>
+            </div>
+            <span *ngIf="flagDestinationTable"><i class="fa fa-spinner fa-spin fa-lg " aria-hidden="true"></i></span>
+        </div>
+        <!-- <div class="col-md-1">
+            <span *ngIf="flagDestinationTable"><i class="fa fa-spinner fa-spin fa-lg " aria-hidden="true"></i></span>
+        </div> -->
+        <div class="col-md-2 field-label-responsive">
+            <label for="sourcetable">Source Table</label>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <!-- <div class="pull-right"> -->
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
+
+                    <select #sourcetableDD class="form-control" name="sourcetableDD" id="sourcetableDD" (change)="onSourceTableDDChange(sourcetableDD.value)">
+                                     <option [value]="0" >Select table</option>
+                                     <option *ngFor="let t of filterSourceTableList" [value]="t.TableName">
+                                     {{ t.TableName }}
+                                       </option>
+                                    </select>
+                </div>
+            </div>
+            <span *ngIf="flagSourceTable"><i class="fa fa-spinner fa-spin fa-lg " aria-hidden="true"></i></span>
+        </div>
+        <!-- <div class="col-md-1">
+            <span *ngIf="flagSourceTable"><i class="fa fa-spinner fa-spin fa-lg " aria-hidden="true"></i></span>
+        </div> -->
+        <div class="col-md-2 field-label-responsive">
+            <div class="pull-left">
+                <input type="checkbox" id="viewCkbox" (change)="onView($event)"><em>Clik for View</em>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+
+            <button type="submit" (click)="onMappingClick()" class="btn btn-primary" style="width:100%;">
+             <i [ngClass]="{'fa fa-spinner fa-spin':flagColumnMapping===true}"></i>
+             List Column For Mapping
+            </button>
+
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">ER Distination Table Column</div>
+                <div class="card-block table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Destination Column</th>
+                                <th>Source Column for Mapping</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let des of autoMapped;let i = index">
+                                <td>
+                                    <span *ngIf="des.ColumnName.Selected; else nonprimary" style="color:red">
+                                            <i class="fa fa-key" aria-hidden="true">{{des.ColumnName.Name}}</i> [PK] [{{des.ColumnName.DataType}}] ({{des.ColumnName.MaxSize}})
+                                    </span>
+                                    <ng-template #nonprimary>
+                                        <b> {{des.ColumnName.Name}}</b> [{{des.ColumnName.DataType}}] ({{des.ColumnName.MaxSize}})
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-th"></i></div>
+                                        <select #i [(ngModel)]="des.AutoMapped">
+                                                <option [value]=0 >--Select--</option>
+                                                <option *ngFor="let con of des.Source" 
+                                                    [value]="con.Name" [selected]="con.Name == des.AutoMapped">
+                                                    {{ con.Name }}({{con.DataType}})
+                                                 </option>
+                                             </select>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <button type="submit" (click)="onSaveNextTable()" class="btn btn-primary" style="width:100%;">
+              <i [ngClass]="{'fa fa-spinner fa-spin':flagSaveNext===true}"></i>
+              Save & Next Table
+            </button>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" (click)="onNextTable()" class="btn btn-primary" style="width:100%;">Without Save Next Table</button>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <button type="submit" (click)="onBack()" class="btn btn-danger">
+                            <i class="fa fa-angle-double-left " ></i> 
+                            Back
+            </button>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success" (click)="onNext5Step()" [disabled]="isDisable"> 
+             <i [ngClass]="{'fa fa-spinner fa-spin':flagNext===true}"></i>
+              Next <i class="fa fa-angle-double-right "></i></button>
+        </div>
+    </div>
+    <!-- </div> -->
+</div>

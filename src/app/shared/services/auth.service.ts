@@ -29,6 +29,7 @@ export class AuthService {
       .map(
       (response: Response) => {
         const data = response.json();
+        console.log(data);
         this.token = data.access_token;
 
         localStorage.setItem('User', data.userName);

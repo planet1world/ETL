@@ -18,13 +18,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Data} from './shared/data/data';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
-
-
-
-
 // import { ModalComponent }from './layout/modal/modal.component'
-
-
 
 @NgModule({
     declarations: [
@@ -32,8 +26,6 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
         AuthComponent,
         EqualValidatorDirective,
         SpinnerComponent,     
-        
-     
     ],
     imports: [
         BrowserModule,
@@ -41,7 +33,6 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
         HttpModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        
        TranslateModule.forRoot(
            { 
           provide: TranslateLoader,

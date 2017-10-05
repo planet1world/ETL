@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="card mb-3">
+        <div class="card-header">Filtering Data</div>
+        <div class="card-block table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Destination<br/> Table
+                </th>
+                <th>Source<br/> Table
+                </th>
+                <th>Mapped Column
+                  <br/> (Count)
+                </th>
+                <th>Filter Criteria</th>
+                <th>LoadType</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let des of sumarryData;let i = index">
+                <td>
+                  {{des.DTableName}}
+                </td>
+                <td>
+                  {{des.STableName}}
+                </td>
+                <td>
+                  {{des.MappedCount}}
+                </td>
+                <td>
+                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-server"></i></div>
+                    <input type="text" id="filter" class="form-control" placeholder="Filter Query" [(ngModel)]="des.FilterCondition">
+                  </div>
+
+                </td>
+                <td>
+                  {{des.ProcessType}}
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-2">
+      <button type="submit" (click)="onBackJob4()" class="btn btn-danger">
+                        <i class="fa fa-angle-double-left " ></i> 
+                        Back
+        </button>
+
+
+    </div>
+    <div class="col-md-8"></div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success" (click)="onNext6Step()"> 
+        <i [ngClass]="{'fa fa-spinner fa-spin':flagNext===true}"></i>
+         Next <i class="fa fa-angle-double-right "></i></button>
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<app-page-header [heading]="'Scheduler'" [icon]="'fa-'"></app-page-header>
+<app-modal [(visible)]="success">
+  <div id="content">
+    <div class="notify successbox">
+      <h1>Success!</h1>
+      <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="error">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+    </div>
+  </div>
+</app-modal>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 field-label-responsive">
+      <label for="name">Name:</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
+          <input type="text" id="schedulerName" [(ngModel)]="schedulerName" class="form-control" readonly placeholder="Input Scheduler Name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 field-label-responsive">
+      <label for="name">Schedule type:</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
+          <select #schedulerTypeDD class="form-control" name="schedulerTypeDD" id="schedulerTypeDD" (change)="onSchedulerTypeChange($event.target.value)">
+            <option [value]="0" >Select table</option>
+            <option [value]="1" >One Time</option>
+            <option [value]="2" >Recurring</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="pull-left">
+        <input type="checkbox" id="enableCkbox" [(ngModel)]="isEnable"><em>Enable</em>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selected==1">
+    <br>
+    <app-onetime [JobObject]="Job" (selectDate)="saveOneScheduleData($event)" (Message)="oneTimeScheduleMessage($event)"></app-onetime>
+  </div>
+  <div *ngIf="selected==2">
+    <br>
+    <app-frequency [JobObject]="Job" (Frequency)="changeFrequency($event)" (Message)="FrequencyMessage($event)"></app-frequency>
+    <br>
+    <app-dailyfrequency [JobObject]="Job" (DailyFrequency)="changeDailyFrequency($event)"></app-dailyfrequency>
+    <br>
+    <app-duration [JobObject]="Job" (Duration)="changeDuration($event)" (Message)="durationMessage($event)"></app-duration>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <textarea [(ngModel)]='finalMessage' rows="2" cols="120"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-4">
+
+    </div>
+
+    <div class="col-md-6">
+      <button type="submit" (click)="onBack()" class="btn btn-danger">
+            <i class="fa fa-angle-double-left " ></i> 
+            Back
+</button>
+      <button type="submit" class="btn btn-success" (click)="onSave()"> 
+           <i [ngClass]="{'fa fa-spinner fa-spin':flagNext===true}"></i>
+            Save </button>
+    </div>
+  </div>
+
+</div>

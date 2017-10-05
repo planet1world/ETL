@@ -1,0 +1,65 @@
+<fieldset>
+  <legend>Daily frequency</legend>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 field-label-responsive" style="padding-top:33px;">
+        <div class="radio">
+          <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="once" checked="" (change)="RadioChange($event)">
+                    Occurs onces at 
+                </label>
+        </div>
+      </div>
+      <div class="col-md-5" [hidden]="flagonce">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange($event)"></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-md-4 field-label-responsive">
+          <div class="radio">
+            <label>
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="every" checked="" (change)="RadioChange($event)">
+                      Occurs every
+                  </label>
+          </div>
+        </div>
+        <div class="col-md-4" [hidden]="flagevery">        
+           
+                <input type="number" min="1" max="31" [(ngModel)]="dayVal_day" (ngModelChange)="onDayChange($event)" >
+        
+                  <select   name="hourDD" id="hourDD" (change)="onHourChange($event.target.value)">
+                      <option [value]="8" >hour(s)</option>
+                      <option [value]="4" >minute(s)</option>
+                      <option [value]="2" >second(s)</option>
+                    </select>
+              
+         </div>
+       
+        </div>
+        <div class="row" [hidden]="flagevery" >
+            <div class="col-md-4 field-label-responsive"  style="padding-top:33px;">
+                    <label for="date">Start Time:</label>
+             </div>
+             <div class="col-md-3">
+                <div class="form-group">
+                    <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian" (ngModelChange)="startTimeChange($event)"></ngb-timepicker>
+                  </div>
+             </div>
+        </div>
+        <div class="row" [hidden]="flagevery">
+            <div class="col-md-4 field-label-responsive"  style="padding-top:33px;">
+                    <label for="date">End Time:</label>
+             </div>
+             <div class="col-md-3">
+                <div class="form-group">
+                    <ngb-timepicker [(ngModel)]="endTime" [meridian]="meridian" (ngModelChange)="endTimeChange($event)"></ngb-timepicker>
+                  </div>
+             </div>
+        </div>
+      </div>
+   
+</fieldset>

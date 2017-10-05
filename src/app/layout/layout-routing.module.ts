@@ -26,7 +26,11 @@ const routes: Routes = [
             { path: 'jobcreation', loadChildren: './job/jobcreation/jobcreation.module#JobcreationModule' },
             { path: 'job-step2', loadChildren: './job/job-step2/job-step2-module.module#JobStep2Module' },
             { path: 'job-step3', loadChildren: './job/job-step3/job-step3-module.module#JobStep3Module' },
-
+            { path: 'job-step4', loadChildren: './job/job-step4/job-step4-module.module#JobStep4Module' },
+            { path: 'job-step5', loadChildren: './job/job-step-5/job-step5-module.module#JobStep5Module' },
+            { path: 'job-step6', loadChildren: './job/job-step6/job-step6.module#JobStep6Module' },
+            { path: 'schedulling', loadChildren:'./job/schedulling/schedulling.module#SchedullingModule'},
+            
         ]
     }
 ];

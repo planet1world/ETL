@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { ERService } from '../../shared/services/er-service.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
     ];
 
     constructor(public service: AuthService, public router: Router) {
-       
+     
         if (!service.isAuthenticated())
             this.router.navigate(['./login']);
        

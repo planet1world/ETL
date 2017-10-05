@@ -94,8 +94,7 @@
                 <select #selectCustomer class="form-control" [disabled]="customerdisabled">
                           <option *ngFor="let customer of customerArray" 
                               [value]="customer.ID"
-                               [selected]="customer.id == ddCid"
-                               >
+                               [selected]="customer.ID == ddCid">
                               {{ customer.Name }}
                            </option>
                          </select>

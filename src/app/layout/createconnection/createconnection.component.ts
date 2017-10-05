@@ -273,6 +273,7 @@ export class CreateconnectionComponent implements OnInit {
         else if (this.connType.nativeElement.value == 2) {
           if (this.connProv.nativeElement.value == 2) {
             this.selectedschema = '';
+            this.selecteddatabase = this.databaseSelect.nativeElement.value;
           }
           else {
             this.selectedschema = this.schemaSelect.nativeElement.value

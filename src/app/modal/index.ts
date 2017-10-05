@@ -6,3 +6,4 @@ export * from './customerid-modal.modal';
 export * from './config-modal.modal';
 export * from './er-interface.interface';
 export * from './job.modal';
+export * from './scheduler-modal';

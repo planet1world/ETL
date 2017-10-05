@@ -19,12 +19,14 @@ export class JobStep3Component implements OnInit {
   engineall: ConEngineType[];
   filterconnectionengine = [];
   connection: ConnectionClass[];
-  connectionall:ConnectionClass[];
+  connectionall: ConnectionClass[];
   filterconnection = [];
   loadtype: TableLoadType[];
   extracContol: ExtractControl[];
   updateextracContol: ExtractControl[];
   isChecked: boolean;
+  flagSave: boolean;
+  filterSource:string;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.fetchExtractControlData(this.data.selectedJob.ProductId, this.data.selectedJob.JobID);
@@ -40,6 +42,7 @@ export class JobStep3Component implements OnInit {
       .subscribe(
       (data: ExtractControl[]) => {
         this.extracContol = data;
+        console.log('data:', data);
         this.updateextracContol = this.extracContol;
         //  Array.from(new Array(data.length), (val, index) => index);
       },
@@ -54,10 +57,15 @@ export class JobStep3Component implements OnInit {
       .subscribe(
       (data: MasterClass) => {
         this.connection = data.ConnectionList;
+        this.filterconnection[this.connection.length] = this.connection;
         this.connectionengin = data.EngineType;
+        this.filterconnectionengine[this.connectionengin.length] = this.connectionengin;
         this.connectiontype = data.ConnectionType;
+
         this.loadtype = data.LoadList;
-        console.log(this.connectionengin);
+        if (this.connection.length == 0) {
+          //warning message box that conection not configured for this property;
+        }
       },
       (error) => {
         console.log(error.json());
@@ -69,13 +77,13 @@ export class JobStep3Component implements OnInit {
     this.isChecked = ev.target.checked;
   }
   onSourceSelectAll(connectionTypeID: number) {
-    
-    if(this.isChecked)
-    this.engineall = this.connectionengin.filter((item) => item.ConnectionTypeID == connectionTypeID);
+
+    if (this.isChecked)
+      this.engineall = this.connectionengin.filter((item) => item.ConnectionTypeID == connectionTypeID);
   }
   onSourceSelect(connectionTypeID: number, i: number, tablename: string) {
-    if(!this.isChecked)
-    this.filterconnectionengine[i] =this.connectionengin.filter((item) => item.ConnectionTypeID == connectionTypeID);
+    if (!this.isChecked)
+      this.filterconnectionengine[i] = this.connectionengin.filter((item) => item.ConnectionTypeID == connectionTypeID);
 
   }
   onEngineSelectAll(providerID: number) {
@@ -86,13 +94,12 @@ export class JobStep3Component implements OnInit {
     }
   }
   onEngineSelect(providerID: number, i: number, tablename: string) {
-    if(!this.isChecked)
-      {
-        this.filterconnection[i] =
+    if (!this.isChecked) {
+      this.filterconnection[i] =
         this.connection.filter((item) => item.ConnectionProviderID == providerID);
       this.updateextracContol.forEach(x => { if (x.DestinationTableName == tablename) x.ConEngineTypeID = providerID });
-      }
-   
+    }
+
   }
 
   onConnectionSelectAll(connectionID: number) {
@@ -108,12 +115,39 @@ export class JobStep3Component implements OnInit {
   onLoadSelectAll(loadID: number) {
     if (this.isChecked)
       this.updateextracContol.forEach(x => x.LoadTypeID = loadID);
-    
+
   }
   onLoadSelect(loadID: number, i: number, tablename: string) {
-    if(!this.isChecked)
-    this.updateextracContol.forEach(x => { if (x.DestinationTableName == tablename) x.LoadTypeID = loadID });
-  
+    if (!this.isChecked)
+      this.updateextracContol.forEach(x => { if (x.DestinationTableName == tablename) x.LoadTypeID = loadID });
+
+  }
+
+  onNext4Step() {
+    let array = [];
+    array = this.updateextracContol.filter((item) => item.ConnectionID == 0 || item.LoadTypeID == 0);
+    if (array.length == 0) {
+      this.flagSave = true;
+      this.ServiceURL.UpdateExtractByLoadandConnetion(this.updateextracContol)
+        .subscribe(
+        (data: ExtractControl[]) => {
+          console.log(data);
+          this.flagSave = false;
+          this.router.navigate(['../job-step4']);
+        },
+        (error) => {
+          console.log(error.json());
+          this.flagSave = false;
+        }
+        );
+    }
+    else {
+      console.log("error:connrction id should be select ");
+    }
+  }
+
+  onBackJob2() {
+    this.router.navigate(['../job-step2']);
   }
 }
 

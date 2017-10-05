@@ -8,7 +8,6 @@ import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
-
 @NgModule({
     imports: [
         CommonModule,
@@ -27,7 +26,9 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
-        FooterComponent,    
+        FooterComponent,
+        
+        
         
     ]
 })
