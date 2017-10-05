@@ -11,7 +11,7 @@ const routes: Routes = [
             { path: 'createconnection', loadChildren: './createconnection/createconnection.module#CreateconnectionrModule' },
             { path: 'property-manager', loadChildren: './property-manager/property-manager.module#PropertyManagerModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
-            { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
+            // { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
             { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
             { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
