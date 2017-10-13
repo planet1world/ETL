@@ -25,6 +25,8 @@ export class JobStep4Component implements OnInit {
   saveTable: string[] = [];
   isDisable = true;
   filterSource="";
+  error = false;
+  popmessage: string;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.fetchTablesForJob(this.data.selectedJob.JobID);
@@ -50,6 +52,7 @@ export class JobStep4Component implements OnInit {
   }
   onDestinationTableDDChange(tablename: string) {
     let filter = this.jobTableList.filter((item) => item.TableName == tablename);
+    console.log(JSON.stringify(filter));
     this.selectDesTable = tablename;
     this.objectDestination = filter[0];
     if (this.objectDestination != undefined) {
@@ -117,8 +120,11 @@ export class JobStep4Component implements OnInit {
 
   onSaveNextTable() {
     let count = 0;
-    if (this.autoMapped == null || this.autoMapped === undefined) {
-      console.log("first map the column");
+    let selectArray = this.autoMapped.filter((item) => item.AutoMapped != null);
+    if (selectArray.length == 0) {
+      console.log("Select at least one Source Column");
+      this.error = true;
+      this.popmessage = "Select at least one Source Column";
     }
     else {
 

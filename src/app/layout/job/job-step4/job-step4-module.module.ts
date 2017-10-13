@@ -14,7 +14,7 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
     FormsModule,
     JobStep4ComponentModule,
     // PageHeaderModule,
-    // ModalModule,
+    ModalModule,
     SharedPipesModule,
     ReactiveFormsModule,
     // TranslateModule.forRoot(

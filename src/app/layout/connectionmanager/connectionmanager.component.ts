@@ -184,7 +184,7 @@ export class ConnectionmanagerComponent implements OnInit {
         servername: this.objConnectionView.ServerName,
         username: this.objConnectionView.UserName,
         password: this.selectedpassword,
-        databasename: '',
+        databasename: this.objConnectionView.Database,
         databaseversion: this.objConnectionView.Version,
         schema: '',
         folderlocation: this.objConnectionView.Folderlocation,

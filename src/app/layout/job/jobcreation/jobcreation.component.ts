@@ -132,8 +132,8 @@ export class JobcreationComponent implements OnInit {
       if (this.productDD.nativeElement.value != 0) {
         this.flagSave = true;
         let job = new Job();
-        job.JobName = form.value.productname;
-        job.Description = form.value.productdesc;
+        job.JobName = form.value.jobtext.productname;
+        job.Description = form.value.jobd.productdesc;
         job.ProductId = this.productDD.nativeElement.value;
         job.PropertyId = this.propertyDD.nativeElement.value;
         job.PropertyGroupId = this.propertygroupDD.nativeElement.value;

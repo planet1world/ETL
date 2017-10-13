@@ -107,7 +107,7 @@
             <div class="input-group-addon" style="width: 2.6rem">
               <i class="fa fa-wrench"></i>
             </div>
-            <input type="text" ngModelGroup="jobtext" [disabled]="isDisable" [(ngModel)]="jobname" name="product-name" class="form-control" id="product-name" placeholder="Job Name" ngModel name="productname"
+            <input type="text" ngModelGroup="jobtext" [disabled]="isDisable" [(ngModel)]="jobname" name="productname" class="form-control" id="productname" placeholder="Job Name" ngModel name="productname"
               required #productname="ngModel" minlength="4">
           </div>
         </div>
@@ -174,7 +174,7 @@
         <button type="submit" class="btn btn-danger"><i class="fa fa-window-close "></i> Cancel</button>
         <button type="submit" class="btn btn-success" [disabled]="!f.valid">
             <i [ngClass]="{'fa fa-spinner fa-spin':flagSave===true}"></i>
-          <i class="fa fa-angle-double-right "></i> Next</button>
+           Next <i class="fa fa-angle-double-right "></i></button>
       </div>
     </div>
   </form>

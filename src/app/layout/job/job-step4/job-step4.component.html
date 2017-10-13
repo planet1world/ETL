@@ -1,6 +1,15 @@
 <div class="container">
     <!-- <div class="form-horizontal"> -->
-
+    <app-modal [(visible)]="error">
+        <div id="content">
+            <div class="notify errorbox">
+            <h1>Error!</h1>
+            <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+            <p>{{popmessage}}</p>
+            </div>
+        </div>
+    </app-modal>
+        
     <div class="row">
 
         <div class="col-md-2 field-label-responsive">

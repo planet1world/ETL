@@ -6,7 +6,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './page-modal.component.html',
   styleUrls: ['./page-modal.component.scss'],
   animations: [
-    trigger('pagedialog', [
+    trigger('page', [
       transition('void => *', [
         style({ transform: 'scale3d(.3, .3, .3)' }),
         animate(100)
