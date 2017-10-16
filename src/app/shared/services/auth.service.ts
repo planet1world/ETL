@@ -21,9 +21,8 @@ export class AuthService {
 
   }
   singinUser(username: string, password: string, lang: string) {
-
+   
     let body = `username=${username}&password=${password}&grant_type=password`;
-
     const header = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     return this.http.post(this.serviceURL.loginServiceURL, body, { headers: header })
       .map(
