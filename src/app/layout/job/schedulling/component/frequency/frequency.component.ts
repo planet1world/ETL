@@ -33,8 +33,10 @@ export class FrequencyComponent implements OnInit {
 
   ngOnInit() {
     this.job = this.JobObject;
-    this.job.Freq_Type = this.frequencyDD.nativeElement.value;
+    this.job.Freq_Type = this.selectedFrequency;
     this.outputMessage = "Occurs every day";
+    this.job.Freq_Interval = this.daysVal_RecurEvery;
+    this.Frequency.emit(this.job);
     this.Message.emit(this.outputMessage);
   }
   onFrequencyChange(value: number) {

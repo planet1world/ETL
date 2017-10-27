@@ -9,7 +9,7 @@
         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
           <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
           <select  class="form-control" #frequencyDD  name="frequencyDD" id="frequencyDD" (change)="onFrequencyChange($event.target.value)">
-                    <option [value]="4" >Daily</option>
+                    <option [value]="4" selected >Daily</option>
                     <option [value]="8" >Weekly</option>
                     <option [value]="16" >Monthly</option>
                   </select>

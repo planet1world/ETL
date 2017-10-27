@@ -122,30 +122,44 @@ export class JobStep4Component implements OnInit {
     let count = 0;
     let selectArray = this.autoMapped.filter((item) => item.AutoMapped != null);
     if (selectArray.length == 0) {
-      console.log("Select at least one Source Column");
       this.error = true;
       this.popmessage = "Select at least one Source Column";
     }
     else {
 
-      let postData = new PostAutoColumnMapping();
-      postData.AutoMapping = this.autoMapped;
-      postData.ExtractControlID = this.objectDestination.ExtractControlID;
-      console.log(postData);
-      this.flagSaveNext = true;
-      this.ServiceURL.PostUpdateColumnMapping(postData)
-        .subscribe(
-        (data) => {
-          this.CheckTableIsSave(this.selectDesTable);
-          this.Next();
-          this.flagSaveNext = false;
+      let selectArray = this.autoMapped.filter((item) => item.ColumnName.Selected== true);
+      var isPrimaryMapped = null
+      if(selectArray.length > 0)
+      {
+        isPrimaryMapped = selectArray[0].AutoMapped;
+      }
 
-        },
-        (error) => {
-          this.flagSaveNext = false;
-          console.log(error.json());
-        }
-        );
+      if(isPrimaryMapped == null)
+      {
+        this.error = true;
+        this.popmessage = "Map primary key column";
+      }
+      else
+      {
+        let postData = new PostAutoColumnMapping();
+        postData.AutoMapping = this.autoMapped;
+        postData.ExtractControlID = this.objectDestination.ExtractControlID;
+        console.log('postData:= ' +JSON.stringify( postData));
+        this.flagSaveNext = true;
+        this.ServiceURL.PostUpdateColumnMapping(postData)
+          .subscribe(
+          (data) => {
+            this.CheckTableIsSave(this.selectDesTable);
+            this.Next();
+            this.flagSaveNext = false;
+
+          },
+          (error) => {
+            this.flagSaveNext = false;
+            console.log(error.json());
+          }
+          );
+      }
     }
   }
 
@@ -185,7 +199,36 @@ export class JobStep4Component implements OnInit {
   }
 
   onNext5Step() {
-    this.router.navigate(['../job-step5']);
+    if (this.saveTable.length == this.jobTableList.length)
+    {
+      this.router.navigate(['../job-step5']);
+    }
+    else
+    {   
+      if (this.saveTable.length == 0) {
+        this.error = true;
+        this.popmessage = "Map all destination tables";
+      } 
+      else
+      {
+        var tablename = "";
+        for(var arrayItem of this.jobTableList) {
+          tablename = arrayItem.TableName;
+              let count = this.saveTable.findIndex(item => item === tablename)
+              if (count == -1)
+              {
+                 break;
+              }
+        }
+        if(tablename != "")
+        {
+          this.error = true;
+          this.popmessage = "Map destination table " + tablename + " with source table";
+        }
+      }
+      
+    }
+    
   }
   onBack() {
     this.router.navigate(['../job-step3']);

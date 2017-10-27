@@ -38,7 +38,7 @@ export class SchedullingComponent implements OnInit {
     this.Job.freq_relative_interval = 0;
     this.Job.freq_subday_interval = 0;
     this.Job.Freq_Subday_Type = 0;
-    this.Job.Freq_Type = 0;
+    this.Job.Freq_Type = 1;
     this.Job.JobId = this.data.selectedJob.JobID;
     this.Job.JobName = this.data.selectedJob.JobName;
 
@@ -98,6 +98,7 @@ export class SchedullingComponent implements OnInit {
       this.Job.Enable = 0;
     }
     this.flagNext=true;
+    console.log('post-job:= ' + JSON.stringify(this.Job));
     this.ServiceURL.JobScheduling(this.Job)
       .subscribe((data) => {
        this.popmessage=data;
