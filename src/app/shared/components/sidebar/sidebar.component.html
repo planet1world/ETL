@@ -3,7 +3,6 @@
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;Dashboard
         </a>
-        
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
            
@@ -29,16 +28,28 @@
                          <i class="fa fa-suitcase"></i>&nbsp;Product Manager
                         </a>
                     </li>
-                     <li>
-                        <a [routerLink]="['/jobcreation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-          
-                            <i class="fa fa-wrench"></i>&nbsp;Job
-                        </a>
-                    </li> 
-                  
                 </ul>
             </li>
         </div>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandJobClass('jobpages')">
+                <i class="fa fa-fw fa fa-cogs"></i>&nbsp;Job Manager&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+            </a>
+                <li class="nested" [class.expand]="showJobMenu === 'jobpages'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/list-job']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <i class="fa fa-wrench"></i>&nbsp;Job List
+                            </a>
+                        </li>  
+                        <li>
+                            <a [routerLink]="['/#']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <i class="fa fa-wrench"></i>&nbsp;Job Extract Control
+                            </a>
+                        </li>   
+                    </ul>
+                </li>
+            </div>
         <!-- <a [routerLink]="['/job-step4']" [routerLinkActive]="['router-link-active']" class="list-group-item" disabled>
          
             <i class="fa fa-fw fa fa-wrench"></i>&nbsp;Job&Scheduler

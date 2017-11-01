@@ -52,6 +52,8 @@ export class servicelist {
     GetSummaryOfTableByJobID:string;
     UpdateFilterForJobTables:string;
     JobScheduling:string;
+    GetAllJobs: string;
+    DeleteJobOperation : string;
 
 
     constructor(private http: Http) {
@@ -127,7 +129,8 @@ export class servicelist {
         this.GetSummaryOfTableByJobID=url+"api/Job/GetSummaryOfTableByJobID";
         this.UpdateFilterForJobTables=url+"api/Job/UpdateFilterForJobTables";
         this.JobScheduling=url+"api/Job/JobScheduling";
-       
+        this.GetAllJobs = url + "api/Job/GetAllJobs";
+        this.DeleteJobOperation=url+"api/Job/DeletJob";
 
     }
 

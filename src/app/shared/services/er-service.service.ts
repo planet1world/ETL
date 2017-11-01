@@ -250,6 +250,34 @@ export class ERService {
             }
             );
     }
+    
+    GetAllJobs() {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.get(this.serviceUrl.GetAllJobs, { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    DeleteJobOperation(ObjectProject: Job) {
+        let body = ObjectProject;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.DeleteJobOperation, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
     getTemplateList() {
         const header = new Headers();
         header.append('Authorization', 'Bearer ' + this.getToken())

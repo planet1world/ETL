@@ -22,6 +22,7 @@ const routes: Routes = [
             { path: 'product-step3', loadChildren: './product/product-step3/product-step3.module#Productstep3Module' },
             { path: 'list-product', loadChildren: './product/list-product/list-product.module#ListProductModule' },
             { path: 'tree-view', loadChildren: './product/tree-view/tree-view.module#TreeViewModule' },
+            { path: 'list-job', loadChildren: './job/list-job/list-job-module.module#ListJobModule' },
             { path: 'jobcreation', loadChildren: './job/jobcreation/jobcreation.module#JobcreationModule' },
             { path: 'job-step2', loadChildren: './job/job-step2/job-step2-module.module#JobStep2Module' },
             { path: 'job-step3', loadChildren: './job/job-step3/job-step3-module.module#JobStep3Module' },

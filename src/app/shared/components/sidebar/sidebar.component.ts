@@ -10,6 +10,7 @@ import { CookieService } from 'ng2-cookies';
 export class SidebarComponent {
     isActive = false;
     showMenu = '';
+    showJobMenu = '';
     version: string;
     checkName: string = "ER_ETL_V";
     constructor(public cookieService: CookieService) {
@@ -23,6 +24,15 @@ export class SidebarComponent {
             this.showMenu = '0';
         } else {
             this.showMenu = element;
+        }
+    }
+    addExpandJobClass(element: any) {
+        if (element === this.showJobMenu) {
+            this.showJobMenu = '0';
+            console.log('this.showJobMenu 1:= ' + this.showJobMenu);
+        } else {
+            this.showJobMenu = element;
+            console.log('this.showJobMenu 2:= ' + this.showJobMenu);
         }
     }
 }
