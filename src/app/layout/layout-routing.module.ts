@@ -30,6 +30,8 @@ const routes: Routes = [
             { path: 'job-step5', loadChildren: './job/job-step-5/job-step5-module.module#JobStep5Module' },
             { path: 'job-step6', loadChildren: './job/job-step6/job-step6.module#JobStep6Module' },
             { path: 'schedulling', loadChildren:'./job/schedulling/schedulling.module#SchedullingModule'},
+            { path: 'extract-control', loadChildren:'./job/extract-control/extract-control-module.module#ExtractControlModule'},
+            { path: 'ondemand-job', loadChildren:'./job/ondemand-job/ondemand-job-module.module#OndemandJobModule'},
             
         ]
     }
