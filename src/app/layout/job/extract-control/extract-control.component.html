@@ -1,0 +1,154 @@
+<app-page-header [heading]="'Job Extract Control'| translate" [icon]="'fa-wrench'"></app-page-header>
+<app-modal [(visible)]="warning">
+    <div id="content">
+      <div class="notify errorbox">
+        <h1>Warning!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>Are you want to Delete this Job ?</p>
+        <button type="submit" class="btn btn-danger" (click)="onNo()">No</button>
+        <button type="submit" (click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
+      </div>
+    </div>
+</app-modal>
+<app-modal [(visible)]="showDialog">
+    <div id="content">
+      <div class="notify successbox">
+        <h1>Success!</h1>
+        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+        <p>{{popmessage}}</p>
+      </div>
+    </div>
+</app-modal>
+<app-modal [(visible)]="error">
+    <div id="content">
+        <div class="notify errorbox">
+        <h1>Error!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>{{popmessage}}</p>
+        </div>
+    </div>
+</app-modal>
+
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-10">
+    <fieldset>
+      <legend>Filter</legend>
+      <div class="row">
+        <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)">
+                            <option [value]="0" >Select Property Group</option>
+                          <option *ngFor="let pg of propertygroup" 
+                              [value]="pg.ID"
+                              [selected]="pg.ID === selpropertyGroup">
+                              {{ pg.Name }}
+                            </option>
+                          </select>
+        <span *ngIf="showpropertygroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+      </div>
+      <br/>
+      <div class="row">
+        <select #selectProperty class="form-control" (change)="onChangeProperty(selectProperty.value)">
+                      <option [value]="0" >Select Property</option>
+                          <option *ngFor="let p of propertyList" 
+                              [value]="p.ID"
+                                [selected]="p.ID == 0">
+                              {{ p.Name }}
+                            </option>
+                          </select>
+        <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+      </div>
+      <br/>
+      <div class="row">
+        <select #selectProduct class="form-control" (change)="onChangeProduct(selectProduct.value)">
+                      <option [value]="0" >Select Product</option>
+                          <option *ngFor="let prd of productList" 
+                              [value]="prd.ID"
+                                [selected]="prd.ID == 0">
+                              {{ prd.Name }}
+                            </option>
+                          </select>
+        <span *ngIf="showproduct"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+      </div>
+      <br/>
+      <div class="row">
+        <select #selectJob class="form-control" (change)="onChangeJob(selectJob.value)">
+                      <option [value]="0" >Select Job</option>
+                          <option *ngFor="let jb of jobList" 
+                              [value]="jb.JobID"
+                                [selected]="jb.JobID == 0">
+                              {{ jb.JobName }}
+                            </option>
+                          </select>
+        <span *ngIf="showjob"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+      </div>
+      <br/>
+    </fieldset>
+    <div class="clearfix"></div>
+  </div>
+  <div class="col-lg-1"></div>
+</div>
+<br />
+<span *ngIf="loadcontrol"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+<div class="row" *ngIf="loadTable">
+  <div class="col-lg-1"></div>
+  <div class="col-md-10">
+    <div class="card mb-3">
+      <div class="card-block table-responsive">
+        <div class="panel-body">
+            <table class="table table-sm">
+              <thead>
+                  <tr>
+                    <th>Select</th>
+                    <th>Destination Table</th>
+                    <th>Source Table</th>
+                    <th>Is Active</th>
+                    <th>Source Type</th>
+                    <th>Engine Type</th>
+                    <th>Source Con Name</th>
+                    <th style="width:10px">Load Type</th>
+                    <th>Filter</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let table of extractControls">
+                  <td>
+                    <input type="checkbox" 
+                    name="{{table.ExtractControlID}}"
+                    (change)="onChangeSelect(table, $event)">
+                  </td>
+                  <td>{{table.DestinationTableName}}</td>
+                  <td>{{table.SourceTableName}}</td>
+                  <td>
+                    <input [checked]="table.Active" type="checkbox">
+                  </td>  
+                  <td>{{table.SourceTypeName}}</td>  
+                  <td>{{table.EngineTypeName}}</td> 
+                  <td>{{table.ConnectionName}}</td>  
+                  <td>{{table.LoadName}}</td> 
+                  <td>{{table.SourceQueryFilterCondition}}</td>  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="col-lg-1"></div>
+</div>
+<div class="row" *ngIf="loadTable">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <button type="button" class="btn btn-success" (click)="onSetInactive()"> 
+      <i [ngClass]="{'fa fa-spinner fa-spin':flagInactive===true}"></i>
+      Set Selected Inactive
+    </button>
+    <button type="button" class="btn btn-danger" (click)="onDelete()">
+      <i [ngClass]="{'fa fa-spinner fa-spin':flagDelete===true}"></i>
+      Delete Selected
+    </button>
+    <button type="button" class="btn btn-danger" (click)="onCancel()">
+      Cancel
+    </button>
+  </div>
+  <div class="col-md-1"></div>
+</div>

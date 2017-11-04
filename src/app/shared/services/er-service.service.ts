@@ -250,6 +250,144 @@ export class ERService {
             }
             );
     }
+    
+    GetAllJobs() {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.get(this.serviceUrl.GetAllJobs, { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    GetAllJobsForProduct(propertyid : number, productid : number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('propertyId', String(propertyid));
+        params.set('productId', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetAllJobsForProduct, requestOption)
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    GetListOfExtractControls(jobid : number, productid : number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetExtractControl, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+
+    SetInactiveExtControls(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.SetTablesInactiveForDataSyncJob, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
+    DeleteExtControls(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.DeleteSelectedExtractControls, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
+    AddSelectedInQueue(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.AddSelectedInQueue, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
+    RemoveSelectedFromQueue(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.RemoveSelectedFromQueue, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    ViewEtlQueue(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.ViewEtlQueueForSelectedTableOndemandJob, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    DeleteJobOperation(ObjectProject: Job) {
+        let body = ObjectProject;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.DeleteJobOperation, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
     getTemplateList() {
         const header = new Headers();
         header.append('Authorization', 'Bearer ' + this.getToken())

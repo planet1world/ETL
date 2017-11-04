@@ -42,6 +42,8 @@ export class ExtractControl {
     EngineTypeName:string;
     ConnectionName:string;
     LoadName:string;
+    Active : boolean;
+    OnDemandFlag : string;
 }
 /// <summary>
 /// Load type Incremental/Turncate etc 
@@ -100,5 +102,8 @@ export class JobSummaryTables
     ProcessType:string;
     JobID:number;
     ConEngineType:string;
+    Active : boolean;
+    SourceType:string;
+    ConName : string;
 
 }
