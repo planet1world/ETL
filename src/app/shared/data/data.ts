@@ -11,6 +11,10 @@ export class Data {
     public EditProduct:boolean;
     public viewProductSummary:boolean;
     public selectedJob:Job;
+    public EditJobId:number;
+    public EditJobPgId:number;
+    public EditJobPropertyId:number;
+    public EditJobProductId:number;
     public constructor() { } 
 }
 // @Injectable()

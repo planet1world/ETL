@@ -39,6 +39,8 @@ export class servicelist {
     ViewConnection:string;
     GetPropertyList:string;
     AddJob:string;
+    UpdateJobStatus:string;
+    GetJobScheduleDetails:string;
     GetJobForProduct:string;
     GetTableForJob:string;
     ExtCntrlInsertion:string;
@@ -122,6 +124,7 @@ export class servicelist {
         this.ViewConnection=url+"api/ConnectionManager/GetViewAndEditConnection";
         this.GetPropertyList=url+"api/Property/GetPropertyByPropertyGroup";
         this.AddJob=url+"api/Job/AddJob";
+        this.UpdateJobStatus=url+"api/Job/UpdatJobStatus";
         this.GetJobForProduct=url+"api/Job/GetJobForProduct";
         this.GetTableForJob=url+"api/Job/GetTableForJob";
         this.ExtCntrlInsertion=url+"api/Job/ExtCntrlInsertion";
@@ -142,7 +145,8 @@ export class servicelist {
         this.DeleteSelectedExtractControls=url+"api/Job/DeletTableForJob";
         this.AddSelectedInQueue=url+"api/Job/MarkTableActiveForOnDemandSync";
         this.RemoveSelectedFromQueue=url+"api/Job/MarkTableInActiveForOnDemandSync";
-        this.ViewEtlQueueForSelectedTableOndemandJob=url+"api/Job/ViewETLQueueOndemandJob";
+        this.ViewEtlQueueForSelectedTableOndemandJob=url+"api/Job/GetViewETLQueueOndemandJob";
+        this.GetJobScheduleDetails=url+"api/Job/GetJobScheduleDetails";
 
     }
 

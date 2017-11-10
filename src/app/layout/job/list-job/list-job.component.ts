@@ -166,7 +166,10 @@ export class ListJobComponent implements OnInit {
   }
 
   onJobEdit(sor) {
-    this.router.navigate(['../jobcreation']);
+    this.data.EditJobPgId = sor.PropertyGroupId;
+    this.data.EditJobPropertyId = sor.PropertyId;
+    this.data.EditJobProductId = sor.ProductId;
+    this.router.navigate(['../jobedit-step1']);
   }
   onView(sor){
     

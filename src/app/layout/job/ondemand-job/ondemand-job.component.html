@@ -1,10 +1,10 @@
-<app-page-header [heading]="'Job On Demand'| translate" [icon]="'fa-wrench'"></app-page-header>
+<app-page-header [heading]="'Status and Tracking'| translate" [icon]="'fa-wrench'"></app-page-header>
 <app-modal [(visible)]="warning">
     <div id="content">
       <div class="notify errorbox">
         <h1>Warning!</h1>
         <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
-        <p>Are you want to Delete this Job ?</p>
+        <p>Click ‘Yes’ to remove job from OnDemand Queue ‘No’ to Cancel ?</p>
         <button type="submit" class="btn btn-danger" (click)="onNo()">No</button>
         <button type="submit" (click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
       </div>
@@ -35,11 +35,11 @@
     <fieldset>
       <legend>Filter</legend>
       <div class="row">
-        <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)">
-                            <option [value]="0" >Select Property Group</option>
+        <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)" [ngModel]="setPg">
+                            <option [value]="0"  [selected]="0===setPg">Select Property Group</option>
                           <option *ngFor="let pg of propertygroup" 
                               [value]="pg.ID"
-                              [selected]="pg.ID === selpropertyGroup">
+                              [selected]="pg.ID===setPg">
                               {{ pg.Name }}
                             </option>
                           </select>
@@ -50,8 +50,7 @@
         <select #selectProperty class="form-control" (change)="onChangeProperty(selectProperty.value)">
                       <option [value]="0" >Select Property</option>
                           <option *ngFor="let p of propertyList" 
-                              [value]="p.ID"
-                                [selected]="p.ID == 0">
+                              [value]="p.ID">
                               {{ p.Name }}
                             </option>
                           </select>
@@ -62,8 +61,7 @@
         <select #selectProduct class="form-control" (change)="onChangeProduct(selectProduct.value)">
                       <option [value]="0" >Select Product</option>
                           <option *ngFor="let prd of productList" 
-                              [value]="prd.ID"
-                                [selected]="prd.ID == 0">
+                              [value]="prd.ID">
                               {{ prd.Name }}
                             </option>
                           </select>
@@ -121,7 +119,7 @@
                   <td>{{table.EngineTypeName}}</td> 
                   <td>{{table.ConnectionName}}</td>  
                   <td>{{table.LoadName}}</td> 
-                  <td>{{table.OnDemandFlag}}</td>  
+                  <td class="text-center">{{table.OnDemandFlag}}</td>  
                 </tr>
               </tbody>
             </table>
@@ -131,9 +129,9 @@
   </div>
   <div class="col-lg-1"></div>
 </div>
-<div class="row" *ngIf="loadTable">
+<div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-10" *ngIf="loadTable">
       <button type="button" class="btn btn-success" (click)="onAddSelected()"> 
         <i [ngClass]="{'fa fa-spinner fa-spin':flagAdd===true}"></i>
         Add Selected In Queue
@@ -142,60 +140,47 @@
         <i [ngClass]="{'fa fa-spinner fa-spin':flagRemove===true}"></i>
         Remove Selected From Queue
       </button>
-      <button type="button" class="btn btn-primary" (click)="onViewEtl()">
-        <i [ngClass]="{'fa fa-spinner fa-spin':flagView===true}"></i>
-        View ETL Queue
-      </button>
       <button type="button" class="btn btn-danger" (click)="onCancel()">
-        Cancel
+        Hide list
       </button>
     </div>
     <div class="col-md-1"></div>
-  </div>
-  <br />
-  <div class="row" *ngIf="loadEtlTable">
-    <div class="col-lg-1"></div>
-    <div class="col-md-10">
-      <div class="card mb-3">
-        <div class="card-block table-responsive">
-          <div class="panel-body">
-              <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <th>ETL ID</th>
-                    <th>Destination Table</th>
-                    <th>Running Status</th>
-                    <th>Inserted Date Time</th>
-                    <th>Extract Job ID</th>
-                    <th>OnDemand</th>
-                    <th>priority</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let table of etlJobQueueList">
-                    <td>{{table.ID}}</td>
-                    <td>{{table.DestinationTableName}}</td>
-                    <td>{{table.RunningStatus}}</td>
-                    <td>{{table.InsertedDateTime}}</td>  
-                    <td>{{table.ExtractJobID}}</td>  
-                    <td>{{table.OnDemand}}</td>  
-                    <td>{{table.Priority}}</td>  
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+</div>
+<br />
+<div class="row" *ngIf="loadEtlTable">
+  <div class="col-lg-1"></div>
+  <div class="col-md-10">
+    <div class="card mb-3">
+      <div class="card-block table-responsive">
+        <div class="panel-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>ETL ID</th>
+                  <th>Destination Table</th>
+                  <th>Running Status</th>
+                  <th>Inserted Date Time</th>
+                  <th>Extract Job ID</th>
+                  <th>OnDemand</th>
+                  <th>priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let table of etlJobQueueList">
+                  <td>{{table.ID}}</td>
+                  <td>{{table.DestinationTableName}}</td>
+                  <td>{{table.RunningStatus}}</td>
+                  <td>{{table.InsertedDateTime}}</td>  
+                  <td>{{table.ExtractJobID}}</td>  
+                  <td>{{table.OnDemand}}</td>  
+                  <td>{{table.Priority}}</td>  
+                </tr>
+              </tbody>
+            </table>
           </div>
-      </div>
+        </div>
     </div>
-    <div class="col-lg-1"></div>
   </div>
-  <div class="row" *ngIf="loadEtlTable">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <button type="button" class="btn btn-danger" (click)="onCancelEtl()">
-          Cancel
-        </button>
-      </div>
-      <div class="col-md-1"></div>
-    </div>
+  <div class="col-lg-1"></div>
+</div>
   

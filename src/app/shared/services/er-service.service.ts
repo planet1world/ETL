@@ -359,13 +359,12 @@ export class ERService {
             );
     }
 
-    ViewEtlQueue(extractControlsForInactive : ExtractControl[])
+    ViewEtlQueue()
     {
-        let body = extractControlsForInactive;
         const header = new Headers();
         header.append('Content-Type', 'application/json');
         header.append('Authorization', 'Bearer ' + this.getToken())
-        return this.http.post(this.serviceUrl.ViewEtlQueueForSelectedTableOndemandJob, JSON.stringify(body), { headers: header })
+        return this.http.get(this.serviceUrl.ViewEtlQueueForSelectedTableOndemandJob, { headers: header })
             .map(
             (response: Response) => {
                 const data = response.json();
@@ -591,6 +590,19 @@ export class ERService {
             }
             );
     }
+    
+    UpdateJobStatus(jobobject: Job) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.UpdateJobStatus, JSON.stringify(jobobject), { headers: header })
+            .map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+    }
+
     GetTableForJob(jobid: number, productid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
@@ -760,6 +772,21 @@ export class ERService {
 
     }
 
+    GetJobScheduleDetails(jobid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetJobScheduleDetails, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
     CallHeader() {
         const header = new Headers();
         header.append('Content-Type', 'application/json');

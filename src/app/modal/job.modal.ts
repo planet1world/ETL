@@ -91,6 +91,7 @@ export class PostAutoColumnMapping
 {
     ExtractControlID:number;
     AutoMapping:AutoMapping[];
+    ConnectionType : string;
 }
 export class JobSummaryTables
 {
