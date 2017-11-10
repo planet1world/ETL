@@ -6,33 +6,45 @@ import { PropertyGroup, Property, Product, Job } from '../../../modal';
 import { Data } from '../../../shared/data/data';
 
 @Component({
-  selector: 'app-jobcreation',
-  templateUrl: './jobcreation.component.html',
-  styleUrls: ['./jobcreation.component.css']
+  selector: 'app-jobedit-step1',
+  templateUrl: './jobedit-step1.component.html',
+  styleUrls: ['./jobedit-step1.component.css']
 })
-export class JobcreationComponent implements OnInit {
+export class JobeditStep1Component implements OnInit {
   flagPropertyGroup: boolean;
   flagProperty: boolean;
   flagProduct: boolean;
-  flagSave: boolean;
   flagJobExit: boolean;
-  isDisable: boolean
+  isDisable = true;
+  isNext = true;
   isChecked: boolean;
+  status : boolean;
   pgList: PropertyGroup[];
   propertyList: Property[];
   productList: Product[];
   jobObject: Job;
   jobname: string;
   jobdesc: string;
+  selectPgId : number;
+  selectPropertyId : number;
+  selectProductId : number;
+  jobid : number;
+  
+
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.getActivePropertyGroup();
-    this.data.EditJobId = null;
-
+    this.selectPgId = this.data.EditJobPgId;
+    this.getProperties(this.selectPgId);
+    this.selectPropertyId = this.data.EditJobPropertyId;
+    this.getProducts(this.selectPropertyId);
+    this.selectProductId = this.data.EditJobProductId;
+    this.getJobDetails(this.selectProductId, this.selectPropertyId);
   }
+
+
   @ViewChild('propertygroupDD') propertygroupDD;
   @ViewChild('propertyDD') propertyDD;
   @ViewChild('productDD') productDD;
-  @ViewChild('f') jobForm: NgForm;
   ngOnInit() {
   }
 
@@ -54,14 +66,8 @@ export class JobcreationComponent implements OnInit {
       });
   }
 
-
-
-  onPropertGroupDDChange(pgid: number) {
+  getProperties(pgid: number) {
     this.flagProperty = true;
-    this.productList = [];
-    this.jobForm.form.controls['jobtext'].reset();
-    this.jobForm.form.controls['jobd'].reset();
-    this.isDisable=false;   
     this.ServiceURL.GetPropertyList(pgid)
       .subscribe(
       (data: Property[]) => {
@@ -74,40 +80,29 @@ export class JobcreationComponent implements OnInit {
       }
       );
   }
-  onProductDDChange(productid: number) {
-    this.jobForm.form.controls['jobtext'].reset();
-    this.jobForm.form.controls['jobd'].reset();
-    this.isDisable=false;   
+
+  getJobDetails(productid: number, propertyid: number) {
     
-    this.ServiceURL.GetJobForProduct(this.propertyDD.nativeElement.value, productid)
+    this.ServiceURL.GetJobForProduct(propertyid, productid)
       .subscribe(
       (data: Job) => {
-
-        if (data.JobID == 0) {
-          this.isDisable = false;
-        }
-        else {
-          this.isDisable = true;
+        this.data.selectedJob = data;
+          this.jobid = data.JobID;
+          this.data.EditJobId = data.JobID;
           this.jobname = data.JobName;
           this.jobdesc = data.Description;
           this.isChecked = data.Active;
-          this.flagJobExit = true;
+          this.status = data.Active;
           this.jobObject = data;
-        }
-        // this.router.navigate(["../job-step2"]);
-
+          this.isNext = false;
       },
       (error) => {
-        this.flagSave = false;
         console.log(error.json());
       }
       );
-
   }
-  onPropertyDDChange(propertyid: number) {
-    this.jobForm.form.controls['jobtext'].reset();
-    this.jobForm.form.controls['jobd'].reset(); 
-    this.isDisable=false;   
+
+  getProducts(propertyid: number) {  
     let obj = new Product();
     obj.PropertyID = propertyid;
     obj.Operation = "GetProducsforProperty";
@@ -124,41 +119,33 @@ export class JobcreationComponent implements OnInit {
       }
       );
   }
+  
   onJobFormSubmit(form: NgForm) {
-    if (this.flagJobExit) {
-      this.data.selectedJob = this.jobObject;
-      this.router.navigate(["../job-step2"]);
-    }
-    else {
-      if (this.productDD.nativeElement.value != 0) {
-        this.flagSave = true;
-        let job = new Job();
-        job.JobName = form.value.jobtext.productname;
-        job.Description = form.value.jobd.productdesc;
-        job.ProductId = this.productDD.nativeElement.value;
-        job.PropertyId = this.propertyDD.nativeElement.value;
-        job.PropertyGroupId = this.propertygroupDD.nativeElement.value;
-        job.Active = form.value.productActive;
-        this.ServiceURL.AddJob(job)
-          .subscribe(
-          (data: Job) => {
-            this.data.selectedJob = data;
-            this.flagSave = false;
-            //  console.log(data);
-            this.router.navigate(["../job-step2"]);
+    if (this.isChecked != this.status) {
+      let job = new Job();
+      job.JobID = this.jobid;
+      job.Active = form.value.productActive;
+      this.ServiceURL.UpdateJobStatus(job)
+        .subscribe(
+        (data) => {
+          console.log('if' +data);
+          this.router.navigate(["../jobedit-step2"]);
 
-          },
-          (error) => {
-            this.flagSave = false;
-            console.log(error.json());
-          }
-          );
-      }
+        },
+        (error) => {
+          console.log(error.json());
+        }
+        );
+    }
+    else{
+      console.log('else');
+      this.router.navigate(["../jobedit-step2"]);
     }
   }
-
+  
   onCancel(){
     this.router.navigate(["../list-job"]);
   }
 }
+
 

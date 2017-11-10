@@ -25,6 +25,8 @@ export class SchedullingComponent implements OnInit {
   error=false;
   popmessage="";
   flagNext=false;
+  isEdit = false;
+  oldSchedulerInfo:string;
   Job = new JobSchedule();
 
   constructor(private cdr: ChangeDetectorRef, private data: Data, public ServiceURL: ERService,public router:Router) {
@@ -41,11 +43,29 @@ export class SchedullingComponent implements OnInit {
     this.Job.Freq_Type = 1;
     this.Job.JobId = this.data.selectedJob.JobID;
     this.Job.JobName = this.data.selectedJob.JobName;
-
+    this.schedulerName = this.data.selectedJob.JobName;
+    
+    if(this.data.EditJobId != null){
+      this.getJobScheduleDetails();
+      this.isEdit = true;
+    }
+    
   }
 
   ngOnInit() {
-    this.schedulerName = this.data.selectedJob.JobName;
+  }
+
+  getJobScheduleDetails()
+  {
+    this.ServiceURL.GetJobScheduleDetails(this.Job.JobId)
+    .subscribe((data) => {
+     this.oldSchedulerInfo=data;
+    },
+    (error) => {
+      const errorData = error.json();
+      console.log('error:', errorData);
+      this.oldSchedulerInfo= errorData.Message;
+    });
   }
 
   onSchedulerTypeChange(value: number) {
@@ -103,6 +123,7 @@ export class SchedullingComponent implements OnInit {
       .subscribe((data) => {
        this.popmessage=data;
        this.success=true;
+       this.router.navigate(['../list-job']);
 
       },
       (error) => {
@@ -114,6 +135,10 @@ export class SchedullingComponent implements OnInit {
       });
   }
   onBack() {
-    this.router.navigate(['../job-step6']);
+    if(this.data.EditJobId == null){
+      this.router.navigate(['../job-step6']);
+    }else{
+      this.router.navigate(['../jobedit-step2']);
+    }
   }
 }

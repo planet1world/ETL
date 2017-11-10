@@ -3,17 +3,16 @@ import { Router } from '@angular/router';
 import { PropertyGroup, Property } from '../../../modal/propertygroup-modal.modal';
 import { Product } from '../../../modal/product.modal';
 import { Job, ExtractControl } from '../../../modal/job.modal';
+import { ETLJobQueue } from '../../../modal/ETLJobQueue.Model';
 import { ERService } from '../../../shared/services/er-service.service';
 import { Data } from '../../../shared/data/data';
 
 @Component({
-  selector: 'app-extract-control',
-  templateUrl: './extract-control.component.html',
-  styleUrls: ['./extract-control.component.css']
+  selector: 'app-status-tracking',
+  templateUrl: './status-tracking.component.html',
+  styleUrls: ['./status-tracking.component.css']
 })
-export class ExtractControlComponent implements OnInit {
-
-  setPg = 0;
+export class StatusTrackingComponent implements OnInit {
   propertygroup: PropertyGroup[];
   pg: PropertyGroup[];
   showpropertygroup = false;
@@ -32,8 +31,6 @@ export class ExtractControlComponent implements OnInit {
   showDialog=false;
   error = false;
   popmessage='';
-  extractControls : ExtractControl[];
-  extractControlsChanged : ExtractControl[] = [];
   loadcontrol = false;
   loadTable = false;
 
@@ -41,8 +38,12 @@ export class ExtractControlComponent implements OnInit {
   selectedProductId : number = 0;
   selectedJobId : number = 0;
 
-  flagInactive = false;
-  flagDelete = false;
+  etlJobQueueList : ETLJobQueue[];
+  loadEtlTable = false;
+
+  flagAdd = false;
+  flagRemove = false;
+  flagView = false;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
     this.getActivePropertyGroup();
@@ -117,19 +118,16 @@ export class ExtractControlComponent implements OnInit {
         console.log("jobs: =  " + JSON.stringify( data));
         this.job = data;
         this.showjob = false;
-    
       },
       (error) => {
         const errorData = error.json();
         console.log('error:', errorData);
         this.showjob = false;
-    
       });
   }
 
   onChangePG(id: number) {
     this.showproperty = true;
-    this.setPg = id;
     console.log('any:', id)
     this.pg = this.propertygroup.filter(item => item.ID == id);
     if (this.property.length > 0) {
@@ -184,123 +182,37 @@ export class ExtractControlComponent implements OnInit {
         // this.jobList = [];
       }
       else {
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        // this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
       }
     }
   }
 
-  getListOfExtractControls(jobid : number, productid : number){
-    this.loadcontrol = true;    
-    this.extractControlsChanged = [];
-    this.ServiceURL.GetListOfExtractControls(jobid, productid)
-      .subscribe(
-      (data: ExtractControl[]) => {
-        this.extractControls = data;
-        console.log("extractControls: =  " + JSON.stringify( data));
-        this.loadcontrol = false;
-        this.loadTable = true;
-      },
-      (error) => {
-        const errorData = error.json();
-        console.log('error:', errorData);
-        this.loadcontrol = true;
-        
-      });
-  }
-
-  onChangeSelect(ec: ExtractControl, event)
+  onViewEtl()
   {
-    let changed = event.target.checked
-    if(changed)
-    {
-      this.extractControlsChanged.push( ec);
-      
-    }
-    else
-    {
-      const index = this.extractControlsChanged.indexOf(ec);
-      if(index !== -1)
-      {
-        this.extractControlsChanged.splice(index, 1);
-      }
-    }
-    console.log("this.extractControlsChanged: =  " + JSON.stringify( this.extractControlsChanged));
-
-  }
-  
-  onSetInactive()
-  {
-    this.flagInactive = true;
-    if(this.extractControlsChanged.length > 0){
-      this.ServiceURL.SetInactiveExtControls(this.extractControlsChanged)
-      .subscribe(
-      (data) => {
-        console.log('setInactive:= ', data);
-        this.popmessage=data;      
-        this.showDialog=true;
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
-        this.flagInactive = false;
-
-      },
-      (error) => {
-        const errorData = error.json();
-        this.popmessage=errorData.Message; 
-        this.error = true;
-        console.log('error:', errorData.Message);
-        this.flagInactive = false;
-
-      });
-    }
-    else{
-      this.popmessage="Please select at least on row"; 
+    this.flagView = true;
+    this.ServiceURL.ViewEtlQueue()
+    .subscribe(
+    (data : ETLJobQueue[]) => {
+      console.log("ViewEtlQueueForSelectedTableOndemandJob: =  " + JSON.stringify( data));
+      this.etlJobQueueList = data;      
+      this.flagView = false;
+      this.loadEtlTable = true;
+    },
+    (error) => {
+      const errorData = error.json();
+      this.popmessage=errorData.Message; 
+      console.log('error:', errorData.Message);
+      this.flagView = false;
+      this.loadEtlTable = false;
       this.error = true;
-      this.flagInactive = false;
-    }
-  }
 
-  onDelete() {
-    if(this.extractControlsChanged.length > 0){
-      this.warning = true;
-      }
-      else{
-        this.popmessage="Please select at least on row"; 
-        this.error = true;
-        this.flagDelete = false;
-      }
+    });
   }
-
-  onDeleteConfirmation() {
-    this.flagDelete = true;
-    this.ServiceURL.DeleteExtControls(this.extractControlsChanged)
-      .subscribe(
-      (data: any) => {
-        this.popmessage=data;      
-        this.showDialog=true;
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
-        this.warning = false;
-        this.flagDelete = false;
-      },
-      (error) => {
-        const errorData = error.json();
-        this.popmessage=errorData.Message; 
-        this.error = true;
-        this.warning = false;
-        this.flagDelete = false;
-        console.log('error:', errorData.Message);
-      });
-  }
-  onNo() {
-    this.warning = false;
-    this.flagInactive = false;
-  }
-
-  onCancel()
+ 
+  onCancelEtl()
   {
-    this.loadTable = false;
-    this.propertyList = [];
-    this.productList = [];
-    this.jobList = [];
-    this.extractControlsChanged = [];
-    this.setPg = 0;
+    this.etlJobQueueList = [];
+    this.loadEtlTable = false;
   }
 }
+

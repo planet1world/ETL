@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { PropertyGroup, Property } from '../../../modal/propertygroup-modal.modal';
 import { Product } from '../../../modal/product.modal';
 import { Job, ExtractControl } from '../../../modal/job.modal';
@@ -14,6 +15,7 @@ import { Data } from '../../../shared/data/data';
 })
 export class OndemandJobComponent implements OnInit {
     
+  setPg = 0;
   propertygroup: PropertyGroup[];
   pg: PropertyGroup[];
   showpropertygroup = false;
@@ -41,12 +43,8 @@ export class OndemandJobComponent implements OnInit {
   selectedProductId : number = 0;
   selectedJobId : number = 0;
 
-  etlJobQueueList : ETLJobQueue[];
-  loadEtlTable = false;
-
   flagAdd = false;
   flagRemove = false;
-  flagView = false;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
     this.getActivePropertyGroup();
@@ -66,6 +64,7 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: PropertyGroup[]) => {
         this.propertygroup = data;
+        console.log('this.propertygroup: ' + JSON.stringify(this.propertygroup));
         this.showpropertygroup = false;
       },
       (error) => {
@@ -131,6 +130,7 @@ export class OndemandJobComponent implements OnInit {
 
   onChangePG(id: number) {
     this.showproperty = true;
+    this.setPg = id;
     console.log('any:', id)
     this.pg = this.propertygroup.filter(item => item.ID == id);
     if (this.property.length > 0) {
@@ -300,36 +300,6 @@ export class OndemandJobComponent implements OnInit {
     this.flagRemove = false;
   }
 
-  onViewEtl()
-  {
-    this.flagView = true;
-    if(this.extractControlsChanged.length > 0)
-    {
-      this.ServiceURL.ViewEtlQueue(this.extractControlsChanged)
-      .subscribe(
-      (data : ETLJobQueue[]) => {
-        console.log("ViewEtlQueueForSelectedTableOndemandJob: =  " + JSON.stringify( data));
-        this.etlJobQueueList = data;      
-        this.flagView = false;
-        this.loadEtlTable = true;
-      },
-      (error) => {
-        const errorData = error.json();
-        this.popmessage=errorData.Message; 
-        this.error = true;
-        console.log('error:', errorData.Message);
-        this.flagView = false;
-        this.loadEtlTable = false;
-
-      });
-    }
-    else{
-      this.popmessage="Please select at least on row"; 
-      this.error = true;
-      this.flagAdd = false;
-    }
-  }
-
   onCancel()
   {
     this.loadTable = false;
@@ -337,10 +307,6 @@ export class OndemandJobComponent implements OnInit {
     this.productList = [];
     this.jobList = [];
     this.extractControlsChanged = [];
-  }
-  onCancelEtl()
-  {
-    this.etlJobQueueList = [];
-    this.loadEtlTable = false;
+    this.setPg = 0;
   }
 }

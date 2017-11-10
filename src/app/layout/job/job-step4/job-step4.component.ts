@@ -144,6 +144,7 @@ export class JobStep4Component implements OnInit {
         let postData = new PostAutoColumnMapping();
         postData.AutoMapping = this.autoMapped;
         postData.ExtractControlID = this.objectDestination.ExtractControlID;
+        postData.ConnectionType = this.objectDestination.ConnectionType;
         console.log('postData:= ' +JSON.stringify( postData));
         this.flagSaveNext = true;
         this.ServiceURL.PostUpdateColumnMapping(postData)
