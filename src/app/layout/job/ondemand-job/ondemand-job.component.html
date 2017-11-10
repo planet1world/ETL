@@ -146,41 +146,4 @@
     </div>
     <div class="col-md-1"></div>
 </div>
-<br />
-<div class="row" *ngIf="loadEtlTable">
-  <div class="col-lg-1"></div>
-  <div class="col-md-10">
-    <div class="card mb-3">
-      <div class="card-block table-responsive">
-        <div class="panel-body">
-            <table class="table table-sm">
-              <thead>
-                <tr>
-                  <th>ETL ID</th>
-                  <th>Destination Table</th>
-                  <th>Running Status</th>
-                  <th>Inserted Date Time</th>
-                  <th>Extract Job ID</th>
-                  <th>OnDemand</th>
-                  <th>priority</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let table of etlJobQueueList">
-                  <td>{{table.ID}}</td>
-                  <td>{{table.DestinationTableName}}</td>
-                  <td>{{table.RunningStatus}}</td>
-                  <td>{{table.InsertedDateTime}}</td>  
-                  <td>{{table.ExtractJobID}}</td>  
-                  <td>{{table.OnDemand}}</td>  
-                  <td>{{table.Priority}}</td>  
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-    </div>
-  </div>
-  <div class="col-lg-1"></div>
-</div>
   

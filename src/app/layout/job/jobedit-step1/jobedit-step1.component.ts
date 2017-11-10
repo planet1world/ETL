@@ -29,6 +29,7 @@ export class JobeditStep1Component implements OnInit {
   selectPropertyId : number;
   selectProductId : number;
   jobid : number;
+  flagSave= false;
   
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
@@ -122,6 +123,7 @@ export class JobeditStep1Component implements OnInit {
   
   onJobFormSubmit(form: NgForm) {
     if (this.isChecked != this.status) {
+      this.flagSave = true;
       let job = new Job();
       job.JobID = this.jobid;
       job.Active = form.value.productActive;
@@ -130,10 +132,11 @@ export class JobeditStep1Component implements OnInit {
         (data) => {
           console.log('if' +data);
           this.router.navigate(["../jobedit-step2"]);
-
+          this.flagSave = false;
         },
         (error) => {
           console.log(error.json());
+          this.flagSave = true;
         }
         );
     }

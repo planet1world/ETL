@@ -1,15 +1,4 @@
 <app-page-header [heading]="'Job On Demand'| translate" [icon]="'fa-wrench'"></app-page-header>
-<app-modal [(visible)]="warning">
-    <div id="content">
-      <div class="notify errorbox">
-        <h1>Warning!</h1>
-        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
-        <p>Click ‘Yes’ to remove job from OnDemand Queue ‘No’ to Cancel ?</p>
-        <button type="submit" class="btn btn-danger" (click)="onNo()">No</button>
-        <button type="submit" (click)="onDeleteConfirmation()" class="btn btn-success">Yes</button>
-      </div>
-    </div>
-</app-modal>
 <app-modal [(visible)]="showDialog">
     <div id="content">
       <div class="notify successbox">
