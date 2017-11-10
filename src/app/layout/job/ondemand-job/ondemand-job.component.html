@@ -1,4 +1,4 @@
-<app-page-header [heading]="'Status and Tracking'| translate" [icon]="'fa-wrench'"></app-page-header>
+<app-page-header [heading]="'Job Ondemand'| translate" [icon]="'fa-wrench'"></app-page-header>
 <app-modal [(visible)]="warning">
     <div id="content">
       <div class="notify errorbox">
@@ -136,12 +136,12 @@
         <i [ngClass]="{'fa fa-spinner fa-spin':flagAdd===true}"></i>
         Add Selected In Queue
       </button>
-      <button type="button" class="btn btn-primary" (click)="onRemoveSelected()">
+      <button type="button" class="btn btn-danger" (click)="onRemoveSelected()">
         <i [ngClass]="{'fa fa-spinner fa-spin':flagRemove===true}"></i>
         Remove Selected From Queue
       </button>
       <button type="button" class="btn btn-danger" (click)="onCancel()">
-        Hide list
+        Hide List
       </button>
     </div>
     <div class="col-md-1"></div>
