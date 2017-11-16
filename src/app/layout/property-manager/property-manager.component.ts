@@ -6,6 +6,7 @@ import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
 import { TimeZone } from '../../modal/timezone-modal.modal';
 import { ERService } from '../../shared/services/er-service.service';
 import { Accordion, AccordionGroup } from '../../accordion';
+import { OndemandJobData } from '../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-property-manager',
@@ -56,7 +57,9 @@ export class PropertyManagerComponent implements OnInit {
   showPropertyButton = false;
   showPGButton = false;
   specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
-  constructor(public ServiceURL: ERService, public router: Router) { }
+  constructor(public ServiceURL: ERService, public router: Router, private ondemandJobData : OndemandJobData) { 
+    this.ondemandJobData.Isback = null;
+  }
   @ViewChild('selectCustomer') selectCustomer;
   @ViewChild('selectPG') selectPG;
   @ViewChild('selectTime') selectTime;

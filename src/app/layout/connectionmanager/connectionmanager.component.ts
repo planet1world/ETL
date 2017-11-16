@@ -3,6 +3,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ERService } from '../../shared/services/er-service.service';
 import { ConnectionClass, TestConnection, SourceConnectionClass } from '../../modal'
+import { OndemandJobData } from '../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-connectionmanager',
@@ -40,7 +41,8 @@ export class ConnectionmanagerComponent implements OnInit {
   showTestDialog = false;
   popmessage = '';
   save = false;
-  constructor(public router: Router, public ServiceURL: ERService) {
+  constructor(public router: Router, public ServiceURL: ERService, private ondemandJobData : OndemandJobData) {
+    this.ondemandJobData.Isback = null;
 
   }
 

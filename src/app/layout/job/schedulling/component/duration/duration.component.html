@@ -21,7 +21,7 @@
       <div class="col-md-2">
         <div class="radio">
           <label>
-                            <input type="radio" (change)="RadioChange($event)" name="optionsRadios" id="optionsRadios1" value="date" [(ngModel)]="selectedOption">
+                            <input type="radio" (change)="RadioChange($event)" name="durationRadio" id="optionsRadios1" value="date" [(ngModel)]="selectedOption">
                             End Date:
                         </label>
         </div>
@@ -46,7 +46,7 @@
       <div class="col-md-3">
         <div class="radio">
           <label>
-            <input type="radio" name="optionsRadios"  (change)="RadioChange($event)" id="optionsRadios1" value="no" [(ngModel)]="selectedOption">
+            <input type="radio" name="durationRadio"  (change)="RadioChange($event)" id="optionsRadios1" checked value="no" [(ngModel)]="selectedOption">
             No end Date
           </label>
         </div>

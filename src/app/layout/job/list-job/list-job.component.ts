@@ -5,6 +5,7 @@ import { Product } from '../../../modal/product.modal';
 import { Job } from '../../../modal/job.modal';
 import { ERService } from '../../../shared/services/er-service.service';
 import { Data } from '../../../shared/data/data';
+import { OndemandJobData } from '../../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-list-job',
@@ -32,7 +33,8 @@ export class ListJobComponent implements OnInit {
   error = false;
   popmessage='';
 
-  constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data, private ondemandJobData : OndemandJobData) {
+    this.ondemandJobData.Isback = null; 
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();
@@ -172,7 +174,11 @@ export class ListJobComponent implements OnInit {
     this.router.navigate(['../jobedit-step1']);
   }
   onView(sor){
-    
+    this.data.EditJobPgId = sor.PropertyGroupId;
+    this.data.EditJobPropertyId = sor.PropertyId;
+    this.data.EditJobProductId = sor.ProductId;
+    this.data.EditJobId = sor.JobID;
+    this.router.navigate(['../view-job']);
   }
 
   onJobDelete(sor: Job) {

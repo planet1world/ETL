@@ -6,6 +6,7 @@ import { Job, ExtractControl } from '../../../modal/job.modal';
 import { ETLJobQueue } from '../../../modal/ETLJobQueue.Model';
 import { ERService } from '../../../shared/services/er-service.service';
 import { Data } from '../../../shared/data/data';
+import { OndemandJobData } from '../../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-status-tracking',
@@ -45,7 +46,8 @@ export class StatusTrackingComponent implements OnInit {
   flagRemove = false;
   flagView = false;
 
-  constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data, private ondemandJobData : OndemandJobData) {
+    this.ondemandJobData.Isback = null; 
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();

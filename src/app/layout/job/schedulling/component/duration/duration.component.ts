@@ -8,7 +8,7 @@ import { OnceTime, JobSchedule } from '../../../../../modal';
 })
 export class DurationComponent implements OnInit {
 
-  selectedOption="date";
+  selectedOption="no";
   outputMessage="";
   constructor() { }
   @Input() JobObject: JobSchedule;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ERService } from '../../shared/services/er-service.service';
+import { OndemandJobData } from '../../shared/data/ondemand-job-data';
 
 @Component({
     selector: 'app-dashboard',
@@ -51,7 +52,8 @@ export class DashboardComponent implements OnInit {
         {data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B'}
     ];
 
-    constructor(public service: AuthService, public router: Router) {
+    constructor(public service: AuthService, public router: Router, private ondemandJobData : OndemandJobData) {
+        this.ondemandJobData.Isback = null;
      
         if (!service.isAuthenticated())
             this.router.navigate(['./login']);
@@ -91,7 +93,9 @@ export class DashboardComponent implements OnInit {
         console.log('event');
          this.router.navigate(['./connectionmanager']);
     }
-    ngOnInit() {}
+    ngOnInit() {
+
+    }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);

@@ -35,6 +35,8 @@ const routes: Routes = [
             { path: 'status-tracking', loadChildren:'./job/status-tracking/status-tracking-module.module#StatusTrackingModule'},
             { path: 'jobedit-step1', loadChildren:'./job/jobedit-step1/jobedit-step1-module.module#JobeditStep1Module'},
             { path: 'jobedit-step2', loadChildren:'./job/jobedit-step2/jobedit-step2-module.module#JobeditStep2Module'},
+            { path: 'view-job', loadChildren:'./job/view-job/view-job-module.module#ViewJobModule'},
+            { path: 'scheduling-ondemand', loadChildren:'./job/scheduling-ondemand/scheduling-ondemand-module.module#SchedulingOndemandModule'},
             
         ]
     }

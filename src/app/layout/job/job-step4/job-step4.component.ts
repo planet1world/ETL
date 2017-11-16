@@ -13,7 +13,7 @@ export class JobStep4Component implements OnInit {
   jobTableList: JobTableList[];
   sourceTableList: JobTableList[];
   filterSourceTableList: JobTableList[];
-  selectSourcetableList: JobTableList[];
+  selectSourcetableList: JobTableList[] = [];
   autoMapped: AutoMapping[];
   flagDestinationTable: boolean;
   flagSourceTable: boolean;
@@ -32,7 +32,7 @@ export class JobStep4Component implements OnInit {
     this.fetchTablesForJob(this.data.selectedJob.JobID);
   }
   @ViewChild('destinationtableDD') destinationtableDD;
-  @ViewChild('sourcetableDD') propertyDD;
+  @ViewChild('sourcetableDD') sourcetableDD;
 
   ngOnInit() {
   }
@@ -94,7 +94,11 @@ export class JobStep4Component implements OnInit {
     SourceData.ConnectionType = this.objectDestination.ConnectionType;
     SourceData.DataBase = this.objectDestination.DataBase;
     SourceData.Schema = this.objectDestination.Schema;
+    if(this.sourcetableDD.nativeElement.value != 0)
+    {
+    this.selectSourcetableList = this.filterSourceTableList.filter((item) => item.TableName == this.sourcetableDD.nativeElement.value);
     SourceData.TableName = this.selectSourcetableList[0].TableName;
+    console.log('Table: ' + SourceData.TableName);
     request.SourceData = SourceData;
     console.log(request);
     this.flagColumnMapping = true;
@@ -110,7 +114,11 @@ export class JobStep4Component implements OnInit {
         console.log(error.json());
       }
       )
-
+    }
+    else{
+      this.error = true;
+      this.popmessage = "Select at least one Source Table";
+    }
 
   }
 

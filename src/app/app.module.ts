@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './shared/modules/spinner/spinner.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Data} from './shared/data/data';
+import {OndemandJobData} from './shared/data/ondemand-job-data';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 // import { ModalComponent }from './layout/modal/modal.component'
@@ -41,7 +42,7 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
         }
        )
     ],
-    providers: [AuthService,servicelist,Alertlist,CookieService,ERService,Data,{provide: LocationStrategy, useClass: HashLocationStrategy} ],
+    providers: [AuthService,servicelist,Alertlist,CookieService,ERService,Data,OndemandJobData,{provide: LocationStrategy, useClass: HashLocationStrategy} ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

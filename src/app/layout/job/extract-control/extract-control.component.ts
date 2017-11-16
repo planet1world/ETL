@@ -5,6 +5,7 @@ import { Product } from '../../../modal/product.modal';
 import { Job, ExtractControl } from '../../../modal/job.modal';
 import { ERService } from '../../../shared/services/er-service.service';
 import { Data } from '../../../shared/data/data';
+import { OndemandJobData } from '../../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-extract-control',
@@ -42,9 +43,11 @@ export class ExtractControlComponent implements OnInit {
   selectedJobId : number = 0;
 
   flagInactive = false;
+  flagActive = false;
   flagDelete = false;
 
-  constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data, private ondemandJobData : OndemandJobData) {
+    this.ondemandJobData.Isback = null;
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();
@@ -255,6 +258,36 @@ export class ExtractControlComponent implements OnInit {
       this.popmessage="Please select at least on row"; 
       this.error = true;
       this.flagInactive = false;
+    }
+  }
+
+  onSetActive()
+  {
+    this.flagActive = true;
+    if(this.extractControlsChanged.length > 0){
+      this.ServiceURL.SetActiveExtControls(this.extractControlsChanged)
+      .subscribe(
+      (data) => {
+        console.log('setInactive:= ', data);
+        this.popmessage=data;      
+        this.showDialog=true;
+        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        this.flagActive = false;
+
+      },
+      (error) => {
+        const errorData = error.json();
+        this.popmessage=errorData.Message; 
+        this.error = true;
+        console.log('error:', errorData.Message);
+        this.flagActive = false;
+
+      });
+    }
+    else{
+      this.popmessage="Please select at least on row"; 
+      this.error = true;
+      this.flagActive = false;
     }
   }
 

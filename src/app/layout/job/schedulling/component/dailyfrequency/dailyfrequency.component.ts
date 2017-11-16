@@ -11,7 +11,7 @@ export class DailyfrequencyComponent implements OnInit {
   startTime = { hour: 13, minute: 30 };
   endTime = { hour: 23, minute: 59 };
   flagevery = true;
-  flagonce = true;
+  flagonce = false;
   dayVal_day = 1;
   job = new JobSchedule();
   @Input() JobObject: JobSchedule;
@@ -42,10 +42,11 @@ export class DailyfrequencyComponent implements OnInit {
 
 
   RadioChange(ev) {
+    console.log("Radio: " + ev.target.value);
     if (ev.target.value == "once") {
       this.flagevery = true;
       this.flagonce = false;
-    } else {
+    } else  if (ev.target.value == "every") {
       this.flagonce = true;
       this.flagevery = false;
     }

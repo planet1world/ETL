@@ -6,7 +6,7 @@ import { Product } from '../../../modal/product.modal';
 import { Job, ExtractControl } from '../../../modal/job.modal';
 import { ETLJobQueue } from '../../../modal/ETLJobQueue.Model';
 import { ERService } from '../../../shared/services/er-service.service';
-import { Data } from '../../../shared/data/data';
+import { OndemandJobData } from '../../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-ondemand-job',
@@ -16,6 +16,9 @@ import { Data } from '../../../shared/data/data';
 export class OndemandJobComponent implements OnInit {
     
   setPg = 0;
+  setProp = 0;
+  setProd = 0;
+  setJob = 0;
   propertygroup: PropertyGroup[];
   pg: PropertyGroup[];
   showpropertygroup = false;
@@ -27,7 +30,7 @@ export class OndemandJobComponent implements OnInit {
   product: Product[];
   showproduct = false;
   jobList : Job[];
-  job : Job[];
+  // job : Job[];
   sor : Job;
   showjob = false;
   warning = false;
@@ -38,7 +41,9 @@ export class OndemandJobComponent implements OnInit {
   extractControlsChanged : ExtractControl[] = [];
   loadcontrol = false;
   loadTable = false;
+  flagRun = false;
 
+  selectedPgId : number = 0;
   selectedPropertyId : number = 0;
   selectedProductId : number = 0;
   selectedJobId : number = 0;
@@ -46,10 +51,29 @@ export class OndemandJobComponent implements OnInit {
   flagAdd = false;
   flagRemove = false;
 
-  constructor(public ServiceURL: ERService, public router: Router, private data: Data) { 
+  constructor(public ServiceURL: ERService, public router: Router, private data: OndemandJobData) { 
+    if(this.data.Isback != null && this.data.Isback){
+      this.selectedPgId = this.data.selectedJob.PropertyGroupId;
+      this.selectedPropertyId = this.data.selectedJob.PropertyId; 
+      this.selectedProductId = this.data.selectedJob.ProductId;
+       this.propertygroup = this.data.PropertyGroup;
+       this.property = this.data.Property ;
+       this.propertyList = this.data.Property.filter(prlist => prlist.PropertyGroupID == this.selectedPgId) ;
+       this.product = this.data.Product;
+       this.productList = this.data.Product.filter(prodlist => prodlist.PropertyID == this.selectedPropertyId);
+       this.jobList = this.data.Job ;
+       this.setPg = this.data.selectedJob.PropertyGroupId;
+       this.setProp = this.data.selectedJob.PropertyId;
+       this.setProd = this.data.selectedJob.ProductId;
+       this.setJob = this.data.selectedJob.JobID;
+
+       this.onChangeJob(this.data.selectedJob.JobID);
+    }
+    else{
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();
+    }
   }
 
   ngOnInit() {
@@ -64,7 +88,7 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: PropertyGroup[]) => {
         this.propertygroup = data;
-        console.log('this.propertygroup: ' + JSON.stringify(this.propertygroup));
+        this.data.PropertyGroup = data;
         this.showpropertygroup = false;
       },
       (error) => {
@@ -82,6 +106,7 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: Property[]) => {
         this.property = data;
+        this.data.Property = data;
         this.showproperty = false;
       },
       (error) => {
@@ -100,6 +125,7 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: Product[]) => {
         this.product = data;
+        this.data.Product = data;
         this.showproduct = false;
         this.showjob = false;
       },
@@ -117,8 +143,7 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: Job[]) => {
         this.jobList = data;
-        console.log("jobs: =  " + JSON.stringify( data));
-        this.job = data;
+        this.data.Job = data;
         this.showjob = false;
       },
       (error) => {
@@ -131,7 +156,10 @@ export class OndemandJobComponent implements OnInit {
   onChangePG(id: number) {
     this.showproperty = true;
     this.setPg = id;
-    console.log('any:', id)
+    this.selectedPgId = id;
+    this.setProp = 0;
+    this.setProd = 0;
+    this.setJob = 0;
     this.pg = this.propertygroup.filter(item => item.ID == id);
     if (this.property.length > 0) {
       if (id == 0) {
@@ -150,6 +178,8 @@ export class OndemandJobComponent implements OnInit {
   onChangeProperty(id: number) {
     this.showproduct = true;
     this.selectedPropertyId = id;
+    this.setProd = 0;
+    this.setJob = 0;
     if (this.product.length > 0) {
       if (id == 0) {
         this.productList = [];
@@ -166,7 +196,8 @@ export class OndemandJobComponent implements OnInit {
   }
 
   onChangeProduct(id: number) {
-    this.selectedProductId = id;
+    this.selectedProductId = id;;
+    this.setJob = 0;
     if (this.productList.length > 0) {
       if (id == 0) {
         this.jobList = [];
@@ -182,9 +213,12 @@ export class OndemandJobComponent implements OnInit {
     this.selectedJobId = id;
     if (this.jobList.length > 0) {
       if (id == 0) {
-        // this.jobList = [];
+        this.loadcontrol = false;  
       }
       else {
+        let selectedJob = this.jobList.filter(selected => selected.JobID == id);
+        this.data.selectedJob = selectedJob[0];
+        this.data.selectedJob.PropertyGroupId = this.selectedPgId;
         this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
       }
     }
@@ -197,14 +231,12 @@ export class OndemandJobComponent implements OnInit {
       .subscribe(
       (data: ExtractControl[]) => {
         this.extractControls = data;
-        console.log("extractControls: =  " + JSON.stringify( data));
         this.loadcontrol = false;
         this.loadTable = true;
         
       },
       (error) => {
         const errorData = error.json();
-        console.log('error:', errorData);
         this.loadcontrol = false;
         
       });
@@ -226,7 +258,6 @@ export class OndemandJobComponent implements OnInit {
         this.extractControlsChanged.splice(index, 1);
       }
     }
-    console.log("this.extractControlsChanged: =  " + JSON.stringify( this.extractControlsChanged));
   }
   
   onAddSelected()
@@ -237,7 +268,6 @@ export class OndemandJobComponent implements OnInit {
       this.ServiceURL.AddSelectedInQueue(this.extractControlsChanged)
       .subscribe(
       (data) => {
-        console.log('AddSelectedInQueue:= ', data);
         this.popmessage=data;      
         this.showDialog=true;
         this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
@@ -276,7 +306,6 @@ export class OndemandJobComponent implements OnInit {
     this.ServiceURL.RemoveSelectedFromQueue(this.extractControlsChanged)
     .subscribe(
     (data) => {
-      console.log('onDeleteConfirmation:= ', data);
       this.popmessage=data;      
       this.showDialog=true;
       this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
@@ -309,4 +338,31 @@ export class OndemandJobComponent implements OnInit {
     this.extractControlsChanged = [];
     this.setPg = 0;
   }
+
+  onSetSchedule()
+  {
+    this.router.navigate(['../scheduling-ondemand']);
+  }
+
+  onRunnow()
+  {
+    this.flagRun = true;
+    this.ServiceURL.OnDemandRunNow(this.data.selectedJob)
+    .subscribe(
+    (data) => {
+      this.popmessage=data;      
+      this.showDialog=true;
+      this.flagRun = false;
+
+    },
+    (error) => {
+      const errorData = error.json();
+      this.popmessage=errorData.Message; 
+      this.error = true;
+      console.log('Runnowerror:', errorData.Message);
+      this.flagRun = false;
+
+    });
+  }
+  
 }

@@ -26,6 +26,7 @@ export class SchedullingComponent implements OnInit {
   popmessage="";
   flagNext=false;
   isEdit = false;
+  displayTxtArea = false;
   oldSchedulerInfo:string;
   Job = new JobSchedule();
 
@@ -80,6 +81,10 @@ export class SchedullingComponent implements OnInit {
     else {
       this.onetimeMessage = "";
     }
+    
+    this.displayTxtArea = true;
+    if(value == 0)
+    this.displayTxtArea = false;
 
   }
   saveOneScheduleData(value: JobSchedule) {
@@ -122,9 +127,13 @@ export class SchedullingComponent implements OnInit {
     this.ServiceURL.JobScheduling(this.Job)
       .subscribe((data) => {
        this.popmessage=data;
+      if(this.data.EditJobId != null){
+        this.getJobScheduleDetails();
+        this.isEdit = true;
+      }
+      this.finalMessage = "";
        this.success=true;
-       this.router.navigate(['../list-job']);
-
+       this.flagNext=false;
       },
       (error) => {
         const errorData = error.json();
@@ -141,4 +150,9 @@ export class SchedullingComponent implements OnInit {
       this.router.navigate(['../jobedit-step2']);
     }
   }
+
+  onClose(){
+    this.router.navigate(['../list-job']);
+  }
+
 }

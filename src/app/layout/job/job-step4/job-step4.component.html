@@ -20,7 +20,8 @@
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
 
-                    <select #destinationtableDD class="form-control" name="destinationtableDD" id="destinationtableDD" (change)="onDestinationTableDDChange($event.target.value)">
+                    <select #destinationtableDD class="form-control" name="destinationtableDD"
+                     id="destinationtableDD" (change)="onDestinationTableDDChange($event.target.value)">
                                  <option [value]="0" >Select table</option>
                                  <option *ngFor="let t of jobTableList" [value]="t.TableName" [selected]="t.TableName==selectDesTable">
                                  {{ t.TableName }}
@@ -42,9 +43,11 @@
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
 
-                    <select #sourcetableDD class="form-control" name="sourcetableDD" id="sourcetableDD" (change)="onSourceTableDDChange(sourcetableDD.value)">
+                    <select #sourcetableDD class="form-control" name="sourcetableDD" id="sourcetableDD" 
+                                (change)="onSourceTableDDChange(sourcetableDD.value)">
                                      <option [value]="0" >Select table</option>
-                                     <option *ngFor="let t of filterSourceTableList" [value]="t.TableName">
+                                     <option *ngFor="let t of filterSourceTableList" [value]="t.TableName"
+                                      [selected]="t.Matched">
                                      {{ t.TableName }}
                                        </option>
                                     </select>
@@ -94,10 +97,10 @@
                             <tr *ngFor="let des of autoMapped;let i = index">
                                 <td>
                                     <span *ngIf="des.ColumnName.Selected; else nonprimary" style="color:red">
-                                            <i class="fa fa-key" aria-hidden="true">{{des.ColumnName.Name}}</i> [PK] [{{des.ColumnName.DataType}}] ({{des.ColumnName.MaxSize}})
+                                            <i class="fa fa-key" aria-hidden="true">{{des.ColumnName.Name}}</i> [PK] ({{des.ColumnName.DataType}} <span *ngIf="des.ColumnName.MaxSize !=0">({{des.ColumnName.MaxSize}})</span> )
                                     </span>
                                     <ng-template #nonprimary>
-                                        <b> {{des.ColumnName.Name}}</b> [{{des.ColumnName.DataType}}] ({{des.ColumnName.MaxSize}})
+                                        <b> {{des.ColumnName.Name}}</b> ({{des.ColumnName.DataType}} <span *ngIf="des.ColumnName.MaxSize !=0">({{des.ColumnName.MaxSize}})</span>)
                                     </ng-template>
                                 </td>
                                 <td>
@@ -107,7 +110,7 @@
                                                 <option [value]=0 >--Select--</option>
                                                 <option *ngFor="let con of des.Source" 
                                                     [value]="con.Name" [selected]="con.Name == des.AutoMapped">
-                                                    {{ con.Name }}({{con.DataType}})
+                                                    {{ con.Name }} ({{con.DataType}})
                                                  </option>
                                              </select>
                                     </div>

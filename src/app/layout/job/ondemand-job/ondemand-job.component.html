@@ -1,4 +1,4 @@
-<app-page-header [heading]="'Job Ondemand'| translate" [icon]="'fa-wrench'"></app-page-header>
+<app-page-header [heading]="'Job On Demand'| translate" [icon]="'fa-wrench'"></app-page-header>
 <app-modal [(visible)]="warning">
     <div id="content">
       <div class="notify errorbox">
@@ -35,11 +35,11 @@
     <fieldset>
       <legend>Filter</legend>
       <div class="row">
-        <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)" [ngModel]="setPg">
-                            <option [value]="0"  [selected]="0===setPg">Select Property Group</option>
+        <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)" >
+                            <option [value]="0"  [selected]="0==setPg">Select Property Group</option>
                           <option *ngFor="let pg of propertygroup" 
                               [value]="pg.ID"
-                              [selected]="pg.ID===setPg">
+                              [selected]="pg.ID==setPg">
                               {{ pg.Name }}
                             </option>
                           </select>
@@ -48,9 +48,9 @@
       <br/>
       <div class="row">
         <select #selectProperty class="form-control" (change)="onChangeProperty(selectProperty.value)">
-                      <option [value]="0" >Select Property</option>
+                      <option [value]="0"  [selected]="0==setProp">Select Property</option>
                           <option *ngFor="let p of propertyList" 
-                              [value]="p.ID">
+                              [value]="p.ID" [selected]="p.ID==setProp">
                               {{ p.Name }}
                             </option>
                           </select>
@@ -58,10 +58,10 @@
       </div>
       <br/>
       <div class="row">
-        <select #selectProduct class="form-control" (change)="onChangeProduct(selectProduct.value)">
-                      <option [value]="0" >Select Product</option>
+        <select #selectProduct class="form-control" (change)="onChangeProduct(selectProduct.value)" >
+                      <option [value]="0"  [selected]="0==setProd">Select Product</option>
                           <option *ngFor="let prd of productList" 
-                              [value]="prd.ID">
+                              [value]="prd.ID" [selected]="prd.ID==setProd">
                               {{ prd.Name }}
                             </option>
                           </select>
@@ -70,10 +70,10 @@
       <br/>
       <div class="row">
         <select #selectJob class="form-control" (change)="onChangeJob(selectJob.value)">
-                      <option [value]="0" >Select Job</option>
+                      <option [value]="0" [selected]="0==setJob">Select Job</option>
                           <option *ngFor="let jb of jobList" 
                               [value]="jb.JobID"
-                                [selected]="jb.JobID == 0">
+                                [selected]="jb.JobID == setJob">
                               {{ jb.JobName }}
                             </option>
                           </select>
@@ -88,8 +88,7 @@
 <br />
 <span *ngIf="loadcontrol"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
 <div class="row" *ngIf="loadTable">
-  <div class="col-lg-1"></div>
-  <div class="col-md-10">
+  <div class="col-md-12">
     <div class="card mb-3">
       <div class="card-block table-responsive">
         <div class="panel-body">
@@ -107,7 +106,7 @@
                   </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let table of extractControls">
+                <tr *ngFor="let table of extractControls" [ngClass]="{'backgroundgray' : table.OnDemandFlag=='Yes'}">
                   <td>
                     <input type="checkbox" 
                     name="{{table.ExtractControlID}}"
@@ -127,21 +126,27 @@
         </div>
     </div>
   </div>
-  <div class="col-lg-1"></div>
 </div>
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10" *ngIf="loadTable">
-      <button type="button" class="btn btn-success" (click)="onAddSelected()"> 
-        <i [ngClass]="{'fa fa-spinner fa-spin':flagAdd===true}"></i>
-        Add Selected In Queue
+        <button type="button" class="btn btn-primary" (click)="onRemoveSelected()">
+          <i [ngClass]="{'fa fa-spinner fa-spin':flagRemove===true}"></i>
+          Remove Selected From Queue
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onAddSelected()"> 
+          <i [ngClass]="{'fa fa-spinner fa-spin':flagAdd===true}"></i>
+          Add Selected In Queue
+        </button>
+      <button type="button" class="btn btn-primary" (click)="onSetSchedule()"> 
+        Set Schedule
       </button>
-      <button type="button" class="btn btn-danger" (click)="onRemoveSelected()">
-        <i [ngClass]="{'fa fa-spinner fa-spin':flagRemove===true}"></i>
-        Remove Selected From Queue
+      <button type="button" class="btn btn-primary" (click)="onRunnow()">
+        <i [ngClass]="{'fa fa-spinner fa-spin':flagRun===true}"></i>
+        Run Now
       </button>
       <button type="button" class="btn btn-danger" (click)="onCancel()">
-        Hide List
+        Close
       </button>
     </div>
     <div class="col-md-1"></div>

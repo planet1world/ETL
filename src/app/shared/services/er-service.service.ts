@@ -314,6 +314,21 @@ export class ERService {
             );
     }
     
+    SetActiveExtControls(extractControlsForInactive : ExtractControl[])
+    {
+        let body = extractControlsForInactive;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.SetTablesActiveForDataSyncJob, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
     DeleteExtControls(extractControlsForInactive : ExtractControl[])
     {
         let body = extractControlsForInactive;
@@ -619,6 +634,7 @@ export class ERService {
             }
             );
     }
+
     GetJobForProduct(porpertyid: number, productid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('propertyid', String(porpertyid));
@@ -772,6 +788,18 @@ export class ERService {
 
     }
 
+    OndemandJobScheduling(obj:JobSchedule)
+    {
+        const header = this.CallHeader();
+        return this.http.post(this.serviceUrl.OndemandJobScheduling, JSON.stringify(obj), { headers: header }
+        ).map(
+            (responce: Response) => {
+                return responce.json();
+            }
+            );
+
+    }
+
     GetJobScheduleDetails(jobid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
@@ -787,6 +815,35 @@ export class ERService {
             }
             );
     }
+    
+    GetJobExecutionStatus(jobid: number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetJobExecutionStatus, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    OnDemandRunNow(job: Job) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.OnDemandJobRunNow, JSON.stringify(job), { headers: header })
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
     CallHeader() {
         const header = new Headers();
         header.append('Content-Type', 'application/json');

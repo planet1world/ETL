@@ -4,6 +4,7 @@ import { PropertyGroup, Property } from '../../../modal/propertygroup-modal.moda
 import { Product } from '../../../modal/product.modal';
 import { ERService } from '../../../shared/services/er-service.service';
 import { Data } from '../../../shared/data/data';
+import { OndemandJobData } from '../../../shared/data/ondemand-job-data';
 
 @Component({
   selector: 'app-list-product',
@@ -25,7 +26,8 @@ export class ListProductComponent implements OnInit {
   warning = false;
   showDialog=false;
   popmessage='';
-  constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
+  constructor(public ServiceURL: ERService, public router: Router, private data: Data, private ondemandJobData : OndemandJobData) {
+    this.ondemandJobData.Isback = null;
     this.getActivePropertyGroup();
     this.getPropertyData();
     this.getProductData();

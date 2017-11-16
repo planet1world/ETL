@@ -54,14 +54,18 @@ export class servicelist {
     GetSummaryOfTableByJobID:string;
     UpdateFilterForJobTables:string;
     JobScheduling:string;
+    OndemandJobScheduling:string;
     GetAllJobs: string;
     DeleteJobOperation : string;
     GetAllJobsForProduct : string;
     SetTablesInactiveForDataSyncJob : string;
+    SetTablesActiveForDataSyncJob : string;
     DeleteSelectedExtractControls : string;
     AddSelectedInQueue : string;
     RemoveSelectedFromQueue : string;
     ViewEtlQueueForSelectedTableOndemandJob : string;
+    GetJobExecutionStatus : string;
+    OnDemandJobRunNow : string;
 
 
     constructor(private http: Http) {
@@ -138,15 +142,19 @@ export class servicelist {
         this.GetSummaryOfTableByJobID=url+"api/Job/GetSummaryOfTableByJobID";
         this.UpdateFilterForJobTables=url+"api/Job/UpdateFilterForJobTables";
         this.JobScheduling=url+"api/Job/JobScheduling";
+        this.OndemandJobScheduling=url+"api/Job/OndemandJobScheduling";
         this.GetAllJobs = url + "api/Job/GetAllJobs";
         this.DeleteJobOperation=url+"api/Job/DeletJob";
         this.GetAllJobsForProduct=url+"api/Job/GetAllJobsForProduct";
         this.SetTablesInactiveForDataSyncJob=url+"api/Job/SetTablesInactiveForDataSyncJob";
+        this.SetTablesActiveForDataSyncJob=url+"api/Job/SetTablesActiveForDataSyncJob";
         this.DeleteSelectedExtractControls=url+"api/Job/DeletTableForJob";
         this.AddSelectedInQueue=url+"api/Job/MarkTableActiveForOnDemandSync";
         this.RemoveSelectedFromQueue=url+"api/Job/MarkTableInActiveForOnDemandSync";
         this.ViewEtlQueueForSelectedTableOndemandJob=url+"api/Job/GetViewETLQueueOndemandJob";
         this.GetJobScheduleDetails=url+"api/Job/GetJobScheduleDetails";
+        this.GetJobExecutionStatus=url+"api/Job/GetMostRecentJobExecutionStausByID";
+        this.OnDemandJobRunNow=url+"api/Job/OnDemandJobRunNow";
 
     }
 

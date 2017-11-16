@@ -116,7 +116,7 @@
                   <td>{{table.DestinationTableName}}</td>
                   <td>{{table.SourceTableName}}</td>
                   <td>
-                    <input [checked]="table.Active" type="checkbox">
+                    <input [checked]="table.Active" type="checkbox" disabled>
                   </td>  
                   <td>{{table.SourceTypeName}}</td>  
                   <td>{{table.EngineTypeName}}</td> 
@@ -135,16 +135,20 @@
 <div class="row" *ngIf="loadTable">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-    <button type="button" class="btn btn-success" (click)="onSetInactive()"> 
+    <button type="button" class="btn btn-primary" (click)="onSetInactive()"> 
       <i [ngClass]="{'fa fa-spinner fa-spin':flagInactive===true}"></i>
       Set Selected Inactive
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSetActive()"> 
+      <i [ngClass]="{'fa fa-spinner fa-spin':flagActive===true}"></i>
+      Set Selected Active
     </button>
     <button type="button" class="btn btn-danger" (click)="onDelete()">
       <i [ngClass]="{'fa fa-spinner fa-spin':flagDelete===true}"></i>
       Delete Selected
     </button>
     <button type="button" class="btn btn-danger" (click)="onCancel()">
-      Hide List
+      Close
     </button>
   </div>
   <div class="col-md-1"></div>

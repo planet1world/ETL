@@ -1,4 +1,4 @@
-<app-page-header [heading]="'Scheduler'" [icon]="'fa-'"></app-page-header>
+<app-page-header [heading]="'Scheduler On Demand Job'" [icon]="'fa-'"></app-page-header>
 <app-modal [(visible)]="success">
   <div id="content">
     <div class="notify successbox">
@@ -39,46 +39,60 @@
       <div class="form-group">
         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
           <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-table"></i></div>
-          <select #schedulerTypeDD class="form-control" name="schedulerTypeDD" id="schedulerTypeDD" (change)="onSchedulerTypeChange($event.target.value)">
-            <option [value]="0" >Select Schedule Type</option>
-            <option [value]="1" >One Time</option>
-            <option [value]="2" >Recurring</option>
+          <select #schedulerTypeDD class="form-control" name="schedulerTypeDD" id="schedulerTypeDD" 
+            disabled>
+            <option [value]="1"  selected >One Time</option>
           </select>
         </div>
       </div>
     </div>
     <div class="col-md-2">
       <div class="pull-left">
-        <input type="checkbox" id="enableCkbox" [(ngModel)]="isEnable"><em>Enable</em>
+        <input type="checkbox" id="enableCkbox" [(ngModel)]="isEnable" ><em>Enable</em>
       </div>
     </div>
   </div>
-  <div *ngIf="selected==1">
-    <br>
-    <app-onetime [JobObject]="Job" (selectDate)="saveOneScheduleData($event)" (Message)="oneTimeScheduleMessage($event)"></app-onetime>
+  <div>
+  <br>
+  <fieldset>
+    <legend>One-time occurrence</legend>
+    <div class="row">
+      <div class="col-md-1" style="padding-top:33px;">
+        <label for="date">Date:</label>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <div class="input-group" style="padding-top:33px;">
+            <input class="form-control paddingdate" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="onetimeDate" 
+            
+            (ngModelChange)="sendDate()" ngbDatepicker #d="ngbDatepicker" required>
+            <div class="input-group-addon" (click)="d.toggle()">
+              <span class="fa fa-calendar"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1" style="padding-top:33px;">
+        <label for="date">Time:</label>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <ngb-timepicker [(ngModel)]="defaultTime" [meridian]="meridian"  (ngModelChange)="sendTime()"></ngb-timepicker>
+        </div>
+      </div>
+      <div class="col-md-5"></div>
+      </div>
+    </fieldset>
   </div>
-  <div *ngIf="selected==2">
-    <br>
-    <app-frequency [JobObject]="Job" (Frequency)="changeFrequency($event)" (Message)="FrequencyMessage($event)"></app-frequency>
-    <br>
-    <app-dailyfrequency [JobObject]="Job" (DailyFrequency)="changeDailyFrequency($event)"></app-dailyfrequency>
-    <br>
-    <app-duration [JobObject]="Job" (Duration)="changeDuration($event)" (Message)="durationMessage($event)"></app-duration>
-  </div>
   <br>
   <br>
   <br>
-  <div class="row" *ngIf="displayTxtArea">
+  <div class="row">
     <div class="col-md-12">
       <textarea [(ngModel)]='finalMessage' rows="2" cols="120"></textarea>
     </div>
   </div>
   <br>
-  <div class="row" *ngIf="isEdit">
-    <div class="col-md-12">
-      <textarea [value]="oldSchedulerInfo" disabled rows="2" cols="120"></textarea>
-    </div>
-  </div>
   <div class="row">
     <div class="col-md-2">
         <button type="submit" (click)="onBack()" class="btn btn-danger">
@@ -97,5 +111,4 @@
             Save </button>
     </div>
   </div>
-
 </div>

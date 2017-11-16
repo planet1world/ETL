@@ -73,6 +73,7 @@ export class JobTableList{
     DataBase:string;
     ConnectionType:string;
     ExtractControlID:number;
+    Matched : boolean;
 }
 export class AutoMapping{
     ColumnName:TableColumn;

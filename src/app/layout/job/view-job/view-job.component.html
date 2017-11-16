@@ -1,0 +1,84 @@
+<app-page-header [heading]="'View Job'| translate" [icon]="'fa-wrench'"></app-page-header>
+<div class="row">
+  <div class="col-lg-1"></div>
+    <div class="col-md-10">
+      <div class="list-group">
+        <div class="list-group-item clearfix d-block table-responsive">
+          <div class="table table-sm" *ngIf="jobSummary">
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8 boder-bottom"><h4>Job Summary ( Job Id :{{job.JobID}} )</h4></div>
+              <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">&nbsp;</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12"><i class="pull-left"> 
+                  <i class="fa fa-bank"></i>{{job.PropertyGroupName}} >&nbsp;
+                  <i class="fa fa-building"></i> {{job.PropertyName}} >&nbsp;
+                  <i class="fa fa-suitcase"></i> {{job.ProductName}} > &nbsp;
+                  <i class="fa fa-wrench"></i>{{job.JobName}} </i>
+              </div>
+            </div> 
+          </div>
+        </div>
+        <div class="list-group-item over-flow-class">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Destination Table</th>
+                <th>Source Table</th>
+                <th>Is Active</th>
+                <th>Source Type</th>
+                <th>Connection Type</th>
+                <th style="width:10px">Load Type</th>
+                <th>Filter</th>
+              </tr>
+            </thead>
+            <tbody>
+              <span *ngIf="loadcontrol"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+              <tr *ngFor="let table of extractControls">
+                <td>{{table.DestinationTableName}}</td>
+                <td>{{table.SourceTableName}}</td>
+                <td>
+                  <input [checked]="table.Active" type="checkbox" disabled>
+                </td>  
+                <td>{{table.SourceTypeName}}</td>  
+                <td>{{table.EngineTypeName}}</td> 
+                <td>{{table.LoadName}}</td> 
+                <td>{{table.SourceQueryFilterCondition}}</td> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="list-group-item clearfix d-block table-responsive">
+          <div class="table table-sm" *ngIf="jobSummary">
+            <div class="row">
+              <div class="col-md-12"><h5>Schedules:</h5></div>
+            </div>
+            <div>  
+              <div class="col-md-12">{{scheduledInfo}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">&nbsp;</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12"><h5>Execution Status:</h5></div>
+            </div>
+            <div>  
+              <div class="col-md-12">{{exectionInfo}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-9"></div>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-danger" (click)="onClose()">Close</button>
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="col-lg-1"></div>
+</div>
+  
