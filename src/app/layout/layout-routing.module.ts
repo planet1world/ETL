@@ -32,12 +32,13 @@ const routes: Routes = [
             { path: 'schedulling', loadChildren:'./job/schedulling/schedulling.module#SchedullingModule'},
             { path: 'extract-control', loadChildren:'./job/extract-control/extract-control-module.module#ExtractControlModule'},
             { path: 'ondemand-job', loadChildren:'./job/ondemand-job/ondemand-job-module.module#OndemandJobModule'},
-            { path: 'status-tracking', loadChildren:'./job/status-tracking/status-tracking-module.module#StatusTrackingModule'},
             { path: 'jobedit-step1', loadChildren:'./job/jobedit-step1/jobedit-step1-module.module#JobeditStep1Module'},
             { path: 'jobedit-step2', loadChildren:'./job/jobedit-step2/jobedit-step2-module.module#JobeditStep2Module'},
             { path: 'view-job', loadChildren:'./job/view-job/view-job-module.module#ViewJobModule'},
             { path: 'scheduling-ondemand', loadChildren:'./job/scheduling-ondemand/scheduling-ondemand-module.module#SchedulingOndemandModule'},
-            
+            { path: 'running-jobs', loadChildren:'./etl-tracking/running-jobs/running-jobs-module.module#RunningJobsModule'},
+            { path: 'job-history', loadChildren:'./etl-tracking/job-history/job-history-module.module#JobHistoryModule'},
+            { path: 'job-history-detail', loadChildren:'./etl-tracking/job-history-detail/job-history-detail-module.module#JobHistoryDetailModule'},
         ]
     }
 ];

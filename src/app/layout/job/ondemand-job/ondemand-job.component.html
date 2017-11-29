@@ -129,8 +129,8 @@
 </div>
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10" *ngIf="loadTable">
-        <button type="button" class="btn btn-primary" (click)="onRemoveSelected()">
+    <div class="col-md-10 " *ngIf="loadTable">
+        <button type="button" class="btn btn-danger" (click)="onRemoveSelected()">
           <i [ngClass]="{'fa fa-spinner fa-spin':flagRemove===true}"></i>
           Remove Selected From Queue
         </button>
@@ -141,7 +141,7 @@
       <button type="button" class="btn btn-primary" (click)="onSetSchedule()"> 
         Set Schedule
       </button>
-      <button type="button" class="btn btn-primary" (click)="onRunnow()">
+      <button type="button" class="btn btn-success" (click)="onRunnow()">
         <i [ngClass]="{'fa fa-spinner fa-spin':flagRun===true}"></i>
         Run Now
       </button>

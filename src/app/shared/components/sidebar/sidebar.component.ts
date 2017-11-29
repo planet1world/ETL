@@ -11,6 +11,7 @@ export class SidebarComponent {
     isActive = false;
     showMenu = '';
     showJobMenu = '';
+    showEtlMenu = '';
     version: string;
     checkName: string = "ER_ETL_V";
     constructor(public cookieService: CookieService) {
@@ -29,10 +30,18 @@ export class SidebarComponent {
     addExpandJobClass(element: any) {
         if (element === this.showJobMenu) {
             this.showJobMenu = '0';
-            console.log('this.showJobMenu 1:= ' + this.showJobMenu);
         } else {
             this.showJobMenu = element;
-            console.log('this.showJobMenu 2:= ' + this.showJobMenu);
+        }
+    }
+    addExpandETLTracking(element: any) 
+    {
+        if (element === this.showEtlMenu) {
+            this.showEtlMenu = '0';
+            console.log('this.showEtlMenu 1:= ' + this.showEtlMenu);
+        } else {
+            this.showEtlMenu = element;
+            console.log('this.showEtlMenu 2:= ' + this.showEtlMenu);
         }
     }
 }

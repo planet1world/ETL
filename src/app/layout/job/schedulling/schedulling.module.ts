@@ -5,7 +5,8 @@ import { SchedullingRoutingModule } from './schedulling-routing.module';
 import { SchedullingComponent} from './schedulling.component';
 import { PageHeaderModule, ModalModule,SharedPipesModule } from './../../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';import { HttpModule, Http } from '@angular/http';
+import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { HttpModule, Http } from '@angular/http';
 
 import { FrequencyComponent,OnetimeComponent } from './component';
 import { DailyfrequencyComponent } from './component/dailyfrequency/dailyfrequency.component';

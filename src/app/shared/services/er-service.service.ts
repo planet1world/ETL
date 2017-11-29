@@ -6,7 +6,7 @@ import { servicelist } from '../../services/servicelist';
 // import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
 import {
     ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable,
-    ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule
+    ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule, JobSearchParams
 } from '../../modal';
 // import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
@@ -298,7 +298,106 @@ export class ERService {
             }
             );
     }
+    
+    GetAllSourceTables(pgID : number,  propID : number, prodID : number, jbname : string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('pgid', String(pgID));
+        params.set('propertyid', String(propID));
+        params.set('productid', String(prodID));
+        params.set('jobname', jbname);
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetAllSourceTables, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    GetAllDestinationTables(pgID : number,  propID : number, prodID : number, jbname : string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('pgid', String(pgID));
+        params.set('propertyid', String(propID));
+        params.set('productid', String(prodID));
+        params.set('jobname', jbname);
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetAllDestinationTables, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
 
+    GetListOfManageExtractControls(jobid : number, productid : number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobid', String(jobid));
+        params.set('productid', String(productid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetListOfManageExtractControl, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    GetExtractJobHistory(searchParams : JobSearchParams) {
+        let body = searchParams;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.GetExtractJobHistory, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
+    GetExtractControlJobHistory(jobHistID : number) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('jobHistID', String(jobHistID));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetExtractControlJobHistory, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+
+    GetExtractJobHistoryDetail(searchParams : JobSearchParams) {
+        let body = searchParams;
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.post(this.serviceUrl.GetExtractJobHistoryDetail, JSON.stringify(body), { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+    
     SetInactiveExtControls(extractControlsForInactive : ExtractControl[])
     {
         let body = extractControlsForInactive;
@@ -379,7 +478,21 @@ export class ERService {
         const header = new Headers();
         header.append('Content-Type', 'application/json');
         header.append('Authorization', 'Bearer ' + this.getToken())
-        return this.http.get(this.serviceUrl.ViewEtlQueueForSelectedTableOndemandJob, { headers: header })
+        return this.http.get(this.serviceUrl.GetViewETLQueueJob, { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            );
+    }
+
+    GetRunningJobs()
+    {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        return this.http.get(this.serviceUrl.GetRunningJobs, { headers: header })
             .map(
             (response: Response) => {
                 const data = response.json();

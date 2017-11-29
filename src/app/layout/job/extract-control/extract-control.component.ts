@@ -187,15 +187,15 @@ export class ExtractControlComponent implements OnInit {
         // this.jobList = [];
       }
       else {
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        this.getListOfManageExtractControls(this.selectedJobId , this.selectedProductId);
       }
     }
   }
 
-  getListOfExtractControls(jobid : number, productid : number){
+  getListOfManageExtractControls(jobid : number, productid : number){
     this.loadcontrol = true;    
     this.extractControlsChanged = [];
-    this.ServiceURL.GetListOfExtractControls(jobid, productid)
+    this.ServiceURL.GetListOfManageExtractControls(jobid, productid)
       .subscribe(
       (data: ExtractControl[]) => {
         this.extractControls = data;
@@ -241,7 +241,7 @@ export class ExtractControlComponent implements OnInit {
         console.log('setInactive:= ', data);
         this.popmessage=data;      
         this.showDialog=true;
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        this.getListOfManageExtractControls(this.selectedJobId , this.selectedProductId);
         this.flagInactive = false;
 
       },
@@ -271,7 +271,7 @@ export class ExtractControlComponent implements OnInit {
         console.log('setInactive:= ', data);
         this.popmessage=data;      
         this.showDialog=true;
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        this.getListOfManageExtractControls(this.selectedJobId , this.selectedProductId);
         this.flagActive = false;
 
       },
@@ -309,7 +309,7 @@ export class ExtractControlComponent implements OnInit {
       (data: any) => {
         this.popmessage=data;      
         this.showDialog=true;
-        this.getListOfExtractControls(this.selectedJobId , this.selectedProductId);
+        this.getListOfManageExtractControls(this.selectedJobId , this.selectedProductId);
         this.warning = false;
         this.flagDelete = false;
       },

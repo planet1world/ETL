@@ -1,0 +1,61 @@
+<app-page-header [heading]="'Running Jobs'| translate" [icon]="'fa-cog'"></app-page-header>
+<app-modal [(visible)]="error">
+  <div id="content">
+      <div class="notify errorbox">
+      <h1>Error!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>{{popmessage}}</p>
+      </div>
+  </div>
+</app-modal>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-3">
+      <div class="card-block table-responsive">
+        <div class="panel-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Job Name</th>
+                  <th class="text-center">Status</th>
+                  <th>Result</th>
+                  <th>Last Run</th>
+                  <th>Next Run</th>
+                  <th class="text-center">Schedule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let table of etlJobQueueList">
+                  <td>{{table.JobName}}</td> 
+                  <td class="text-center">
+                      <span *ngIf="table.Result=='Running';else imgw">
+                        <img src="assets/images/running-job.gif"/> 
+                      </span>
+                      <ng-template #imgw>
+                          <img src="assets/images/waiting-job.gif"/> 
+                      </ng-template>  
+                  </td>
+                  <td>{{table.Result}}</td>   
+                  <td>{{table.LastRun}}</td>  
+                  <td>{{table.NextRun}}</td>  
+                  <td class="text-center">{{table.Status}}</td>  
+                </tr>
+                <tr *ngIf="etlJobQueueList.length==0">
+                  <td colspan="6">Currently no jobs are running​.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="row" >
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <button type="button" class="btn btn-warning pull-right" (click)="onViewRunningJobs()">
+        <i [ngClass]="{'fa fa-spinner fa-spin':flagView===true}">&nbsp;</i><i class="fa fa-refresh"></i> Refresh
+      </button>
+    </div>
+  <div class="col-md-1"></div>
+</div>

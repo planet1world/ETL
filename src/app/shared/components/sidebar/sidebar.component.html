@@ -33,33 +33,52 @@
         </div>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandJobClass('jobpages')">
-                <i class="fa fa-fw fa fa-cogs"></i>&nbsp;Job Manager&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+                <i class="fa fa-fw fa fa-wrench fa-spin"></i>&nbsp;Job Manager&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
             </a>
-                <li class="nested" [class.expand]="showJobMenu === 'jobpages'">
-                    <ul class="submenu">
-                        <li>
-                            <a [routerLink]="['/list-job']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                                <i class="fa fa-wrench"></i>&nbsp;Job List
-                            </a>
-                        </li>  
-                        <li>
-                            <a [routerLink]="['/extract-control']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                                <i class="fa fa-wrench"></i>&nbsp;Job Extract Control
-                            </a>
-                        </li>  
-                        <li>
-                            <a [routerLink]="['/ondemand-job']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                                <i class="fa fa-wrench"></i>&nbsp;Job On Demand
-                            </a>
-                        </li>  
-                        <li>
-                            <a [routerLink]="['/status-tracking']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                                <i class="fa fa-wrench"></i>&nbsp;Job Status & Tracking
-                            </a>
-                        </li>   
-                    </ul>
-                </li>
-            </div>
+            <li class="nested" [class.expand]="showJobMenu === 'jobpages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/list-job']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-wrench"></i>&nbsp;Job List
+                        </a>
+                    </li>  
+                    <li>
+                        <a [routerLink]="['/extract-control']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-wrench"></i>&nbsp;Job Extract Control
+                        </a>
+                    </li>  
+                    <li>
+                        <a [routerLink]="['/ondemand-job']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-wrench"></i>&nbsp;Job On Demand
+                        </a>
+                    </li>   
+                </ul>
+            </li>
+        </div>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandETLTracking('etlpages')">
+                <i class="fa fa-cog fa-spin"></i>&nbsp;ETL Tracking&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+            </a>
+            <li class="nested" [class.expand]="showEtlMenu === 'etlpages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/running-jobs']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-cog"></i>&nbsp;Running Jobs​
+                        </a>
+                    </li>  
+                    <li>
+                        <a [routerLink]="['/job-history']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-cog"></i>&nbsp;Job History
+                        </a>
+                    </li>  
+                    <li>
+                        <a [routerLink]="['/job-history-detail']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-cog"></i>&nbsp;Job History Detail​
+                        </a>
+                    </li>   
+                </ul>
+            </li>
+        </div>
         <!-- <a [routerLink]="['/job-step4']" [routerLinkActive]="['router-link-active']" class="list-group-item" disabled>
          
             <i class="fa fa-fw fa fa-wrench"></i>&nbsp;Job&Scheduler
@@ -101,7 +120,7 @@
     </ul>
 </nav>
 <!-- /menu footer buttons -->
-<div class="sidebar-footer">
+<!-- <div class="sidebar-footer">
     <font size="2"><b>Version:{{version}} Copyright © FCS.</b></font>
-</div>
+</div> -->
 <!-- /menu footer buttons -->

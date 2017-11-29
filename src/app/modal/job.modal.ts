@@ -10,6 +10,7 @@ export class Job {
     ProductId: number;
     ProductName: string;
     Description: string;
+    JobNameWithoutID : string;
 }
 export class JobTables extends Job {
     TableId: number;

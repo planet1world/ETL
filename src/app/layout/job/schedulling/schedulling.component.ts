@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { OnceTime, JobSchedule } from '../../../modal';
 import { Data } from '../../../shared/data/data';

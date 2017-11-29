@@ -1,0 +1,255 @@
+<app-page-header [heading]="'Job History'| translate" [icon]="'fa-wrench'"></app-page-header>
+<div class="form-horizontal" >
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">Property Group</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)">
+            <option [value]="0" >Select Property Group</option>
+            <option *ngFor="let pg of propertygroup" 
+              [value]="pg.ID"
+              [selected]="pg.ID === selpropertyGroup">
+              {{ pg.Name }}
+            </option>
+          </select>
+          <span *ngIf="showpropertygroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">Property</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select #selectProperty class="form-control" (change)="onChangeProperty(selectProperty.value)">
+            <option [value]="0" >Select Property</option>
+              <option *ngFor="let p of propertyList" 
+                  [value]="p.ID"
+                    [selected]="p.ID == 0">
+                  {{ p.Name }}
+                </option>
+              </select>
+          <span *ngIf="showproperty"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">Product</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select #selectProduct class="form-control" (change)="onChangeProduct(selectProduct.value)">
+            <option [value]="0" >Select Product</option>
+            <option *ngFor="let prd of productList" 
+                [value]="prd.ID"
+                  [selected]="prd.ID == 0">
+                {{ prd.Name }}
+            </option>
+          </select>
+          <span *ngIf="showproduct"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">Job Name</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <input type="text" class="form-control" #jobName placeholder="Job Name" [value]="jobName1">
+          <span *ngIf="showjob"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive paddingdate">
+      <label for="name">Start Date</label>
+    </div>
+    <div class="col-md-3  paddingdate">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="startDate" 
+            (ngModelChange)="sendStartDate()" ngbDatepicker #ds="ngbDatepicker" required (click)="ds.toggle()">
+            <div class="input-group-addon" (click)="ds.toggle()">
+              <span class="fa fa-calendar"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 field-label-responsive paddingdate">
+      <label for="name">Start Time</label>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+            <ngb-timepicker [(ngModel)]="startTime" [meridian]="meridian"  (ngModelChange)="sendStartTime()"></ngb-timepicker>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive paddingdate">
+      <label for="name">End Date</label>
+    </div>
+    <div class="col-md-3  paddingdate">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="endDate" 
+            (ngModelChange)="sendEndDate()" ngbDatepicker #de="ngbDatepicker" required (click)="de.toggle()">
+            <div class="input-group-addon" (click)="de.toggle()">
+              <span class="fa fa-calendar"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 field-label-responsive paddingdate">
+      <label for="name">End Time</label>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+            <ngb-timepicker [(ngModel)]="endTime" [meridian]="meridian"  (ngModelChange)="sendEndTime()"></ngb-timepicker>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">Records per page</label>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select #selectRecordsPerPage class="form-control">
+            <option [value]="5" >5</option>
+            <option [value]="10" >10</option>
+            <option [value]="20" >20</option>
+            <option [value]="30" >30</option>
+            <option [value]="40" >40</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 field-label-responsive">
+      <label for="name">&nbsp;</label>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <button class="btn btn-primary" (click)="onSearch('search')">
+              <i [ngClass]="{'fa fa-spinner fa-spin':flagSearch===true}">&nbsp;</i><i class="fa fa-search"></i>&nbsp;Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class=" row">
+    <div class="col-md-1 field-label-responsive">
+    </div>
+    <div class="col-md-10 field-label-responsive  boder-bottom">
+      &nbsp;
+    </div>
+    <div class="col-md-1 field-label-responsive">
+    </div>
+  </div>
+  <br/>
+  <div class="row" *ngIf="showHistory">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-block table-responsive">
+          <div class="panel-body">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width:100px !important;">Job Run ID</th>
+                    <th>Job Name</th>
+                    <th style="width:130px !important;">Property Group</th>
+                    <th>Property</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th style="width:100px !important;">Start Time</th>
+                    <th style="width:100px !important;">End Time</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let jobhist of jobHistList">
+                  <tr>
+                    <td>
+                    {{jobhist.ExtractJobHistID}}  &nbsp;&nbsp; <span class="fa" [ngClass]="{'fa-plus-circle' : showSubHistory!=jobhist.ExtractJobHistID, 'fa-minus-circle': showSubHistory==jobhist.ExtractJobHistID}" (click)="onExpand(jobhist.ExtractJobHistID)">&nbsp;</span>
+                    </td>
+                    <td>{{jobhist.JobName}}</td> 
+                    <td>{{jobhist.PropertyGroupName}}</td>
+                    <td>{{jobhist.PropertyName}}</td>
+                    <td>{{jobhist.ProductName}}</td>   
+                    <td [ngClass]="{'green' : jobhist.Status=='Completed', 'blue' : jobhist.Status=='Running', 'yellow' : jobhist.Status=='Waiting','red': jobhist.Status=='Ended' || jobhist.Status=='Failed'}">{{jobhist.Status}}
+                    </td>  
+                    <td>{{jobhist.StartTime}}</td>  
+                    <td class="text-center">{{jobhist.EndTime}}</td>  
+                  </tr>
+                  <tr *ngIf="showSubHistory==jobhist.ExtractJobHistID">
+                    <td>
+                      <span *ngIf="flagSearch2"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                    </td>
+                    <td colspan="7">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="card mb-3">
+                            <div class="card-block table-responsive">
+                              <div class="panel-body">
+                                  <table class="table table-sm">
+                                    <thead>
+                                      <tr style="background: #e2e2e2">
+                                        <th style="width:100px !important;">Item ID</th>
+                                        <th style="width:100px !important;">Control ID</th>
+                                        <th style="width:100px !important;">Source Table</th>
+                                        <th style="width:100px !important;">Dest. Table</th>
+                                        <th style="width:100px !important;">Status</th>
+                                        <th style="width:100px !important;">Start Time</th>
+                                        <th style="width:100px !important;">End Time</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr  *ngFor="let jobExcohist of jobExtControlHistList">
+                                        <td>{{jobExcohist.HistID}}</td>
+                                        <td>{{jobExcohist.ExtractControlID}}</td> 
+                                        <td>{{jobExcohist.SourceTableName}}</td>
+                                        <td>{{jobExcohist.DestinationTableName}}</td>
+                                        <td  [ngClass]="{'green': jobExcohist.Status=='Completed', 'blue': jobExcohist.Status=='Running', 'red': jobExcohist.Status=='Ended', 'red': jobExcohist.Status=='Failed', 'yellow': jobExcohist.Status=='Waiting'}">{{jobExcohist.Status}}
+                                        </td>  
+                                        <td>{{jobExcohist.StartTime}}</td>  
+                                        <td>{{jobExcohist.EndTime}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showHistory">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <button class="btn default" [disabled]="preBtn" (click)="onPreRecord()">&#8249;</button>
+        <button class="btn btn-primary">{{pageNumber}}</button>
+        <button class="btn default"  [disabled]="nxtBtn"  (click)="onNextRecord()" >&#8250;</button>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
+</div> 

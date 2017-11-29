@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { StatusTrackingComponentModule } from './status-tracking-routing.module';
-import { StatusTrackingComponent } from './status-tracking.component';
+import { RunningJobsComponentModule } from './running-jobs-routing.module';
+import { RunningJobsComponent } from './running-jobs.component';
 import { PageHeaderModule, ModalModule,SharedPipesModule } from './../../../shared';
 import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
   imports: [
     CommonModule,
     FormsModule,
-    StatusTrackingComponentModule,
+    RunningJobsComponentModule,
     PageHeaderModule,
     ModalModule,
     SharedPipesModule,
@@ -28,9 +28,9 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
 
 
   ],
-  declarations: [StatusTrackingComponent]
+  declarations: [RunningJobsComponent]
 })
-export class StatusTrackingModule { }
+export class RunningJobsModule { }
 export function TranslateFactory(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }

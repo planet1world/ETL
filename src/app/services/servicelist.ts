@@ -46,6 +46,9 @@ export class servicelist {
     ExtCntrlInsertion:string;
     GetMasterData:string;
     GetExtractControl:string;
+    GetAllSourceTables : string;
+    GetAllDestinationTables : string
+    GetListOfManageExtractControl : string;
     UpdateConAndLoadExtractControl:string;
     GetTableListforJobMapping:string;
     FetchSourceTable:string
@@ -63,9 +66,13 @@ export class servicelist {
     DeleteSelectedExtractControls : string;
     AddSelectedInQueue : string;
     RemoveSelectedFromQueue : string;
-    ViewEtlQueueForSelectedTableOndemandJob : string;
+    GetViewETLQueueJob : string;
+    GetRunningJobs : string;
     GetJobExecutionStatus : string;
     OnDemandJobRunNow : string;
+    GetExtractJobHistory : string;
+    GetExtractJobHistoryDetail : string;
+    GetExtractControlJobHistory : string;
 
 
     constructor(private http: Http) {
@@ -134,6 +141,9 @@ export class servicelist {
         this.ExtCntrlInsertion=url+"api/Job/ExtCntrlInsertion";
         this.GetMasterData=url+"api/Job/GetMasterList";
         this.GetExtractControl=url+"api/Job/GetListofExtractControl";
+        this.GetAllSourceTables=url+"api/Job/GetSourceTables";
+        this.GetAllDestinationTables=url+"api/Job/GetDestinationTables";
+        this.GetListOfManageExtractControl=url+"api/Job/GetListOfManageExtractControl";
         this.UpdateConAndLoadExtractControl=url+"api/Job/UpdateConAndLoadExtractControl";
         this.GetTableListforJobMapping=url+"api/Job/GetTableListforJobMapping";
         this.FetchSourceTable=url+"api/Job/FetchSourceTable";
@@ -151,10 +161,14 @@ export class servicelist {
         this.DeleteSelectedExtractControls=url+"api/Job/DeletTableForJob";
         this.AddSelectedInQueue=url+"api/Job/MarkTableActiveForOnDemandSync";
         this.RemoveSelectedFromQueue=url+"api/Job/MarkTableInActiveForOnDemandSync";
-        this.ViewEtlQueueForSelectedTableOndemandJob=url+"api/Job/GetViewETLQueueOndemandJob";
+        this.GetViewETLQueueJob=url+"api/Job/GetViewETLQueueJob";
+        this.GetRunningJobs=url+"api/Job/GetRunningJobs";
         this.GetJobScheduleDetails=url+"api/Job/GetJobScheduleDetails";
         this.GetJobExecutionStatus=url+"api/Job/GetMostRecentJobExecutionStausByID";
         this.OnDemandJobRunNow=url+"api/Job/OnDemandJobRunNow";
+        this.GetExtractJobHistory=url+"api/Job/ExtractJobHistory"; 
+        this.GetExtractJobHistoryDetail=url+"api/Job/ExtractJobHistoryDetail"; 
+        this.GetExtractControlJobHistory=url+"api/Job/GetExtractControlJobHistory"; 
 
     }
 

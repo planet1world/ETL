@@ -1,0 +1,30 @@
+@media(min-width: 768px) {
+    .field-label-responsive {
+      padding-top: .5rem;
+      text-align: right;
+    }
+  }
+
+  .boder-bottom{
+    border-bottom: 2px solid #eceeef;
+    text-align: center;
+}
+
+.paddingdate
+{
+    padding-top: 33px;
+}
+
+.red{
+  color: red;
+}
+
+.blue{
+  color: blue;
+}
+.green{
+  color:green;
+}
+.yellow{
+  color:orange;
+}

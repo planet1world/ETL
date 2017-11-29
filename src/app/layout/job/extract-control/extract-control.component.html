@@ -87,8 +87,7 @@
 <br />
 <span *ngIf="loadcontrol"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
 <div class="row" *ngIf="loadTable">
-  <div class="col-lg-1"></div>
-  <div class="col-md-10">
+  <div class="col-md-12">
     <div class="card mb-3">
       <div class="card-block table-responsive">
         <div class="panel-body">
@@ -102,7 +101,7 @@
                     <th>Source Type</th>
                     <th>Engine Type</th>
                     <th>Source Con Name</th>
-                    <th style="width:10px">Load Type</th>
+                    <th>Load Type</th>
                     <th>Filter</th>
                   </tr>
               </thead>
@@ -115,7 +114,7 @@
                   </td>
                   <td>{{table.DestinationTableName}}</td>
                   <td>{{table.SourceTableName}}</td>
-                  <td>
+                  <td class="text-center">
                     <input [checked]="table.Active" type="checkbox" disabled>
                   </td>  
                   <td>{{table.SourceTypeName}}</td>  
@@ -130,7 +129,6 @@
         </div>
     </div>
   </div>
-  <div class="col-lg-1"></div>
 </div>
 <div class="row" *ngIf="loadTable">
   <div class="col-md-1"></div>
@@ -145,7 +143,7 @@
     </button>
     <button type="button" class="btn btn-danger" (click)="onDelete()">
       <i [ngClass]="{'fa fa-spinner fa-spin':flagDelete===true}"></i>
-      Delete Selected
+      Remove Selected
     </button>
     <button type="button" class="btn btn-danger" (click)="onCancel()">
       Close

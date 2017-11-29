@@ -15,7 +15,7 @@
             </div>
             <div class="row">
               <div class="col-md-12"><i class="pull-left"> 
-                  <i class="fa fa-bank"></i>{{job.PropertyGroupName}} >&nbsp;
+                &nbsp;&nbsp;<i class="fa fa-bank"></i>{{job.PropertyGroupName}} >&nbsp;
                   <i class="fa fa-building"></i> {{job.PropertyName}} >&nbsp;
                   <i class="fa fa-suitcase"></i> {{job.ProductName}} > &nbsp;
                   <i class="fa fa-wrench"></i>{{job.JobName}} </i>
@@ -32,7 +32,7 @@
                 <th>Is Active</th>
                 <th>Source Type</th>
                 <th>Connection Type</th>
-                <th style="width:10px">Load Type</th>
+                <th>Load Type</th>
                 <th>Filter</th>
               </tr>
             </thead>
@@ -41,11 +41,11 @@
               <tr *ngFor="let table of extractControls">
                 <td>{{table.DestinationTableName}}</td>
                 <td>{{table.SourceTableName}}</td>
-                <td>
+                <td class="text-center">
                   <input [checked]="table.Active" type="checkbox" disabled>
                 </td>  
                 <td>{{table.SourceTypeName}}</td>  
-                <td>{{table.EngineTypeName}}</td> 
+                <td class="text-center">{{table.EngineTypeName}}</td> 
                 <td>{{table.LoadName}}</td> 
                 <td>{{table.SourceQueryFilterCondition}}</td> 
               </tr>
@@ -69,13 +69,13 @@
             <div>  
               <div class="col-md-12">{{exectionInfo}}</div>
             </div>
-            <div class="row">
-              <div class="col-md-9"></div>
-              <div class="col-md-3">
-                <button type="button" class="btn btn-danger" (click)="onClose()">Close</button>
-              </div>
-            </div> 
           </div>
+          <div class="row">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-primary pull-right" (click)="onClose()">Close</button>
+            </div>
+          </div> 
         </div>
       </div>
     </div>
