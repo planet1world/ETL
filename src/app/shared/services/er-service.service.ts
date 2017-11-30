@@ -291,7 +291,7 @@ export class ERService {
         header.append('Authorization', 'Bearer ' + this.getToken());
         let requestOption = new RequestOptions({ headers: header });
         requestOption.search = params;
-        return this.http.get(this.serviceUrl.GetExtractControl, requestOption)
+        return this.http.get(this.serviceUrl.GetListofExtractControlForOnDemand, requestOption)
             .map(
             (response: Response) => {
                 return response.json();

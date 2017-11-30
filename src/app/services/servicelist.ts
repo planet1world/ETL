@@ -73,6 +73,7 @@ export class servicelist {
     GetExtractJobHistory : string;
     GetExtractJobHistoryDetail : string;
     GetExtractControlJobHistory : string;
+    GetListofExtractControlForOnDemand : string;
 
 
     constructor(private http: Http) {
@@ -141,6 +142,7 @@ export class servicelist {
         this.ExtCntrlInsertion=url+"api/Job/ExtCntrlInsertion";
         this.GetMasterData=url+"api/Job/GetMasterList";
         this.GetExtractControl=url+"api/Job/GetListofExtractControl";
+        this.GetListofExtractControlForOnDemand=url+"api/Job/GetListofExtractControlForOnDemand";
         this.GetAllSourceTables=url+"api/Job/GetSourceTables";
         this.GetAllDestinationTables=url+"api/Job/GetDestinationTables";
         this.GetListOfManageExtractControl=url+"api/Job/GetListOfManageExtractControl";
