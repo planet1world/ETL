@@ -27,6 +27,7 @@ export class JobStep4Component implements OnInit {
   filterSource="";
   error = false;
   popmessage: string;
+  nxtBtnColorGreen  = false;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.fetchTablesForJob(this.data.selectedJob.JobID);
@@ -186,6 +187,10 @@ export class JobStep4Component implements OnInit {
     if (count < this.jobTableList.length) {
       this.selectDesTable = this.jobTableList[count].TableName;
       this.onDestinationTableDDChange(this.selectDesTable);
+    }
+    if (this.saveTable.length == this.jobTableList.length)
+    {
+      this.nxtBtnColorGreen = true;
     }
   }
   onNextTable() {

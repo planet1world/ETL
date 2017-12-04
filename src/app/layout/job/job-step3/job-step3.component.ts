@@ -24,9 +24,11 @@ export class JobStep3Component implements OnInit {
   loadtype: TableLoadType[];
   extracContol: ExtractControl[];
   updateextracContol: ExtractControl[];
-  isChecked: boolean;
+  isChecked: boolean = false;
   flagSave: boolean;
   filterSource:string;
+  resetSor = 0;
+  resetLoad = 0;
 
   constructor(public ServiceURL: ERService, public router: Router, private data: Data) {
     this.fetchExtractControlData(this.data.selectedJob.ProductId, this.data.selectedJob.JobID);
@@ -75,11 +77,19 @@ export class JobStep3Component implements OnInit {
 
   checkAll(ev) {
     this.isChecked = ev.target.checked;
+    if(!this.isChecked){
+      this.engineall = [];
+      this.connectionall =[];
+      this.resetSor = 0;
+      this.resetLoad = 0;
+    }
   }
   onSourceSelectAll(connectionTypeID: number) {
-
-    if (this.isChecked)
+    this.resetSor = connectionTypeID;
+    if (this.isChecked){
       this.engineall = this.connectionengin.filter((item) => item.ConnectionTypeID == connectionTypeID);
+      this.connectionall =[];
+    }
   }
   onSourceSelect(connectionTypeID: number, i: number, tablename: string) {
     if (!this.isChecked)
@@ -113,6 +123,7 @@ export class JobStep3Component implements OnInit {
 
   }
   onLoadSelectAll(loadID: number) {
+    this.resetLoad = loadID;
     if (this.isChecked)
       this.updateextracContol.forEach(x => x.LoadTypeID = loadID);
 

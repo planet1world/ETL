@@ -257,7 +257,7 @@ export class ConnectionmanagerComponent implements OnInit {
       (data: any[]) => {
         this.source = [];
         for (let val of data) {
-          this.source.push(new Connection(val.ID, val.Name, val.ProviderId));
+          this.source.push(new Connection(val.ID, val.Name, val.ProviderId, val.PropertyGroupName, val.PropertyName));
         }
         this.showsource = false;
       }
@@ -275,7 +275,7 @@ export class ConnectionmanagerComponent implements OnInit {
       (data: any[]) => {
         this.destination = [];
         for (let val of data) {
-          this.destination.push(new Connection(val.ID, val.Name, val.ProviderId));
+          this.destination.push(new Connection(val.ID, val.Name, val.ProviderId, val.PropertyGroupName, val.PropertyName));
         }
         console.log(this.destination);
         this.showdestination = false;
@@ -298,5 +298,5 @@ export class ConnectionmanagerComponent implements OnInit {
 
 }
 export class Connection {
-  constructor(public id: any, public name: string, public provider: number) { }
+  constructor(public id: any, public name: string, public provider: number, public propertyGroupName : string, public propertyName : string) { }
 }

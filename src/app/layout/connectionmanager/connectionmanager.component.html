@@ -324,10 +324,12 @@
 
 
 <div class="row">
-    <div class="col col-xl-10">
+    <div class="col col-xl-9">
     </div>
      <div class="col col-xl-2">
           <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
+    </div>
+    <div class="col col-xl-1">
     </div>
     
 </div>
@@ -335,9 +337,9 @@
     <button class="btn btn-primary" (click)="addNewConnection()"><i class="fa fa-plus-square-o" ></i> Add New Connection</button>
 </div> -->
 <div class="row">
-    <div class="col col-xl-2">
-    </div>
-    <div class="col col-xl-8 col-lg-12">
+    <!-- <div class="col col-xl-1">
+    </div> -->
+    <div class="col col-xl-12 col-lg-12">
 
         <div class="card-block table-responsive">
             <div class="form-group input-group">
@@ -357,22 +359,22 @@
                         <tbody>
                             <tr *ngFor="let sor of source | filter:{name: filterSource}">
                                 <td>
-                                    <div *ngIf="sor.provider==1" style="padding-left: 50%;">
+                                    <div *ngIf="sor.provider==1">
                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo" width="40px" class="user-avatar" /></span>
                                     </div>
-                                    <div *ngIf="sor.provider==2" style="padding-left: 50%;">
+                                    <div *ngIf="sor.provider==2">
                                         <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"  /></span>
                                     </div>
-                                    <div *ngIf="sor.provider==3" style="padding-left: 50%;">
+                                    <div *ngIf="sor.provider==3" >
                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"  /></span>
                                     </div>
-                                    <div *ngIf="sor.provider==4" style="padding-left: 50%;">
+                                    <div *ngIf="sor.provider==4">
                                         <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"  /></span>
                                     </div>
                                 </td>
-                                <td>{{sor.name}}</td>
+                                <td><i class="fa fa-fw  fa fa-share-alt"></i> {{sor.name}} [<i class="fa fa-bank"></i> {{sor.propertyGroupName}} > <i class="fa fa-building"></i> {{sor.propertyName}}]</td>
                                 <td>
-                                    <div style="padding-left: 5%;">
+                                    <div>
                                         <button class="btn btn-primary" (click)="onView(sor.id,1,sor.provider)" aria-label="View">
                                         <i class="fa fa-eye " aria-hidden="true"></i>
                                        </button>
@@ -402,22 +404,22 @@
                         <tbody>
                             <tr *ngFor="let des of destination | filter:{name: filterSource}">
                                 <td>
-                                    <div *ngIf="des.provider==1" style="padding-left: 50%;">
+                                    <div *ngIf="des.provider==1">
                                         <span class="alerticon"><img src="assets/images/CSV_logo.png" alt="CSV_logo"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                    <div *ngIf="des.provider==2" style="padding-left: 50%;">
+                                    <div *ngIf="des.provider==2">
                                         <span class="alerticon"><img src="assets/images/MySQL.png" alt="MySQL"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                    <div *ngIf="des.provider==3" style="padding-left: 50%;">
+                                    <div *ngIf="des.provider==3" >
                                         <span class="alerticon"><img src="assets/images/MSSQL.png" alt="MSSQL"  width="40px" class="user-avatar"/></span>
                                     </div>
-                                    <div *ngIf="des.provider==4" style="padding-left: 50%;">
+                                    <div *ngIf="des.provider==4" >
                                         <span class="alerticon"><img src="assets/images/XML_icon.jpg" alt="XML_icon"  width="40px" class="user-avatar"/></span>
                                     </div>
                                 </td>
-                                <td>{{des.name}}</td>
+                                <td> <i class="fa fa-fw  fa fa-share-alt"></i> {{des.name}} [<i class="fa fa-bank"></i> {{des.propertyGroupName}}]</td>
                                 <td>
-                                    <div style="padding-left: 5%;">
+                                    <div>
                                         <button class="btn btn-primary" (click)="onView(des.id,2,des.provider)" aria-label="View">
                                         <i class="fa fa fa-eye" aria-hidden="true"></i>
                                        </button>
@@ -438,4 +440,6 @@
             </div> 
         </div>
     </div>
+    <!-- <div class="col col-xl-1">
+    </div> -->
 </div>

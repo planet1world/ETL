@@ -44,10 +44,11 @@
                                     <td>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-database"></i></div>
-                                            <select (change)="onSourceSelectAll($event.target.value)">
+                                            <select (change)="onSourceSelectAll($event.target.value)"
+                                                     [disabled]="!isChecked" [ngModel]="resetSor">
                                                 <option [value]="0" >--Select--</option>
                                                 <option *ngFor="let con of connectiontype" 
-                                                    [value]="con.ID" >
+                                                    [value]="con.ID" [selected]="con.ID==resetSor">
                                                     {{ con.Name }}
                                                  </option>
                                                   </select>
@@ -56,7 +57,7 @@
                                     <td>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-server"></i></div>
-                                            <select (change)="onEngineSelectAll($event.target.value)">
+                                            <select (change)="onEngineSelectAll($event.target.value)" [disabled]="!isChecked">
                                                         <option [value]="0" >--Select--</option>
                                                         <option *ngFor="let con of engineall" 
                                                             [value]="con.ID">
@@ -68,7 +69,7 @@
                                     <td>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-exchange"></i></div>
-                                            <select (change)="onConnectionSelectAll($event.target.value)">
+                                            <select (change)="onConnectionSelectAll($event.target.value)" [disabled]="!isChecked">
                                                             <option [value]="0" >--Select--</option>
                                                             <option *ngFor="let con of connectionall" 
                                                                 [value]="con.ConnectionID" >
@@ -80,10 +81,11 @@
                                     <td>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-th"></i></div>
-                                            <select (change)="onLoadSelectAll($event.target.value)">
+                                            <select (change)="onLoadSelectAll($event.target.value)" 
+                                                    [disabled]="!isChecked" [ngModel]="resetLoad">
                                                             <option [value]="0" >--Select--</option>
                                                             <option *ngFor="let con of loadtype" 
-                                                                [value]="con.ID" >
+                                                                [value]="con.ID" [selected]="con.ID==resetLoad">
                                                                 {{ con.LoadName }}
                                                              </option>
                                                 </select>
