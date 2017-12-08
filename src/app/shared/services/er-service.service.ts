@@ -6,8 +6,8 @@ import { servicelist } from '../../services/servicelist';
 // import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
 import {
     ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable,
-    ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule, JobSearchParams
-} from '../../modal';
+    ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule, JobSearchParams,
+    User    } from '../../modal';
 // import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
 export class ERService {
@@ -950,6 +950,74 @@ export class ERService {
         header.append('Content-Type', 'application/json');
         header.append('Authorization', 'Bearer ' + this.getToken());
         return this.http.post(this.serviceUrl.OnDemandJobRunNow, JSON.stringify(job), { headers: header })
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    CreateUser(usr : User) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.CreateUser, JSON.stringify(usr), { headers: header })
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+
+    UpdateUser(usr : User) {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.post(this.serviceUrl.UpdateUser, JSON.stringify(usr), { headers: header })
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+
+    GetUserData(userid: string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('userid', String(userid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.GetUserData, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    ResetUserPassword(userid: string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('userid', String(userid));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        let requestOption = new RequestOptions({ headers: header });
+        requestOption.search = params;
+        return this.http.get(this.serviceUrl.ResetUserPassword, requestOption)
+            .map(
+            (response: Response) => {
+                return response.json();
+            }
+            );
+    }
+    
+    GetUsersList() {
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken());
+        return this.http.get(this.serviceUrl.GetUsersList, { headers: header })
             .map(
             (response: Response) => {
                 return response.json();

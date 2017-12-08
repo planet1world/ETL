@@ -74,6 +74,11 @@ export class servicelist {
     GetExtractJobHistoryDetail : string;
     GetExtractControlJobHistory : string;
     GetListofExtractControlForOnDemand : string;
+    CreateUser : string;
+    UpdateUser : string;
+    GetUserData : string;
+    ResetUserPassword : string;
+    GetUsersList : string;
 
 
     constructor(private http: Http) {
@@ -171,6 +176,11 @@ export class servicelist {
         this.GetExtractJobHistory=url+"api/Job/ExtractJobHistory"; 
         this.GetExtractJobHistoryDetail=url+"api/Job/ExtractJobHistoryDetail"; 
         this.GetExtractControlJobHistory=url+"api/Job/GetExtractControlJobHistory"; 
+        this.CreateUser=url+"api/Account/Register";
+        this.UpdateUser=url+"api/Account/UpdateUser";
+        this.GetUsersList=url+"api/Account/GetUsersList";
+        this.GetUserData=url+"api/Account/GetUserData";
+        this.ResetUserPassword=url+"api/Account/GetResetUserPassword";
 
     }
 

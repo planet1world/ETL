@@ -1,0 +1,250 @@
+<app-page-header [heading]="'User Details'| translate" [icon]="'fa-user'"></app-page-header>
+<app-modal [(visible)]="showDialog">
+    <div id="content">
+      <div class="notify successbox">
+        <h1>Success!</h1>
+        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+        <p>{{popmessage}}</p>
+      </div>
+    </div>
+</app-modal>
+<app-modal [(visible)]="error">
+    <div id="content">
+        <div class="notify errorbox">
+        <h1>Error!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>{{popmessage}}</p>
+        </div>
+    </div>
+</app-modal>
+<div class="row">
+  <div class="col-lg-2">
+  </div>
+  <div class="col-lg-8">
+    &nbsp;
+  </div>
+  <div class="col-lg-2">
+    <span class="float-right text-muted small">
+      
+    </span>
+  </div>
+</div>
+<br/>
+<form class="form-horizontal" (ngSubmit)="onFormSubmit(f)" #f="ngForm">
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="username">User Name</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon" style="width: 2.6rem">
+            <i class="fa fa-user"></i>
+          </div>
+          <input type="text" ngModelGroup="createUser" name="username" class="form-control" id="username" 
+             placeholder="User Name"  #username="ngModel" ngModel required minlength="8">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+        <div *ngIf="!username.valid && (username.touched||username.dirty)">
+          <span class="text-danger align-middle" *ngIf="username.errors.required">
+            <i class="fa fa-close"> user name is required</i>
+          </span>
+          <span class="text-danger align-middle" *ngIf="username.errors.minlength">
+            <i class="fa fa-close"> must be at least 8 characters long</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="email">Email</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon" style="width: 2.6rem">
+            <i class="fa fa-envelope"></i>
+          </div>
+          <input type="text" ngModelGroup="createUser" name="email" class="form-control" id="email" 
+             placeholder="Email"  #email="ngModel" ngModel required
+             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+        <div *ngIf="!email.valid && (email.touched||email.dirty)">
+          <span class="text-danger align-middle" *ngIf="email.errors.required">
+            <i class="fa fa-close">email is required</i>
+          </span>
+          <span class="text-danger align-middle" *ngIf="email.errors.pattern">
+            <i class="fa fa-close">valid email is required</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="password">Password</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon" style="width: 2.6rem">
+            <i class="fa fa-key"></i>
+          </div>
+          <input type="password" ngModelGroup="createUser" name="password" 
+              class="form-control" id="password" #password="ngModel" ngModel placeholder="Password" required  minlength="8">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+        <div *ngIf="!password.valid && (password.touched||password.dirty)">
+          <span class="text-danger align-middle" *ngIf="password.errors.required">
+            <i class="fa fa-close"> password is required</i>
+          </span>
+          <span class="text-danger align-middle" *ngIf="password.errors.minlength">
+            <i class="fa fa-close"> must be at least 8 characters long</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="enable">Role Group</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select class="form-control" name="roleDD" id="roleDD" required #roleDD="ngModel" 
+                  ngModel [(ngModel)]="setRole" ngModelGroup="createUser">
+            <option [value]="0" [selected]="0==setRole" >Select Role Group</option>
+            <option *ngFor="let role of roleList" 
+              [value]="role.Name" [selected]="role.Name==setRole" >
+              {{ role.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+      <label for="enable">Enabled</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="padding-top:15px;">
+          <input type="checkbox" name="userEnable" id="userEnable" [(ngModel)]="isEnabled" ngModelGroup="createUser" 
+                ngModel #userEnable="ngModel" >
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!show">
+    <div class="col-md-3 field-label-responsive">
+      <label for="enable">Property Group</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <select class="form-control" name="pgDD" id="pgDD">
+            <option [value]="0" [selected]="0==setPG" >All Property Group</option>
+            <option *ngFor="let pg of pgList" 
+              [value]="pg.ID" [selected]="pg.ID==setPG" >
+              {{ pg.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!show">
+    <div class="col-md-3 field-label-responsive">
+      <label for="enable">Property</label>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem">
+              <i class="fa fa-search"></i>
+            </div>
+            <input type="text" class="form-control" placeholder="Search..." name="searchProp" id="searchProp">
+        </div>
+        <div class="card mb-3">
+          <div class="card-block table-responsive">
+            <div class="panel-body">
+              <table class="table table-sm table-fixed">
+                <thead>
+                 <tr>
+                  <th>Select</th>
+                  <th>Property</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pl of propList">
+                    <td>
+                    <input type="checkbox" 
+                    name="{{pl.ID}}"
+                    checked disabled>
+                    </td>
+                    <td>{{pl.Name}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 field-label-responsive">
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="padding-top:15px;">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-control-feedback">
+        <button type="button" class="btn btn-link noBorder" (click)="onShowAdvancedDetails()" id="linkBtn" >
+              {{ messageShow}} <i class="fa" [ngClass]="{'fa-chevron-down': show, 'fa-chevron-up':!show}"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-danger" (click)="onCancel()" > Cancel</button>
+      <button type="submit" class="btn btn-success" [disabled]="(!f.valid) || (setRole==0)">
+          <i [ngClass]="{'fa fa-spinner fa-spin':flagSave===true}"></i>
+        Save</button>
+    </div>
+  </div>
+</form>

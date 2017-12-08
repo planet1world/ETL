@@ -10,6 +10,7 @@ import { CookieService } from 'ng2-cookies';
 export class AuthService {
   token: string;
   userName: string;
+  role : string;
   version: string;
   loginurl: string;
   configurationobject: Config;
@@ -35,6 +36,7 @@ export class AuthService {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('expires', data[".expires"]);
         localStorage.setItem('lang', lang);
+        localStorage.setItem('Role', data.role);
         return data;
       }
       );
@@ -46,6 +48,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expires');
     localStorage.removeItem('lang');
+    localStorage.removeItem('Role');
     localStorage.clear();
     this.userName = null;
     this.token = null;
@@ -118,6 +121,16 @@ export class AuthService {
   getToken() {
     this.token = localStorage.getItem('token');
     return this.token;
+  }
+  
+  getRole() {
+    this.role = localStorage.getItem('Role');
+    return this.role;
+  }
+
+  isAdministrator() {
+    let role = this.getRole();
+    return role==='Administrator';
   }
 
   isAuthenticated() {

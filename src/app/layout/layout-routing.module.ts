@@ -39,6 +39,9 @@ const routes: Routes = [
             { path: 'running-jobs', loadChildren:'./etl-tracking/running-jobs/running-jobs-module.module#RunningJobsModule'},
             { path: 'job-history', loadChildren:'./etl-tracking/job-history/job-history-module.module#JobHistoryModule'},
             { path: 'job-history-detail', loadChildren:'./etl-tracking/job-history-detail/job-history-detail-module.module#JobHistoryDetailModule'},
+            { path: 'list-users', loadChildren:'./admin/users/users-module.module#UsersModule'},
+            { path: 'create-user', loadChildren:'./admin/create-user/create-user-module.module#CreateUserModule'},
+            { path: 'edit-user/:id', loadChildren:'./admin/edit-user/edit-user-module.module#EditUserModule'},
         ]
     }
 ];

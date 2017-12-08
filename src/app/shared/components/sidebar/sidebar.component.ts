@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as appV from '../../../version';
 import { CookieService } from 'ng2-cookies';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -12,10 +13,14 @@ export class SidebarComponent {
     showMenu = '';
     showJobMenu = '';
     showEtlMenu = '';
+    showAdminMenu = '';
+    isAdministrator = false;
     version: string;
     checkName: string = "ER_ETL_V";
-    constructor(public cookieService: CookieService) {
-        this.version = this.cookieService.get(this.checkName);;
+    constructor(public cookieService: CookieService, private authService : AuthService) {
+        this.version = this.cookieService.get(this.checkName);
+        this.isAdministrator = this.authService.isAdministrator();
+
     }
     eventCalled() {
         this.isActive = !this.isActive;
@@ -38,10 +43,19 @@ export class SidebarComponent {
     {
         if (element === this.showEtlMenu) {
             this.showEtlMenu = '0';
-            console.log('this.showEtlMenu 1:= ' + this.showEtlMenu);
         } else {
             this.showEtlMenu = element;
-            console.log('this.showEtlMenu 2:= ' + this.showEtlMenu);
+        }
+    }
+    
+    addAdminConsole(element: any) 
+    {
+        if (element === this.showAdminMenu) {
+            this.showAdminMenu = '0';
+            console.log('this.showAdminMenu 1:= ' + this.showAdminMenu);
+        } else {
+            this.showAdminMenu = element;
+            console.log('this.showAdminMenu 2:= ' + this.showAdminMenu);
         }
     }
 }

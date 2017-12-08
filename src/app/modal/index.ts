@@ -8,3 +8,4 @@ export * from './er-interface.interface';
 export * from './job.modal';
 export * from './scheduler-modal';
 export * from './ETLJobQueue.Model';
+export * from './user.modal';

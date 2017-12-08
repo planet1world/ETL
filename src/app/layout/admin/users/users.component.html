@@ -1,0 +1,90 @@
+<app-page-header [heading]="'Users'| translate" [icon]="'fa-user'"></app-page-header>
+<app-modal [(visible)]="warning">
+  <div id="content">
+    <div class="notify errorbox">
+      <h1>Warning!</h1>
+      <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+      <p>Are you want to Reset Password ?</p>
+      <button type="submit" class="btn btn-danger" (click)="onNo()">No</button>
+      <button type="submit" (click)="onResetConfirmation()" class="btn btn-success">Yes</button>
+    </div>
+  </div>
+</app-modal>
+<app-modal [(visible)]="showDialog">
+    <div id="content">
+      <div class="notify successbox">
+        <h1>Success!</h1>
+        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+        <p>{{popmessage}}</p>
+      </div>
+    </div>
+</app-modal>
+<app-modal [(visible)]="error">
+    <div id="content">
+        <div class="notify errorbox">
+        <h1>Error!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>{{popmessage}}</p>
+        </div>
+    </div>
+</app-modal>
+<div class="row">
+  <div class="col-lg-2">
+  </div>
+  <div class="col-lg-8">
+    &nbsp;
+  </div>
+  <div class="col-lg-2">
+    <span class="float-right text-muted small">
+      <button class="btn btn-primary" (click)="onAddNewUser()">Add New User</button>
+    </span>
+  </div>
+</div>
+<br />
+<div class="row" >
+  <div class="col-md-12">
+    <div class="card mb-3">
+      <div class="card-block table-responsive">
+        <div class="panel-body">
+          <table class="table table-sm">
+            <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role Group</th>
+                  <th>Property Group</th>
+                  <th>Property</th>
+                  <th>Enabled</th>
+                  <th>Edit User</th>
+                  <th>Reset Password</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="loadList"><td colspan="8"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></td></tr>
+              <tr *ngFor="let usr of usersList">
+                <td>{{usr.UserName}}</td>
+                <td>{{usr.Email}}</td>
+                <td>{{usr.RoleGroup}}</td>
+                <td>All</td>  
+                <td>All</td> 
+                <td class="text-center">
+                  <input type="checkbox" [checked]="usr.Enabled" disabled>
+                </td>
+                <td>
+                  <button class="btn btn-warning" (click)="onEditUser(usr.UserID)" aria-label="Edit">
+                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                  </button>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-danger" id="{{usr.UserID}}" name="{{usr.UserID}}"
+                   (click)="onResetPassword(usr.UserID)"> <i [ngClass]="{'fa fa-spinner fa-spin':flagResetPwd==usr.UserID}"></i>
+                   Reset</button>
+                </td>   
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

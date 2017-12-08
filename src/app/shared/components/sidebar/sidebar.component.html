@@ -79,6 +79,20 @@
                 </ul>
             </li>
         </div>
+        <div class="nested-menu" *ngIf="isAdministrator">
+            <a class="list-group-item" (click)="addAdminConsole('adminpages')">
+                <i class="fa fa-user"></i>&nbsp;Admin Console&nbsp;&nbsp;&nbsp;<span class="fa fa-chevron-down"></span>
+            </a>
+            <li class="nested" [class.expand]="showAdminMenu === 'adminpages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/list-users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-user-plus"></i>&nbsp;Users
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
         <!-- <a [routerLink]="['/job-step4']" [routerLinkActive]="['router-link-active']" class="list-group-item" disabled>
          
             <i class="fa fa-fw fa fa-wrench"></i>&nbsp;Job&Scheduler
@@ -120,7 +134,7 @@
     </ul>
 </nav>
 <!-- /menu footer buttons -->
-<!-- <div class="sidebar-footer">
+<div class="sidebar-footer">
     <font size="2"><b>Version:{{version}} Copyright © FCS.</b></font>
-</div> -->
+</div>
 <!-- /menu footer buttons -->
