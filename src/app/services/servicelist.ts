@@ -79,6 +79,7 @@ export class servicelist {
     GetUserData : string;
     ResetUserPassword : string;
     GetUsersList : string;
+    GetFAETLExtractToolDownload : string;
 
 
     constructor(private http: Http) {
@@ -181,6 +182,7 @@ export class servicelist {
         this.GetUsersList=url+"api/Account/GetUsersList";
         this.GetUserData=url+"api/Account/GetUserData";
         this.ResetUserPassword=url+"api/Account/GetResetUserPassword";
+        this.GetFAETLExtractToolDownload=url+"api/ETLExtractToolController/GetFAETLExtractToolDownload";
 
     }
 

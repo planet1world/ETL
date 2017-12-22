@@ -18,6 +18,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Data} from './shared/data/data';
 import {OndemandJobData} from './shared/data/ondemand-job-data';
 import {LocationStrategy, HashLocationStrategy, DatePipe} from '@angular/common';
+import { from } from 'rxjs/observable/from';
 
 // import { ModalComponent }from './layout/modal/modal.component'
 
@@ -42,7 +43,10 @@ import {LocationStrategy, HashLocationStrategy, DatePipe} from '@angular/common'
         }
        )
     ],
-    providers: [AuthService,servicelist,Alertlist,CookieService,ERService,Data,OndemandJobData,DatePipe,{provide: LocationStrategy, useClass: HashLocationStrategy} ],
+    providers: [
+            AuthService,servicelist,Alertlist,CookieService,ERService,Data,OndemandJobData,
+            DatePipe,{provide: LocationStrategy, useClass: HashLocationStrategy}
+        ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

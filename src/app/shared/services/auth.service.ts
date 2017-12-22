@@ -165,4 +165,10 @@ export class AuthService {
   statusUpdate(status: string)
   { }
 
+  DownloadExtractToolUrl()
+  {
+    let url =this.serviceURL.GetFAETLExtractToolDownload;
+    console.log('url: ' + url);
+    return url;
+  }
 }

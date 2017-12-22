@@ -17,9 +17,12 @@ export class SidebarComponent {
     isAdministrator = false;
     version: string;
     checkName: string = "ER_ETL_V";
+    downloadUrl : string;
     constructor(public cookieService: CookieService, private authService : AuthService) {
         this.version = this.cookieService.get(this.checkName);
         this.isAdministrator = this.authService.isAdministrator();
+        this.downloadUrl = this.authService.DownloadExtractToolUrl();
+        console.log('this.downloadUrl: ' + this.downloadUrl);
 
     }
     eventCalled() {
@@ -52,10 +55,8 @@ export class SidebarComponent {
     {
         if (element === this.showAdminMenu) {
             this.showAdminMenu = '0';
-            console.log('this.showAdminMenu 1:= ' + this.showAdminMenu);
         } else {
             this.showAdminMenu = element;
-            console.log('this.showAdminMenu 2:= ' + this.showAdminMenu);
         }
     }
 }

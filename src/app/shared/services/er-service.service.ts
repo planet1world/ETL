@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
+import { Headers, Http, Response, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
 import 'rxjs/Rx';
 import { servicelist } from '../../services/servicelist';
 // import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
