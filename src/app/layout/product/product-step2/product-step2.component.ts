@@ -63,8 +63,10 @@ export class ProductStep2Component implements OnInit {
 
     checkAll(ev) {
         console.log(ev);
-        this.tableList.forEach(x => x.type = ev.target.checked)
+       
         if (ev.target.checked) {
+            console.log("1...");
+            this.tableList.forEach(x => x.type = ev.target.checked)
             this.count = this.tableList.length;
             // for (let d of this.tableList)
             //     this.temp.push({
@@ -73,10 +75,13 @@ export class ProductStep2Component implements OnInit {
             //     );
         }
         else {
-            this.count = 0;
+            console.log("2...");
+            this.tableList.forEach(x => x.type = x.Disable) 
+            this.count = this.tableList.filter(x=>x.type==true).length;
             // this.temp = [];
         }
-
+        console.log("this.tableList: " + JSON.stringify(this.tableList));
+        
     }
 
     isAllChecked() {
@@ -158,20 +163,20 @@ export class ProductStep2Component implements OnInit {
         this.ServiceURL.getTemplateTableList(obj)
             .subscribe(
             (data: ProductTableList[]) => {
-
+                console.log("tbllist : " + JSON.stringify(data));
                 for (let d of data) {
                     this.tableList.push({
                         ID: d.ID,
                         type: d.type,
                         Name: d.Name,
-                        Disable: d.Disable
+                        Disable: d.type
                     });
                     if (d.type == true) {
                         this.count = this.count + 1;
                     }
 
                 }
-
+                
                 this.showproperty = false;
             },
             (error) => {

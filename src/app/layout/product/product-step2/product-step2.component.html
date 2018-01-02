@@ -141,7 +141,7 @@
                       <input type="checkbox" [checked]="isAllChecked()" (change)="checkAll($event)">&nbsp;<b>Check ALL</b>
                       <div class="checkbox" *ngFor="let table of tableList | filter:{Name: filterSource}; let i = index " [ngClass]="{odd:table.type===false,green:table.type===true}">
 
-                        <input type="checkbox" #i checked name="{{table.type}}" [(ngModel)]="table.type" [disabled]="table.Disable" (change)="logCheckbox(i,table.Name)">&nbsp;{{table.Name}}
+                        <input type="checkbox" #i [checked]="table.type"  name="{{table.Name}}" [(ngModel)]="table.type" [disabled]="table.Disable" (change)="logCheckbox(i,table.Name)">&nbsp;{{table.Name}}
                       </div>
                     </div>
                   </td>

@@ -171,4 +171,18 @@ export class AuthService {
     console.log('url: ' + url);
     return url;
   }
+
+  forgotPassword()
+  {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    return this.http.get(this.serviceURL.ForgotPassword, { headers: header })
+    .map(
+    (response: Response) => {
+      const data = response.json();
+      return data;
+    }
+    );
+
+  }
 }

@@ -7,6 +7,8 @@ import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ModalModule } from '../shared';
+
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     LoginRoutingModule,
     ReactiveFormsModule,
+    ModalModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot(
       {

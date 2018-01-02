@@ -1,3 +1,14 @@
+<app-modal [(visible)]="showDialog">
+    <div id="content">
+      <div class="notify successbox">
+        <h1>Notice !</h1>
+        <p>{{popmessage}}</p>
+        <p><a [href]="popemail">{{popemailmsg}}</a></p>
+        <button type="button"(click)="onClosePopup()" class="btn btn-success">Close</button>
+      </div>
+    </div>
+</app-modal>
+
 <div class="pos-f-t fixed-top header">
     <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
 
@@ -52,7 +63,7 @@
                         </div>
                         <button class="btn btn-primary" type="submit" [disabled]="!f.valid">
                              <i [ngClass]="{'fa fa-spinner fa-spin':showlogin===true}"></i>{{'Login' | translate}}</button>                        &nbsp;
-                        <a href="https://www.w3schools.com/html/"><span  style="color:#414848">{{'Forgot'|translate}}?</span></a>
+                        <button type="button" class="btn btn-link" (click)="onForgotPassword()"><span  style="color:#414848">{{'Forgot'|translate}}?</span></button>
                     </div>
                 </form>
             </div>

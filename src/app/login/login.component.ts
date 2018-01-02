@@ -40,6 +40,12 @@ export class LoginComponent implements OnInit {
         new langList('cn', 'Chinese'),
         new langList('hi', 'Hindi')
     ];
+
+    popmessage='';
+    popemail ='';
+    popemailmsg = '';
+    showDialog=false;
+
     @ViewChild('f') LoginForm: NgForm;
     constructor(private http: Http, public loginService: AuthService, public router: Router, public translate: TranslateService, private alert: Alertlist,
         public cookieService: CookieService) {
@@ -145,6 +151,28 @@ export class LoginComponent implements OnInit {
         this.translate.use(lang);
     }
 
+    onForgotPassword()
+    {
+        this.loginService.forgotPassword()
+        .subscribe(
+        (data: string[]) => {
+            this.showDialog = true;
+            console.log(data);
+            this.popmessage = data[0]
+            this.popemail = "mailto:"+data[1];
+            this.popemailmsg = data[1];
+        },
+        (error) => {
+            const errorData = error.json();
+            console.log('error:', errorData.error_description);
+        }
+        );
+    }
+
+    onClosePopup()
+    {
+        this.showDialog = false;
+    }
 
 }
 export class langList {
