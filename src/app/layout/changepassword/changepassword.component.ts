@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ChangePass, RootObject } from './changepassword.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +23,7 @@ export class ChangepasswordComponent implements OnInit {
   alerts: Array<any> = [];
   default = true;
   @ViewChild('f') ChangePasswordForm: NgForm;
-  constructor(public ServiceURL: AuthService, private alert: Alertlist, public translate: TranslateService) {
+  constructor(public ServiceURL: AuthService, private alert: Alertlist, public translate: TranslateService, public router: Router) {
     this.translate.use(localStorage.getItem('lang'));
   }
 
@@ -49,6 +50,9 @@ export class ChangepasswordComponent implements OnInit {
         });
       },
       (error) => {
+        if (error === 'Unauthorized') {
+            this.router.navigateByUrl('/login');
+          }
         this.alerts = [];
         this.default = false;
         const errorData = error.json().ModelState;

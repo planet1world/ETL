@@ -62,7 +62,9 @@ export class ListJobComponent implements OnInit {
         this.showpropertygroup = false;
       },
       (error) => {
-
+        // if (error === 'Unauthorized') { 
+        //   this.router.navigateByUrl('/login');
+        // }
         const errorData = error.json();
         console.log('error:', errorData);
         this.showpropertygroup = false;

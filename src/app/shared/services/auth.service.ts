@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { servicelist } from '../../services/servicelist';
 import { Config } from '../../modal/config-modal.modal';
@@ -158,7 +159,14 @@ export class AuthService {
         const data = response.json();
         return data;
       }
-      );
+      ).catch(e => {
+        if (e.status === 401) {
+            return Observable.throw("Unauthorized");
+        }
+        else{
+          return Observable.throw(e);
+        }
+    });
 
   }
 

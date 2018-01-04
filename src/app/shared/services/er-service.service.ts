@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Headers, Http, Response, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
 import 'rxjs/Rx';
@@ -14,7 +15,7 @@ export class ERService {
     token: string;
     userName: string;
     loginurl: string;
-    constructor(private http: Http, private serviceUrl: servicelist) {
+    constructor(private http: Http, private serviceUrl: servicelist, public router: Router) {
 
     }
     getToken() {
@@ -32,7 +33,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     getConnectionType() {
 
@@ -46,7 +52,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     getConEngineType(connectivetype: string) {
@@ -64,8 +75,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     getConectionList(connectivetype: any) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('id', connectivetype);
@@ -81,8 +98,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     getConnectionView(coneectionid: number, sourceid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('id', String(coneectionid));
@@ -97,7 +120,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     getTestConnection(TestConnection: any) {
@@ -111,8 +139,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     getSchema(TestConnection: any) {
         let body = TestConnection;
         const header = new Headers();
@@ -124,7 +158,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     postNewConnectionData(SourceConnectionClass: any) {
@@ -138,7 +177,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     DeleteConnection(id: any) {
@@ -156,7 +200,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     getCustomer() {
@@ -169,8 +218,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     CreatePropertyGroup(PGObject: PropertyGroup) {
         let body = PGObject;
         const header = new Headers();
@@ -182,7 +237,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     EditPropertyGroup(PGObject: PropertyGroup) {
@@ -196,7 +256,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetPropertyGroup() {
@@ -208,7 +273,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetTimeZoneList() {
@@ -220,7 +290,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     PropertyOperation(PObject: Property) {
@@ -234,7 +309,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     PostProductOperation(ObjectProject: Product) {
@@ -248,7 +328,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetAllJobs() {
@@ -261,7 +346,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetAllJobsForProduct(propertyid : number, productid : number) {
@@ -279,7 +369,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetListOfExtractControls(jobid : number, productid : number) {
@@ -296,7 +391,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetAllSourceTables(pgID : number,  propID : number, prodID : number, jbname : string) {
@@ -315,7 +415,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetAllDestinationTables(pgID : number,  propID : number, prodID : number, jbname : string) {
@@ -334,7 +439,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetListOfManageExtractControls(jobid : number, productid : number) {
@@ -351,7 +461,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetExtractJobHistory(searchParams : JobSearchParams) {
@@ -365,7 +480,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetExtractControlJobHistory(jobHistID : number) {
@@ -381,7 +501,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetExtractJobHistoryDetail(searchParams : JobSearchParams) {
@@ -395,7 +520,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     SetInactiveExtControls(extractControlsForInactive : ExtractControl[])
@@ -410,7 +540,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     SetActiveExtControls(extractControlsForInactive : ExtractControl[])
@@ -425,7 +560,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     DeleteExtControls(extractControlsForInactive : ExtractControl[])
@@ -440,7 +580,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     AddSelectedInQueue(extractControlsForInactive : ExtractControl[])
@@ -455,7 +600,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     RemoveSelectedFromQueue(extractControlsForInactive : ExtractControl[])
@@ -470,7 +620,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     ViewEtlQueue()
@@ -484,7 +639,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetRunningJobs()
@@ -498,7 +658,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     DeleteJobOperation(ObjectProject: Job) {
@@ -512,7 +677,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     getTemplateList() {
@@ -524,7 +694,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     getTemplateProductlist(obj: Template) {
@@ -538,8 +713,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     getTemplateTableList(obj: Template) {
         let body = obj;
         const header = new Headers();
@@ -551,7 +732,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     processProductTable(obj: any[]) {
@@ -565,8 +751,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     getProductSchema() {
         const header = new Headers();
         header.append('Content-Type', 'application/json');
@@ -577,7 +769,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetPrimaryKeyforTable(connectionstring: string, tablelname: string, productid: string, schemaid: string) {
@@ -598,8 +795,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     TGetColumnforTable(connectionstring: string, tablelname: string, productid: string, schemaid: string) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('connection', connectionstring);
@@ -618,7 +821,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     PostProductStep3(obj: ProductTableStructure) {
@@ -632,13 +840,15 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
-
     AutoSelectforTable(connectionstring: string, tablelname: any[], productid: string, propertyid: string, schemaid: string) {
-
-
         let body = { 'tblst': tablelname, 'templateDBconString': connectionstring, 'productid': Number(productid), 'propertyid': Number(propertyid), 'schemaid': Number(schemaid) }
         //console.log(body);
         const header = new Headers();
@@ -651,9 +861,13 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
-
 
     GetTreeView(productid: number, proprtyid: number) {
         let params: URLSearchParams = new URLSearchParams();
@@ -671,7 +885,12 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetProductCommited(productid: number, proprtyid: number) {
@@ -690,8 +909,14 @@ export class ERService {
                 const data = response.json();
                 return data;
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     GetPropertyList(propertygroupid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('propertygroupid', String(propertygroupid));
@@ -705,8 +930,14 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     AddJob(jobobject: Job) {
         const header = new Headers();
         header.append('Content-Type', 'application/json');
@@ -716,7 +947,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     UpdateJobStatus(jobobject: Job) {
@@ -728,7 +964,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetTableForJob(jobid: number, productid: number) {
@@ -745,7 +986,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetJobForProduct(porpertyid: number, productid: number) {
@@ -762,8 +1008,14 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     ExtractionControl(tableobject: JobTables[]) {
         const header = new Headers();
         header.append('Content-Type', 'application/json');
@@ -773,8 +1025,14 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     GetMaterList(porpertyid: number, productid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('propertyid', String(porpertyid));
@@ -789,8 +1047,14 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     GetExtractControl(productid: number, jobid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
@@ -805,8 +1069,14 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     UpdateExtractByLoadandConnetion(listofobject: ExtractControl[]) {
         const header = new Headers();
         header.append('Content-Type', 'application/json');
@@ -816,8 +1086,14 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     GetTableListforJobMapping(jobid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
@@ -831,8 +1107,14 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     FetchSourceTableforMapping(objtable: JobTableList) {
         const header = this.CallHeader();
         return this.http.post(this.serviceUrl.FetchSourceTable, JSON.stringify(objtable),
@@ -840,9 +1122,14 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
-
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     PostAutoMappingOfColumn(source: any) {
         const header = this.CallHeader();
         return this.http.post(this.serviceUrl.AutoMappingOfColumn, JSON.stringify(source), { headers: header }
@@ -850,8 +1137,14 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     PostUpdateColumnMapping(data: any) {
         const header = this.CallHeader();
         return this.http.post(this.serviceUrl.UpdateColumnMappingExtractControl, JSON.stringify(data), { headers: header }
@@ -859,8 +1152,14 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
+
     JobStep5SummaryData(productid: number, jobid: number) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('jobid', String(jobid));
@@ -874,7 +1173,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
 
     }
 
@@ -886,7 +1190,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     JobScheduling(obj:JobSchedule)
@@ -897,8 +1206,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
-
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     OndemandJobScheduling(obj:JobSchedule)
@@ -909,8 +1222,12 @@ export class ERService {
             (responce: Response) => {
                 return responce.json();
             }
-            );
-
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetJobScheduleDetails(jobid: number) {
@@ -926,7 +1243,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetJobExecutionStatus(jobid: number) {
@@ -942,7 +1264,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     OnDemandRunNow(job: Job) {
@@ -954,7 +1281,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     CreateUser(usr : User) {
@@ -966,7 +1298,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     UpdateUser(usr : User) {
@@ -978,7 +1315,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
 
     GetUserData(userid: string) {
@@ -994,7 +1336,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     ResetUserPassword(userid: string) {
@@ -1010,7 +1357,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     GetUsersList() {
@@ -1022,7 +1374,12 @@ export class ERService {
             (response: Response) => {
                 return response.json();
             }
-            );
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
     }
     
     CallHeader() {
@@ -1031,6 +1388,11 @@ export class ERService {
         header.append('Authorization', 'Bearer ' + this.getToken());
         return header;
 
+    }
+
+    CallRedirectToLoginPage()
+    {
+        this.router.navigateByUrl('/login');
     }
 
 }
