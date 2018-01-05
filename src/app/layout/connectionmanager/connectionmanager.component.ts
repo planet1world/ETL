@@ -13,6 +13,7 @@ import { OndemandJobData } from '../../shared/data/ondemand-job-data';
 export class ConnectionmanagerComponent implements OnInit {
   testcon: TestConnection;
   updateConnectionObject: SourceConnectionClass;
+  alerts: Array<any> = [];
   source = [];
   destination = [];
   textareaLength = 30;
@@ -223,22 +224,19 @@ export class ConnectionmanagerComponent implements OnInit {
         this.popmessage = 'Connection Name/User Name/Password required';
           this.status = 'error';
           this.showTestDialog = true;
-
     }
-
-
-
-
   }
-
 
   onDeleteConfirmation() {
     this.showDialog = false;
     this.showsource = true;
     this.ServiceURL.DeleteConnection(this.deleteId)
       .subscribe(
-      (data: any[]) => {
+      (data: any) => {
         this.showsource = false;
+        this.status = 'succes';
+        this.showDialog = true;
+        this.popmessage = data;
         if (this.selectedfunction == 1)
           this.getConnectionSource();
         else
@@ -246,8 +244,16 @@ export class ConnectionmanagerComponent implements OnInit {
       }
       ,
       (error) => {
-        const errorData = error.json();
-        console.log('error:', errorData);
+        this.alerts = [];
+        const errorData = error.json().ModelState;
+        Object.keys(errorData).forEach(key => {
+          let value = errorData[key];
+          this.alerts.push({
+            message: value[0],
+          });
+        });
+        this.status = 'validation';
+        this.showDialog = true;
         this.showsource = false;
       });
   }
