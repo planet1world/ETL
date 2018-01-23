@@ -42,6 +42,7 @@ const routes: Routes = [
             { path: 'list-users', loadChildren:'./admin/users/users-module.module#UsersModule'},
             { path: 'create-user', loadChildren:'./admin/create-user/create-user-module.module#CreateUserModule'},
             { path: 'edit-user/:id', loadChildren:'./admin/edit-user/edit-user-module.module#EditUserModule'},
+            { path: 'license-manager', loadChildren:'./license-manager/license-manager-module.module#LicenseManagerModule'},
         ]
     }
 ];

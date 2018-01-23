@@ -1,0 +1,620 @@
+<app-page-header [heading]="'License Manager'| translate" [icon]="'fa-key'"></app-page-header>
+<app-modal [(visible)]="showDialog">
+    <div id="content">
+      <div class="notify successbox">
+        <h1>Success!</h1>
+        <span class="alerticon"><img src="assets/images/check.png" alt="checkmark" /></span>
+        <p>{{popmessage}}</p>
+      </div>
+    </div>
+</app-modal>
+<app-modal [(visible)]="error">
+    <div id="content">
+        <div class="notify errorbox">
+        <h1>Error!</h1>
+        <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+        <p>{{popmessage}}</p>
+        </div>
+    </div>
+</app-modal>
+
+<div class="row">
+  <div class="col-lg-1">
+  </div>
+  <div class="col-lg-10">
+    <div class="list-group">
+      <div class="row list-group-item clearfix d-block">
+        <div class="col-lg-6">
+          <span class="text-muted">
+            <select #selectPG class="form-control" (change)="onChangePG(selectPG.value)" [ngModel]="setPg">
+                <option [value]="0" >Select Property Group</option>
+              <option *ngFor="let pg of propertygroup" 
+                  [value]="pg.ID"
+                  [selected]="pg.ID===setPg">
+                  {{ pg.Name }} ({{pg.ID}})
+                </option>
+              </select>
+          </span>
+        </div>
+        <div class="col-lg-6">
+          <span *ngIf="showpropertygroup"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<accordion>
+  <accordion-group heading="View License Status" isGroupOpen="true">
+    <div class="row">
+      <div class="col-lg-1">
+      </div>
+      <div class="col-lg-10">
+        <div class="list-group">
+          <div class="list-group-item clearfix d-block">
+            <span class="text-muted">Current License Status - {{CurrentStatus}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+   </accordion-group>
+</accordion>
+<br/>
+<accordion>
+  <accordion-group heading="View License Details" isGroupOpen="true">
+    <div class="list-group">
+      <div class="row" *ngIf="setPg==0">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">{{noGroupIdMsg}}</span>
+            </div>
+            <div class="col-lg-6">
+            </div>
+          </div>
+        </div>
+      </div>
+      <span *ngIf="setPg!=0">
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Start Date</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.LicenseStartDate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+            <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">End Date</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.LicenseEndDate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">FCS Customer ID</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.FCSCustomerID}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Property Group ID</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.PropertyGroupID}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">FCS Product Name</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.FCSProductName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">FCS Product Version</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.FCSProductversion}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Max. Number of Properties</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.MaxNumberofProperties}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+            <div class="row list-group-item">
+              <div class="col-lg-6">
+                <span class="text-muted">Max. Number of Data Sources</span>
+              </div>
+              <div class="col-lg-6 text-center">
+                <span class="text-muted">{{licenseManager.MaxNumberofDataSources}}</span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Max. ETL Users</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.MaxETLUsers}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Installation Type</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.InstallationType}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">License Type</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.LicenseType}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Reports and Dashboards Support</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.ReportsandDashboardsSupport}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Max. Number of Report Users</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.MaxNumberofReportUsers}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Max. Number of Predictive Model</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.MaxNumberofPredictiveModel}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Max. Data Size on Destination Database in GB</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.MaxDataSizeonDestinationDatabaseinGB}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">SOR Number</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.SORNumber}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Data Warehousing Support</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.DataWarehousingSupport}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+          <div class="row list-group-item">
+            <div class="col-lg-6">
+              <span class="text-muted">Hosting Server Mac Address</span>
+            </div>
+            <div class="col-lg-6 text-center">
+              <span class="text-muted">{{licenseManager.HostingServerMacAddress}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+    </div>
+  </accordion-group>
+</accordion>
+<br/>
+<accordion>
+  <accordion-group heading="Update License" isGroupOpen="true">
+    <div class="row">
+      <div class="col-lg-1">
+      </div>
+      <div class="row-border col-lg-10">
+        <div class="row">
+          <div class="col-lg-12">
+            <span class="text-muted">Provide License Key received from FCS Administrator</span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                  <input type="text" name="lcnKey" class="form-control" id="lcnKey" 
+                  placeholder="License Key"  #LicenseKey>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <span class="text-muted text-danger" *ngIf="LicenseKey.value.length < 20">
+              **Valid License Key required
+            </span>
+            <br />
+            <span class="text-muted text-danger" *ngIf="noGroupSelected">
+                {{noGroupIdMsg}}
+              </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-12">
+            <span class="text-muted">
+              <button type="button" class="btn btn-primary" (click)="onView()" [disabled]="LicenseKey.value.length < 20">
+                <i [ngClass]="{'fa fa-spinner fa-spin':View===true}"></i>{{'View'|translate}}
+              </button>
+            </span>
+            <span class="text-muted">
+              <button type="button"  class="btn btn-success" (click)="onKeyUpdate()" [disabled]="hasViewed">
+                <i [ngClass]="{'fa fa-spinner fa-spin':Update===true}"></i>{{'Update'|translate}}
+              </button>
+            </span>
+            <span class="text-muted">
+              <button type="button" class="btn btn-danger">
+                {{'Cancel'|translate}}
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>
+
+<app-page-modal [(visible)]="ViewDetails">
+  <div class="list-group" >
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Start Date</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.LicenseStartDate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">End Date</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.LicenseEndDate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">FCS Customer ID</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.FCSCustomerID}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Property Group ID</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.PropertyGroupID}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">FCS Product Name</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.FCSProductName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">FCS Product Version</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.FCSProductversion}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Max. Number of Properties</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.MaxNumberofProperties}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="row list-group-item">
+            <div class="col-md-6">
+              <span class="text-muted">Max. Number of Data Sources</span>
+            </div>
+            <div class="col-md-6 text-center">
+              <span class="text-muted">{{licenseKeyDetails.MaxNumberofDataSources}}</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Max. ETL Users</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.MaxETLUsers}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Installation Type</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.InstallationType}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">License Type</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.LicenseType}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Reports and Dashboards Support</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.ReportsandDashboardsSupport}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Max. Number of Report Users</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.MaxNumberofReportUsers}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Max. Number of Predictive Model</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.MaxNumberofPredictiveModel}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Max. Data Size on Destination Database in GB</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.MaxDataSizeonDestinationDatabaseinGB}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">SOR Number</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.SORNumber}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Data Warehousing Support</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.DataWarehousingSupport}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row list-group-item">
+          <div class="col-md-6">
+            <span class="text-muted">Hosting Server Mac Address</span>
+          </div>
+          <div class="col-md-6 text-center">
+            <span class="text-muted">{{licenseKeyDetails.HostingServerMacAddress}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-page-modal>

@@ -81,6 +81,10 @@ export class servicelist {
     GetUsersList : string;
     GetFAETLExtractToolDownload : string;
     ForgotPassword : string;
+    GetLicenseStatus : string;
+    GetLicenseDetails : string;
+    GetLicenseKeyDetails : string;
+    UpdateLicenseKey : string;
 
 
     constructor(private http: Http) {
@@ -185,6 +189,10 @@ export class servicelist {
         this.ResetUserPassword=url+"api/Account/GetResetUserPassword";
         this.GetFAETLExtractToolDownload=url+"api/ETLExtractToolController/GetFAETLExtractToolDownload";
         this.ForgotPassword=url+"api/Admin/GetAdminEmailAddressToForgotPassword";
+        this.GetLicenseStatus=url+"api/License/GetLicenseStatus";
+        this.GetLicenseDetails=url+"api/License/GetLicenseDetails";
+        this.GetLicenseKeyDetails=url+"api/License/GetLicenseKeyDetails";
+        this.UpdateLicenseKey=url+"api/License/UpdatLicenseKey";
 
     }
 

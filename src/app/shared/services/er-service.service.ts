@@ -8,7 +8,7 @@ import { servicelist } from '../../services/servicelist';
 import {
     ConnectionClass, PropertyGroup, Property, Product, Template, ProductTable,
     ProductTableStructure, Job, JobTables, ExtractControl, JobTableList,JobSummaryTables,JobSchedule, JobSearchParams,
-    User    } from '../../modal';
+    User, UpdateLicenseModel    } from '../../modal';
 // import { Product, Template, ProductTable, ProductTableStructure } from '../../modal/product.modal';
 @Injectable()
 export class ERService {
@@ -1382,6 +1382,87 @@ export class ERService {
             });
     }
     
+    GetLicenseStatus(groupid : number)
+    {
+        let param : URLSearchParams = new URLSearchParams();
+        param.set("groupid", String(groupid));
+        const header = this.CallHeader(); 
+        let option = new RequestOptions({headers : header});
+        option.search = param;
+
+       return this.http.get(this.serviceUrl.GetLicenseStatus, option)
+        .map(
+            (response:Response)=>{
+            return response.json();
+            }
+        ).catch(e=>{
+            if (e.status === 401) {
+                this.CallRedirectToLoginPage();
+            }
+            return Observable.throw(e);
+        })
+    }
+
+    GetLicenseDetails(groupid : number)
+    {
+        let param : URLSearchParams = new URLSearchParams();
+        param.set("groupid", String(groupid));
+        const header = this.CallHeader(); 
+        let option = new RequestOptions({headers : header});
+        option.search = param;
+
+       return this.http.get(this.serviceUrl.GetLicenseDetails, option)
+        .map(
+            (response:Response)=>{
+            return response.json();
+            }
+        ).catch(e=>{
+            if (e.status === 401) {
+                this.CallRedirectToLoginPage();
+            }
+            return Observable.throw(e);
+        })
+    }
+    
+    GetLicenseKeyDetails(licensekey : string)
+    {
+        let param : URLSearchParams = new URLSearchParams();
+        param.set("licensekey", licensekey);
+        const header = this.CallHeader(); 
+        let option = new RequestOptions({headers : header});
+        option.search = param;
+
+       return this.http.get(this.serviceUrl.GetLicenseKeyDetails, option)
+        .map(
+            (response:Response)=>{
+            return response.json();
+            }
+        ).catch(e=>{
+            if (e.status === 401) {
+                this.CallRedirectToLoginPage();
+            }
+            return Observable.throw(e);
+        })
+    }
+
+    UpdateLicenseKey(updateLicenseModel : UpdateLicenseModel)
+    {
+        let body = updateLicenseModel; 
+        const header = this.CallHeader(); 
+
+       return this.http.post(this.serviceUrl.UpdateLicenseKey, JSON.stringify(body), {headers: header})
+        .map(
+            (response:Response)=>{
+            return response.json();
+            }
+        ).catch(e=>{
+            if (e.status === 401) {
+                this.CallRedirectToLoginPage();
+            }
+            return Observable.throw(e);
+        })
+    }
+
     CallHeader() {
         const header = new Headers();
         header.append('Content-Type', 'application/json');

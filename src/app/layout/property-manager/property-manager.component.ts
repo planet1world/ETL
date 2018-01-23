@@ -5,7 +5,6 @@ import { Customer } from '../../modal/customerid-modal.modal';
 import { PropertyGroup, Property } from '../../modal/propertygroup-modal.modal';
 import { TimeZone } from '../../modal/timezone-modal.modal';
 import { ERService } from '../../shared/services/er-service.service';
-import { Accordion, AccordionGroup } from '../../accordion';
 import { OndemandJobData } from '../../shared/data/ondemand-job-data';
 
 @Component({

@@ -1,27 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { PropertyManagerRoutingModule } from './property-manager-routing.module';
-import { PropertyManagerComponent } from './property-manager.component';
+import { LicenseManagerRoutingModule } from './license-manager-routing.module';
+import { LicenseManagerComponent } from './license-manager.component';
 import { PageHeaderModule, ModalModule, SharedPipesModule, PageModalModule } from './../../shared';
 import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { AccordionModule } from '../../accordion.module';
-// import {Accordion,AccordionGroup,AccordionToggle,AccordionHeading} from "./../../shared";
-
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    PropertyManagerRoutingModule,
+    LicenseManagerRoutingModule,
     PageHeaderModule,
     SharedPipesModule,
     ModalModule,
-    AccordionModule,
     PageModalModule,
+    AccordionModule,
     NgbModule.forRoot(),
     ReactiveFormsModule,
     TranslateModule.forRoot(
@@ -33,9 +31,9 @@ import { AccordionModule } from '../../accordion.module';
     ),
 
   ],
-  declarations: [PropertyManagerComponent]
+  declarations: [LicenseManagerComponent]
 })
-export class PropertyManagerModule { }
+export class LicenseManagerModule { }
 export function TranslateFactory(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
