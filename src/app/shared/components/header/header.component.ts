@@ -11,6 +11,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HeaderComponent implements OnInit {
     userName: string;
+    visible = false;
     constructor(public service: AuthService, public router: Router) {
         
         if (!service.isAuthenticated())
@@ -28,10 +29,25 @@ export class HeaderComponent implements OnInit {
         const dom: any = document.querySelector('body');
         dom.classList.toggle('rtl');
     }
+    
     onlogOut() {
+        this.visible = true;
+    }
+
+    onNo()
+    {
+        this.visible = false;
+    }
+
+    onLogoutConfirm()
+    {
         this.service.signOut();
         console.log('logout');
         this.router.navigate(['./login']);
     }
 
+    close()
+    {
+        this.visible = false;
+    }
 }

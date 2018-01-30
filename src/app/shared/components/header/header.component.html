@@ -1,4 +1,18 @@
 <div class="pos-f-t fixed-top header">
+    <div  *ngIf="visible" class="dialog">
+        <div id="content">
+                <div class="notify errorbox">
+                  <h1>Warning!</h1>
+                  <span class="alerticon"><img src="assets/images/error.png" alt="error" /></span>
+                  <p>Are you sure you want to log out ?</p>
+                  <button type="submit" class="btn btn-success" (click)="onNo()">No</button>
+                  <button type="submit" (click)="onLogoutConfirm()" class="btn btn-danger">Yes</button>
+                </div>
+              </div>
+        <button *ngIf="closable" (click)="close()" aria-label="Close" class="close">X</button>
+      </div>
+      <div *ngIf="visible" class="overlay" ></div>
+
     <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
         <button class="navbar-toggler navbar-toggler-right" (click)="toggleSidebar()">
             <span class="navbar-toggler-icon"></span>
