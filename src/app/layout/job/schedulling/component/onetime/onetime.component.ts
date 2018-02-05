@@ -1,4 +1,5 @@
 import { Component, OnInit,Output,EventEmitter,Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import {OnceTime,JobSchedule} from  '../../../../../modal';
 
 @Component({
@@ -18,11 +19,14 @@ export class OnetimeComponent implements OnInit {
   sDate="";
   sTime="";
   
-  constructor() {
-
+  constructor( public datepipe: DatePipe) {
+    var date=new Date();
+    this.onetimeDate = {year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()+1}
+    
    }
 
   ngOnInit() {
+    this.sendDate();
   }
   sendDate()
   {

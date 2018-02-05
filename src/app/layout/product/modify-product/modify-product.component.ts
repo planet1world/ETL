@@ -79,11 +79,13 @@ export class ModifyProductComponent implements OnInit {
   }
   onViewSummary() {
     this.data.viewProductSummary = true;
+    this.data.EditProduct = true;
     this.router.navigate(['../tree-view']);
 
   }
   onAddTable() {
     this.data.viewProductSummary = false;
+    this.data.EditProduct = true;
     this.router.navigate(['../product-step2']);
 
   }

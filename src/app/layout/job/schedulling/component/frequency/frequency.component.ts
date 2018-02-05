@@ -35,6 +35,8 @@ export class FrequencyComponent implements OnInit {
     this.job = this.JobObject;
     this.job.Freq_Type = this.selectedFrequency;
     this.outputMessage = "Occurs every day";
+    console.log("this.weeksVal_RecurEvery " + this.weeksVal_RecurEvery);
+    this.job.freq_recurrence_factor = this.weeksVal_RecurEvery;
     this.job.Freq_Interval = this.daysVal_RecurEvery;
     this.Frequency.emit(this.job);
     this.Message.emit(this.outputMessage);

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter,ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { OnceTime, JobSchedule } from '../../../../../modal';
 
 @Component({
@@ -10,7 +11,10 @@ export class DurationComponent implements OnInit {
 
   selectedOption="no";
   outputMessage="";
-  constructor() { }
+  constructor(public datepipe: DatePipe) { 
+    var date=new Date();
+    this.startDate = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()+1}
+  }
   @Input() JobObject: JobSchedule;
   @Output() Duration = new EventEmitter<JobSchedule>();
   @Output() Message=new EventEmitter<string>();
@@ -21,6 +25,7 @@ export class DurationComponent implements OnInit {
   eDate="";
   flagCal=false;
   ngOnInit() {
+    this.startDateChange();
   }
 
   startDateChange()

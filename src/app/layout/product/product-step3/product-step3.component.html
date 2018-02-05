@@ -1,4 +1,5 @@
-<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'" *ngIf="!isEdit"></app-page-header>
+<app-page-header [heading]="'Edit Product '| translate" [icon]="'fa fa fa-suitcase'" *ngIf="isEdit"></app-page-header>
 <app-modal [(visible)]="error">
   <div id="content">
     <div class="notify errorbox">
@@ -27,7 +28,7 @@
       <a [routerLink]="['/create-product']" class="done" onclick="return false;">
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
-                                            Create Product<br />
+                                            {{pagename}}<br />
                                             <b><small>Completed</small></b>
                                         </span>
                                     </a>

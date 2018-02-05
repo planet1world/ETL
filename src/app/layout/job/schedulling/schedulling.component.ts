@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef,ViewChild } from '@angular/core';
 // import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { OnceTime, JobSchedule } from '../../../modal';
@@ -29,6 +29,8 @@ export class SchedullingComponent implements OnInit {
   displayTxtArea = false;
   oldSchedulerInfo:string;
   Job = new JobSchedule();
+  @ViewChild('schedulerTypeDD') schedulerTypeDD ; 
+  errEelectedSchedule = false;
 
   constructor(private cdr: ChangeDetectorRef, private data: Data, public ServiceURL: ERService,public router:Router) {
     this.Job.active_end_date = "9999-12-31";
@@ -71,6 +73,7 @@ export class SchedullingComponent implements OnInit {
 
   onSchedulerTypeChange(value: number) {
     this.finalMessage = "";
+    this.errEelectedSchedule = false;
     this.selected = value;
     this.cdr.detectChanges();
     if (value == 1) {
@@ -116,6 +119,13 @@ export class SchedullingComponent implements OnInit {
     this.finalMessage = this.frequencyMessage + " " + this.dailyFrequencyMessage + " " + this.duration_Message;
   }
   onSave() {
+    let selectedSchedule = this.schedulerTypeDD.nativeElement.value
+    if(selectedSchedule == 0)
+    {
+      this.errEelectedSchedule=true;
+      return false;
+    }
+
     if (this.isEnable) {
       this.Job.Enable = 1;
     }

@@ -1,0 +1,265 @@
+div.tree div.tree-children::before,
+div.tree::before {
+    content: "";
+    position: absolute;
+    border-left: 1px dotted #23527c;
+    height: 100%;
+    top: -14px;
+    left: 12px
+}
+
+div.tree {
+    padding-left: 0;
+    margin-left: -5px
+}
+
+div.tree div.tree-children {
+    position: relative;
+    padding-left: 0;
+    margin-left: 16px
+}
+
+div.tree div.tree-children::before {
+    left: 5px
+}
+
+div.tree treenode>div>.node-wrapper {
+    margin-left: 24px
+}
+
+div.tree treenode>div>.node-wrapper>.node-content-wrapper {
+    margin-left: 4px
+}
+
+div.tree treenode>div.tree-node-leaf>.node-wrapper {
+    margin-left: 0
+}
+
+div.tree treenode>div::before {
+    content: "";
+    position: absolute;
+    border-bottom: 1px dotted #23527c;
+    width: 7px;
+    margin-top: 12px;
+    left: 7px
+}
+
+div.tree treenode>div .toggle-children-wrapper {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #23527c;
+    position: absolute;
+    left: 15px;
+    margin-top: 5px;
+    margin-left: 0;
+    display: inline-block;
+    background-color: #fff;
+    z-index: 1
+}
+
+div.tree treenode>div .toggle-children-wrapper::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    border-top: 1px solid #23527c;
+    position: absolute;
+    top: 5px;
+    left: 2px
+}
+
+div.tree treenode>div .toggle-children-wrapper.toggle-children-wrapper-collapsed::after {
+    content: "";
+    display: inline-block;
+    height: 7px;
+    border-left: 1px solid #23527c;
+    position: absolute;
+    top: 2px;
+    left: 5px
+}
+
+div.tree treenode>div .toggle-children-wrapper .toggle-children {
+    display: none
+}
+
+div.tree treenode>div .node-content-wrapper {
+    margin-left: 4px
+}
+
+div.tree>treenode>div::before {
+    left: 14px
+}
+
+div.tree>treenode>div>.node-wrapper>treenodeexpander>.toggle-children-wrapper {
+    left: 22px
+}
+
+
+/* *********  form wizard  **************************** */
+
+.form_wizard .stepContainer {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0 solid #CCC;
+    overflow-x: hidden;
+}
+/**-------**/
+
+.wizard_horizontal ul.wizard_steps {
+    display: table;
+    list-style: none;
+    position: relative;
+    width: 100%;
+    margin: 0 0 20px;
+}
+
+.wizard_horizontal ul.wizard_steps li {
+    display: table-cell;
+    text-align: center;
+}
+
+.wizard_horizontal ul.wizard_steps li a,
+.wizard_horizontal ul.wizard_steps li:hover {
+    display: block;
+    position: relative;
+    color: #666;
+    filter: alpha(opacity(100) );
+    /*//// -moz-opacity: 1;
+    // filter: alpha(opacity: 100);
+    // opacity: 1;
+    // color: #666;*/
+}
+
+.wizard_horizontal ul.wizard_steps li a:before {
+    content: "";
+    position: absolute;
+    height: 4px;
+    background: #ccc;
+    top: 20px;
+    width: 100%;
+    z-index: 4;
+    left: 0;
+}
+
+.wizard_horizontal ul.wizard_steps li a.disabled .step_no {
+    background: #ccc;
+}
+
+.wizard_horizontal ul.wizard_steps li a .step_no {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 100px;
+    display: block;
+    margin: 0 auto 5px;
+    font-size: 16px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.wizard_horizontal ul.wizard_steps li a.selected:before,
+.step_no {
+    background: #34495E;
+    color: #fff;
+}
+
+.wizard_horizontal ul.wizard_steps li a.done:before,
+.wizard_horizontal ul.wizard_steps li a.done .step_no {
+    background: #1ABB9C;
+    color: #fff;
+}
+
+.wizard_horizontal ul.wizard_steps li:first-child a:before {
+    left: 50%;
+}
+
+.wizard_horizontal ul.wizard_steps li:last-child a:before {
+    right: 50%;
+    width: 50%;
+    left: auto;
+}
+
+
+/** notifications **/
+.notify {
+  display: block;
+  background: #fff;
+  padding: 12px 18px;
+  max-width: 400px;
+  margin: 0 auto;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px;
+}
+
+.notify h1 { margin-bottom: 6px; }
+
+.successbox h1 { color: #678361; }
+.errorbox h1 { color: #6f423b; }
+
+.successbox h1:before, .successbox h1:after { background: #cad8a9; }
+.errorbox h1:before, .errorbox h1:after { background: #d6b8b7; }
+
+.notify .alerticon { 
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}
+#content {
+  display: block;
+  width: 100%;
+  background: #fff;
+  padding: 25px 20px;
+  padding-bottom: 35px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+h1 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2.5em;
+  line-height: 1.5em;
+  letter-spacing: -0.05em;
+  margin-bottom: 20px;
+  padding: .1em 0;
+  color: #444;
+    position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: center;
+}
+h1:before,
+h1:after {
+  content: "";
+  position: relative;
+  display: inline-block;
+  width: 50%;
+  height: 1px;
+  vertical-align: middle;
+  background: #f0f0f0;
+}
+h1:before {    
+  left: -.5em;
+  margin: 0 0 0 -50%;
+}
+h1:after {    
+  left: .5em;
+  margin: 0 -50% 0 0;
+}
+h1 > span {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+}
+
+p {
+  display: block;
+  font-size: 1.35em;
+  line-height: 1.5em;
+  margin-bottom: 22px;
+}

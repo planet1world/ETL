@@ -1,4 +1,5 @@
-<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'"></app-page-header>
+<app-page-header [heading]="'Add Product '| translate" [icon]="'fa fa fa-suitcase'" *ngIf="!isEdit"></app-page-header>
+<app-page-header [heading]="'Edit Product '| translate" [icon]="'fa fa fa-suitcase'" *ngIf="isEdit"></app-page-header>
 
 <app-modal [(visible)]="dialog">
   <div id="content">
@@ -15,86 +16,82 @@
     </div>
   </div>
 </app-modal>
-
 <div id="wizard" class="form_wizard wizard_horizontal">
     <ul class="wizard_steps">
         <li>
-            <a href="#step-4" class="done" onclick="return false;">
-                                        <span class="step_no">1</span>
-                                        <span class="step_descr">
-                                            Create New Product<br />
-                                            <b><small>Completed</small></b>
-                                        </span>
-                                    </a>
+        <a [routerLink]="['/create-product']" class="done" onclick="return false;">
+                                            <span class="step_no">1</span>
+                                            <span class="step_descr">
+                                                {{pagename}}<br />
+                                                <b><small>Completed</small></b>
+                                            </span>
+                                        </a>
         </li>
         <li>
-            <a href="#step-4" class="done" onclick="return false;">
-                                        <span class="step_no">2</span>
-                                        <span class="step_descr">
-                                            Select Table<br />
-                                            <small>Completed</small>
-                                        </span>
-                                    </a>
+        <a [routerLink]="['/property-manager']" class="done" onclick="return false;">
+                                            <span class="step_no">2</span>
+                                            <span class="step_descr">
+                                                Select Table(s)<br />
+                                                <small>Completed</small>
+                                            </span>
+                                        </a>
         </li>
         <li>
-            <a href="#step-4" class="done" onclick="return false;">
-                                        <span class="step_no">3</span>
-                                        <span class="step_descr">
-                                            Configure Table<br />
-                                            <small>Completed</small>
-                                        </span>
-                                    </a>
+        <a [routerLink]="['/tree-view']" class="done" onclick="return false;">
+                                            <span class="step_no">3</span>
+                                            <span class="step_descr">
+                                                Configure Table(s)<br />
+                                                <small>Completed</small>
+                                            </span>
+                                        </a>
         </li>
         <li>
-            <a href="#step-4"  class="selected" onclick="return false;">
-                                        <span class="step_no">4</span>
-                                        <span class="step_descr">
-                                           Save Product<br />
-                                           <small>Active</small>
-                                            <!--<small>Step 4 description</small>-->
-                                        </span>
-                                    </a>
+        <a href="#step-4" onclick="return false;">
+                                            <span class="step_no">4</span>
+                                            <span class="step_descr">
+                                                Save Product<br />
+                                                <!--<small>Step 4 description</small>-->
+                                            </span>
+                                        </a>
         </li>
-
+    
     </ul>
     <div class="row">
-        <div class="col col-xl-2">
-        </div>
-        <div class="col col-xl-8">
-            <div class="x_panel">
-                <div class="card mb-3">
-                    <div class="card-header">
-                         
-                           Configuration Summary
-                      
-                    </div>
-                    <div style="height: 400px">
-                        <span *ngIf="showtree"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
-                        <!--<tree-root [nodes]="nodes"  [focused]="true"></tree-root>-->
-                        {{message}}
-                        <tree-root [nodes]="nodes" >
-                            <ng-template #treeNodeTemplate let-node let-index="index">
-                                <span *ngIf="!node.data.primarykey">{{ node.data.name }}</span>
-
-                                <span *ngIf="node.data.primarykey" style="color:red"><i class="fa fa-key" aria-hidden="true"></i>{{ node.data.name }} [PK]</span>
-
-                            </ng-template>
-                        </tree-root>
-                    </div>
-                 <div class="card-footer">  
-                <button class="btn btn-error" (click)="onBack()" [disabled]="ToggleBack">Back</button>
-                <button class="btn btn-success " (click)="onCommit()" [disabled]="ToggleButton">
-                     <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
-                    Save Product Table mappings </button>
-                     <button class="btn btn-danger" (click)="onCancel()" [disabled]="ToggleCancel">
-                     
-                    Cancel </button>
-            </div>
-
-                </div>
-            </div>
-        </div>
-
-
-
+    <div class="col col-xl-2">
     </div>
+    <div class="col col-xl-8">
+        <div class="x_panel">
+            <div class="card mb-3">
+                <div class="card-header">
+                        
+                        Configuration Summary
+                    
+                </div>
+                <div style="height: 400px">
+                    <span *ngIf="showtree"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+                    <!--<tree-root [nodes]="nodes"  [focused]="true"></tree-root>-->
+                    {{message}}
+                    <tree-root [nodes]="nodes" >
+                        <ng-template #treeNodeTemplate let-node let-index="index">
+                            <span *ngIf="!node.data.primarykey">{{ node.data.name }}</span>
+
+                            <span *ngIf="node.data.primarykey" style="color:red"><i class="fa fa-key" aria-hidden="true"></i>{{ node.data.name }} [PK]</span>
+
+                        </ng-template>
+                    </tree-root>
+                </div>
+                <div class="card-footer">  
+            <button class="btn btn-error" (click)="onBack()" [disabled]="ToggleBack">Back</button>
+            <button class="btn btn-success " (click)="onCommit()" [disabled]="ToggleButton">
+                    <i [ngClass]="{'fa fa-spinner fa-spin':save===true}"></i>
+                Save Product Table mappings </button>
+                    <button class="btn btn-danger" (click)="onCancel()" [disabled]="ToggleCancel">
+                    
+                Cancel </button>
+        </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>

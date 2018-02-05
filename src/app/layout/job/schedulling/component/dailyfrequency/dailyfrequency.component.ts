@@ -20,6 +20,7 @@ export class DailyfrequencyComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.startTimeChange();
   }
   startTimeChange() {
     this.job = this.JobObject;

@@ -38,6 +38,7 @@ export class AuthService {
         localStorage.setItem('expires', data[".expires"]);
         localStorage.setItem('lang', lang);
         localStorage.setItem('Role', data.role);
+        localStorage.setItem('Downloadurl', this.serviceURL.GetFAETLExtractToolDownload);
         return data;
       }
       );
@@ -50,6 +51,7 @@ export class AuthService {
     localStorage.removeItem('expires');
     localStorage.removeItem('lang');
     localStorage.removeItem('Role');
+    localStorage.removeItem('Downloadurl');
     localStorage.clear();
     this.userName = null;
     this.token = null;
@@ -175,7 +177,7 @@ export class AuthService {
 
   DownloadExtractToolUrl()
   {
-    let url =this.serviceURL.GetFAETLExtractToolDownload;
+    let url = localStorage.getItem('Downloadurl'); 
     console.log('url: ' + url);
     return url;
   }

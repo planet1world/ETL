@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as appV from '../../../version';
 import { CookieService } from 'ng2-cookies';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../../../shared/services/auth.service';
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
     isActive = false;
     showMenu = '';
     showJobMenu = '';
@@ -21,9 +21,11 @@ export class SidebarComponent {
     constructor(public cookieService: CookieService, private authService : AuthService) {
         this.version = this.cookieService.get(this.checkName);
         this.isAdministrator = this.authService.isAdministrator();
+    }
+
+    ngOnInit() {
         this.downloadUrl = this.authService.DownloadExtractToolUrl();
         console.log('this.downloadUrl: ' + this.downloadUrl);
-
     }
     eventCalled() {
         this.isActive = !this.isActive;

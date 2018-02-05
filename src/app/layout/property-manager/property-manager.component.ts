@@ -78,7 +78,8 @@ export class PropertyManagerComponent implements OnInit {
     this.pgcheckboxdisabled = false;
     this.showPGButton = true;
     this.showPG = true;
-    this.PGactive = false;
+    this.isActive = 1;
+    this.PGactive = true;
     this.pgnameModal = '';
     this.header = 'Add New Property Group';
   }
@@ -100,10 +101,10 @@ export class PropertyManagerComponent implements OnInit {
   onAddProperty() {
     this.header = 'Add New Property';
     this.getActivePropertyGroup();
-    this.Pactive = false;
+    this.Pactive = true;
     this.selectProperyName = '';
     this.showProperty = true;
-    this.isActive = 0;
+    this.isActive = 1;
     this.productId = 0;
     this.showPropertyButton = true;
     this.pgdisabled = false;

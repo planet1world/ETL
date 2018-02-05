@@ -36,12 +36,6 @@
                 <!-- <span class="help-block" style="color:red" *ngIf="!property.valid && property.touched">{{'Please enter value in textbox'| translate}}</span> -->
               </td>
               <tr>
-                <td><b><em>Active</em></b></td>
-                <td>
-                  <input #cbproperty type="checkbox" [(ngModel)]="Pactive" (change)="logCheckbox(cbproperty)" [disabled]="checkboxdisabled">
-                </td>
-              </tr>
-              <tr>
                 <td><b><em>Time Zone</em></b></td>
                 <td>
                   <select #selectTime class="form-control" name="tz" [disabled]="timezonedisabled">
@@ -51,6 +45,12 @@
                               {{ t.Displayformat }}
                            </option>
                          </select>
+                </td>
+              </tr>
+              <tr>
+                <td><b><em>Active</em></b></td>
+                <td>
+                  <input #cbproperty type="checkbox" [(ngModel)]="Pactive" (change)="logCheckbox(cbproperty)" [disabled]="checkboxdisabled" checked>
                 </td>
               </tr>
               <tr *ngIf="showPropertyButton">
@@ -125,7 +125,7 @@
               <tr>
                 <td><b><em>Active</em></b></td>
                 <td>
-                  <input [disabled]="pgcheckboxdisabled" #cb1 type="checkbox" value="Active" [(ngModel)]="PGactive" (change)="logCheckbox(cb1)">
+                  <input [disabled]="pgcheckboxdisabled" #cb1 type="checkbox" value="Active" [(ngModel)]="PGactive" (change)="logCheckbox(cb1)" checked>
                 </td>
               </tr>
               <tr *ngIf="showPGButton">

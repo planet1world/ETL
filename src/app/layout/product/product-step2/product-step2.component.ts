@@ -31,12 +31,16 @@ export class ProductStep2Component implements OnInit {
     popmessage = '';
     validation = false;
     alerts = [];
+    isEdit = false;
+    pagename = '';
 
     name: string;
     constructor(private data: Data, public router: Router, public ServiceURL: ERService) {
         this.count = 0;
         this.productname = this.data.selectedproduct;
         this.name = this.productname[0].Name;
+        this.isEdit = this.data.EditProduct ;
+        this.pagename = this.data.EditProduct == true ? 'Edit Product' : 'Create Product';
         this.getTemplate();
         this.getSchema();
 

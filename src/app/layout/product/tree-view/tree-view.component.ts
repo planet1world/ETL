@@ -21,9 +21,13 @@ export class TreeViewComponent implements OnInit {
   showtree = false;
   ToggleCancel = false;
   message='';
+  isEdit = false;
+  pagename = '';
 
   constructor(private data: Data, public ServiceURL: ERService, public router: Router) {
     this.bindTree(this.data.selectedproduct[0].ID, this.data.selectedproduct[0].PropertyID);
+    this.isEdit = this.data.EditProduct ;
+    this.pagename = this.data.EditProduct == true ? 'Edit Product' : 'Create Product';
     if (this.data.viewProductSummary) {
       this.ToggleBack = true;
       this.ToggleButton = true;

@@ -41,12 +41,16 @@ export class ProductStep3Component implements OnInit {
   tabelname: string;
   tablemaxcount: number;
   selectedtable: string;
+  isEdit = false;
+  pagename = '';
   count: number = -1;
   constructor(private data: Data, public ServiceURL: ERService, public router: Router) {
     this.productname = this.data.selectedproduct;
     this.name = this.productname[0].Name;
     this.table = this.data.selectedtablelist;
     this.tablemaxcount = this.table.length;
+    this.isEdit = this.data.EditProduct ;
+    this.pagename = this.data.EditProduct == true ? 'Edit Product' : 'Create Product';
 
   }
   @ViewChild('selectlist') selectable;

@@ -52,7 +52,7 @@ export class ListProductComponent implements OnInit {
     plst.push(sor);
     this.data.selectedproduct = plst;
     this.data.viewProductSummary=true;
-    this.router.navigate(['../tree-view']);
+    this.router.navigate(['../view-product']);
   }
   onPGDelete(id: number) {
     this.deleteProductId = id;

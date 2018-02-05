@@ -15,7 +15,7 @@ export class CreateProductComponent implements OnInit {
   propertygroup: PropertyGroup[];
   property: Property[];
   propertyList: Property[];
-  isActive: number;
+  isActive: number = 1;
   showpropertygroup = false;
   showproperty = false;
   error = false;
@@ -121,7 +121,8 @@ export class CreateProductComponent implements OnInit {
         (
         (data: Product[]) => {
           this.save = false;          
-          this.data.selectedproduct = data;         
+          this.data.selectedproduct = data; 
+          this.data.EditProduct = false;        
           this.router.navigate(['../product-step2']);
 
         },
