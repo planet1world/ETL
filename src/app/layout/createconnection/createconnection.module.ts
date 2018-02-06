@@ -7,8 +7,6 @@ import { PageHeaderModule, ModalModule } from './../../shared';
 import { HttpModule, Http } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslatePipe, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-import { FileTypeComponent } from './component/file-type/file-type.component';
-import { DatabaseTypeComponent } from './component/database-type/database-type.component';
 
 
 
@@ -35,7 +33,7 @@ import { DatabaseTypeComponent } from './component/database-type/database-type.c
 
 
   ],
-  declarations: [CreateconnectionComponent, FileTypeComponent, DatabaseTypeComponent]
+  declarations: [CreateconnectionComponent]
 })
 export class CreateconnectionrModule { }
 export function TranslateFactory(http: Http) {

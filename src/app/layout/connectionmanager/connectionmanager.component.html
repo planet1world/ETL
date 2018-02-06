@@ -102,34 +102,34 @@
                                     {{objConnectionView.Folderlocation}}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>{{ServerName}}</b></td>
                                 <td>
                                     {{objConnectionView.ServerName}}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>{{UN}}</b></td>
                                 <td>
                                     {{objConnectionView.UserName}}
                                 </td>
                             </tr>
 
-                            <tr *ngIf="showDatabase">
+                            <tr *ngIf="showDatabase && !isfolderflag">
                                 <td><b>Database</b></td>
                                 <td>
                                     {{objConnectionView.Database}}
                                 </td>
 
                             </tr>
-                            <tr *ngIf="showSchema">
+                            <tr *ngIf="showSchema && !isfolderflag">
                                 <td><b>Schema</b></td>
                                 <td>
                                     {{objConnectionView.Schema}}
                                 </td>
 
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>Version</b></td>
                                 <td>
                                     {{objConnectionView.Version}}
@@ -248,13 +248,13 @@
                                        name="folder" required  #folder="ngModel">
                                 </td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>{{ServerName}}</b></td>
                                 <td colspan="2">
                                     {{objConnectionView.ServerName}}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>{{UN}}</b></td>
                                 <td colspan="2">
 
@@ -263,7 +263,7 @@
                                     <!-- <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span> -->
                                 </td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td>{{Pass}}</td>
                                 <td>
                                     <input type="password" id="pas" class="form-control" placeholder="{{'*****'| translate}}" [(ngModel)]="selectedpassword"
@@ -277,21 +277,31 @@
 
                                 </td>
                             </tr>
-                            <tr *ngIf="showDatabase">
+                            <tr *ngIf="isfolderflag">
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="onLocateDirectory(); false">
+                                     <i class="fa fa-check-square-o"></i>{{'Verify Directory'|translate}}</button>
+
+                                    <span *ngIf="showlocate"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+                                </td>
+                            </tr>
+                            <tr *ngIf="showDatabase && !isfolderflag">
                                 <td><b>Database</b></td>
                                 <td colspan="2">
                                     {{objConnectionView.Database}}
                                 </td>
 
                             </tr>
-                            <tr *ngIf="showSchema">
+                            <tr *ngIf="showSchema && !isfolderflag">
                                 <td><b>Schema</b></td>
                                 <td colspan="2">
                                     {{objConnectionView.Schema}}
                                 </td>
 
                             </tr>
-                            <tr>
+                            <tr *ngIf="!isfolderflag">
                                 <td><b>Version</b></td>
                                 <td colspan="2">
                                     {{objConnectionView.Version}}

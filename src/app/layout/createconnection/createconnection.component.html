@@ -142,10 +142,10 @@
               <td colspan="2">
                 <input type="text" id="folder" class="form-control" placeholder="{{'Full Location Path'| translate}}" [(ngModel)]="selectedfolderlocation"
                   name="folder" required  #folder="ngModel">
-                  <span class="help-block" style="color:red" *ngIf="!folder.valid && folder.touched">{{'Please enter folder location'| translate}}</span>
+                  <span class="help-block" style="color:red" *ngIf="!folder.valid && folder.touched">{{'Please enter directory location'| translate}}</span>
               </td>
             </tr>
-            <tr>
+            <tr *ngIf="!selectedfolder">
               <td>Server Name</td>
               <td colspan="2">
                 <input type="text" id="servername" class="form-control" placeholder="{{'Server Address / IP'| translate}}" [(ngModel)]="selectedservername"
@@ -153,7 +153,7 @@
                  <span class="help-block" style="color:red" *ngIf="!server.valid && server.touched">{{'Please enter value in textbox'| translate}}</span>
               </td>
             </tr>
-            <tr>
+            <tr *ngIf="!selectedfolder">
               <td>{{UN}}</td>
               <td colspan="2">
                 <input type="text" id="uname" ngModel name="uname" class="form-control" placeholder="{{'User Name'| translate}}" [(ngModel)]="selectedusername"
@@ -161,17 +161,27 @@
                 <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span>
               </td>
             </tr>
-            <tr>
+            <tr *ngIf="!selectedfolder">
               <td>{{Pass}}</td>
               <td>
                 <input type="password" id="pas" class="form-control" placeholder="{{'*****'| translate}}" [(ngModel)]="selectedpassword"
                   name="pass" required>
               </td>
-              <td>
+              <td >
                 <button class="btn btn-primary" (click)="onTestConnection(); false">
                    <i class="fa fa-check-square-o"></i> Test Connection</button>
 
                 <span *ngIf="showtest"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+              </td>
+            </tr>
+            <tr *ngIf="selectedfolder">
+              <td colspan="2">&nbsp;</td>
+              <td>
+                <button class="btn btn-primary" (click)="onLocateDirectory(); false">
+                   <i class="fa fa-check-square-o"></i> {{'Verify Directory'|translate}}</button>
+
+                <span *ngIf="showlocate"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
 
               </td>
             </tr>

@@ -41,6 +41,7 @@ export class ConnectionmanagerComponent implements OnInit {
   editConnection = false;
   showTestDialog = false;
   popmessage = '';
+  showlocate = false;
   save = false;
   constructor(public router: Router, public ServiceURL: ERService, private ondemandJobData : OndemandJobData) {
     this.ondemandJobData.Isback = null;
@@ -64,6 +65,8 @@ export class ConnectionmanagerComponent implements OnInit {
   onEdit(id: number, choice: number, provider: number) {
     this.editObjectID = id;
     this.edittypeID = choice;
+    this.showSchema = false;
+    this.showDatabase = false;
     this.selectedpassword='';
     if (provider == 1 || provider == 4) {
       this.UN = 'FTP User Name';
@@ -93,6 +96,8 @@ export class ConnectionmanagerComponent implements OnInit {
   }
 
   onView(id: number, choice: number, provider: number) {
+    this.showSchema = false;
+    this.showDatabase = false;
     if (provider == 1 || provider == 4) {
       this.UN = 'FTP User Name';
       this.Pass = 'FTP Password';
@@ -176,7 +181,20 @@ export class ConnectionmanagerComponent implements OnInit {
   }
   onUpdate() {
     console.log(this.objConnectionView.ConnectionName);
-    if (this.selectedpassword != '' && this.objConnectionView.UserName !='' && this.objConnectionView.ConnectionName !='') {
+    if(this.isfolderflag && this.objConnectionView.Folderlocation == '')
+    {
+      this.popmessage = 'Folder location required';
+      this.status = 'error';
+      this.showTestDialog = true;
+    }
+    else if( (!this.isfolderflag) && (this.selectedpassword == '' || this.objConnectionView.UserName =='' || this.objConnectionView.ConnectionName ==''))
+    {
+      this.popmessage = 'Connection Name/User Name/Password required';
+      this.status = 'error';
+      this.showTestDialog = true;
+    }
+    else
+    {
       this.updateConnectionObject = {
         connectionid: this.editObjectID,
         propertygroupid: 0,
@@ -218,12 +236,6 @@ export class ConnectionmanagerComponent implements OnInit {
           this.status = 'error';
           this.showTestDialog = true;
         });
-
-    }
-    else {
-        this.popmessage = 'Connection Name/User Name/Password required';
-          this.status = 'error';
-          this.showTestDialog = true;
     }
   }
 
@@ -299,7 +311,37 @@ export class ConnectionmanagerComponent implements OnInit {
     console.log('add conection');
     this.router.navigate(['../createconnection']);
   }
-
+  onLocateDirectory()
+  {
+    if(this.isfolderflag && this.objConnectionView.Folderlocation == '')
+    {
+      this.popmessage = 'Folder location required';
+      this.status = 'error';
+      this.showTestDialog = true;
+    }
+    else
+    {
+    this.showlocate = true;
+    this.ServiceURL.getDirectoryStatus(this.objConnectionView.Folderlocation)
+      .subscribe(
+      (data: any) => {
+        console.log("data : " + data);
+        this.popmessage = 'Directory  exists.'
+        this.showlocate = false;
+        this.status = 'succes';
+        this.showTestDialog = true;
+      }
+      ,
+      (error) => {
+        const errorData = error.json();
+        console.log('error:', errorData);
+        this.popmessage = 'Directory does not exist, you can still save and continue. Kindly ask administrator to create directory.'
+        this.showlocate = false;
+        this.status = 'error';
+        this.showTestDialog = true;
+      });
+    }
+  }
 
 
 }

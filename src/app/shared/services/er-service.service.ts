@@ -146,6 +146,27 @@ export class ERService {
                 return Observable.throw(e);
             });
     }
+    
+    getDirectoryStatus(dir : string) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('location', String(dir));
+        const header = new Headers();
+        header.append('Content-Type', 'application/json');
+        header.append('Authorization', 'Bearer ' + this.getToken())
+        let requestOptions = new RequestOptions({ headers: header });
+        requestOptions.search = params;
+        return this.http.get(this.serviceUrl.GetDirectoryLocationStatus, requestOptions)
+            .map(
+            (response: Response) => {
+                return response.json();;
+            }
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
+    }
 
     getSchema(TestConnection: any) {
         let body = TestConnection;

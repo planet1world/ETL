@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ERService } from '../../shared/services/er-service.service';
 import { PropertyGroup, Property,TestConnection,SourceConnectionClass } from '../../modal';
+import { retry } from 'rxjs/operator/retry';
 
 
 @Component({
@@ -65,6 +66,7 @@ export class CreateconnectionComponent implements OnInit {
   selectedfolderlocation = '';
   popmessage = '';
   testcondition = false;
+  showlocate = false
 
 
   @ViewChild('connProv') connProv;
@@ -95,7 +97,7 @@ export class CreateconnectionComponent implements OnInit {
   /* Event function*/
 
   onChangeConnection(connection: number) {
-    if (connection == 2) {
+    if (connection == 2 || connection == 6 ) {
       this.getConnectionType()
       this.SelectedConnectionType = 2;
       this.getConEngineType(2);
@@ -167,6 +169,7 @@ export class CreateconnectionComponent implements OnInit {
 
 
   }
+
   onConnectionProviderChange(id: any) {
 
     this.showSchema = true;
@@ -176,6 +179,7 @@ export class CreateconnectionComponent implements OnInit {
     }
 
   }
+
   onChangeDB(database: string) {
     this.testcon = {
       provider: this.connProv.nativeElement.value,
@@ -215,51 +219,45 @@ export class CreateconnectionComponent implements OnInit {
       databasename: '',
     }
 
-    let val = this.Valaditthefield();
-    if (this.connProv.nativeElement.value == 2 || this.connProv.nativeElement.value == 3) {
-      if (val) {
-        this.showtest = true;
-        this.ServiceURL.getTestConnection(this.testcon)
-          .subscribe(
-          (data: any[]) => {
-            this.db = [];
-            this.db.push(new DatabaseList("-Select a database-"));
-            for (let dbname of data) {
-              this.db.push(new DatabaseList(dbname.DB));
-              this.dbversion = dbname.Version;
-            };
-            this.showtest = false;
-            this.popmessage = 'Server connection successfully established'
-            this.status = 'succes';
-            this.showDialog = true;
+    let val = this.validationOnTest();
 
-          }
-          ,
-          (error) => {
-            const errorData = error.json();
-            console.log('error:', errorData);
-            this.popmessage = 'Ops!! Server Connection Failed'
-            this.showtest = false;
-            this.status = 'error';
-            this.showDialog = true;
-          });
-      }
-      else {
-        this.status = 'validation';
-        this.showDialog = true;
-        this.default = false;
-      }
+    if (val) {
+      this.showtest = true;
+      this.ServiceURL.getTestConnection(this.testcon)
+        .subscribe(
+        (data: any[]) => {
+          this.db = [];
+          this.db.push(new DatabaseList("Select a database"));
+          for (let dbname of data) {
+            this.db.push(new DatabaseList(dbname.DB));
+            this.dbversion = dbname.Version;
+          };
+          this.showtest = false;
+          this.popmessage = 'Server connection successfully established'
+          this.status = 'succes';
+          this.showDialog = true;
 
-    } else {
-      this.popmessage = 'OK';
-      this.status = 'succes';
+        }
+        ,
+        (error) => {
+          const errorData = error.json();
+          console.log('error:', errorData);
+          this.popmessage = 'Ops!! Server Connection Failed'
+          this.showtest = false;
+          this.status = 'error';
+          this.showDialog = true;
+        });
+    }
+    else {
+      this.status = 'validation';
       this.showDialog = true;
+      this.default = false;
     }
   }
 
   onDataSave() {
     let array = []
-    let val = this.Valaditthefield();
+    let val = this. validationOnSave();
     console.log(val);
     if (val) {
       /*Source*/
@@ -392,6 +390,7 @@ export class CreateconnectionComponent implements OnInit {
     this.flocation = files;
     console.log(files);
   }
+
   Valaditthefield(): boolean {
     let val = [];
  if (this.selectPG.nativeElement.value == 0 )
@@ -414,7 +413,7 @@ export class CreateconnectionComponent implements OnInit {
 
     if (this.connType.nativeElement.value == 1) {
       if (this.selectedfolderlocation == undefined || this.selectedfolderlocation == '')
-        val.push({ message: 'Please enter the Folder Location' });
+        val.push({ message: 'Please enter the Directory Location' });
     }
 
 
@@ -435,6 +434,129 @@ export class CreateconnectionComponent implements OnInit {
       return true;
 
   }
+
+  validationOnTest(): boolean
+  {
+    let isValid = false;
+    let errArray = [];
+    let err1 = this.validateOtherPart();
+    let err2 = this.validateDBPart();
+    Array.prototype.push.apply(errArray, err1);
+    Array.prototype.push.apply(errArray, err2);
+    isValid = this.validate(errArray);
+    return isValid;
+  }
+
+  validationOnSave(): boolean
+  {
+    let isValid = false;
+    let errArray = [];
+    let err1 = this.validateOtherPart();
+    let err2 = [];
+    let err3 = [];
+    let err4 = [];
+    if (this.conn.nativeElement.value == 1) {
+      console.log(this.selectProperty.nativeElement.value);
+      this.selectedpid = this.selectProperty.nativeElement.value;
+      if (this.connType.nativeElement.value == 1) {
+       //file
+       err2 = this.validateFiledirPart();
+      }
+      else if (this.connType.nativeElement.value == 2) {
+        //db
+        err3 = this.validateDBPart();
+        err4 = this.validateDBSelection();
+      }
+    }
+    else {
+      //db
+      err3 = this.validateDBPart();
+      err4 = this.validateDBSelection();
+    }
+
+    Array.prototype.push.apply(errArray, err1);
+    Array.prototype.push.apply(errArray, err2);
+    Array.prototype.push.apply(errArray, err3);
+    Array.prototype.push.apply(errArray, err4);
+    isValid = this.validate(errArray);
+
+    return isValid;
+  }
+
+  validate(val: any[] ) : boolean
+  {
+    console.log("val " + JSON.stringify(val));
+    let isValid = false;
+    let i = 0;
+    this.alerts = [];
+    for (let arr of val) {
+      i = i + 1;
+      this.alerts.push({
+        id: 1,
+        type: 'danger',
+        message: arr.message,
+      });
+    }
+    console.log("alerts " + JSON.stringify(this.alerts));
+    if (i > 0)
+      return false;
+    else
+      return true;
+  }
+
+  validateOtherPart() : any[]
+  {
+    let errorval = [];
+    if (this.selectPG.nativeElement.value == 0 )
+    errorval.push({ message: 'Please select Property Group' });
+
+    if (this.checkForSpecialChar(this.selectedconname)) {
+      errorval.push({ message: 'Special characters like !@#$%^&*.,<>/\'";:? Not allowed' });
+    }
+    if (this.selectedconname == undefined || this.selectedconname == '')
+    errorval.push({ message: 'Please enter the Connection Name' });
+  
+    return errorval;
+  }
+
+  validateDBPart() : any[]
+  {
+    let errorval = [];
+    if (this.selectedservername == undefined || this.selectedservername == '')
+    errorval.push({ message: 'Please enter the Server IP' });
+
+    if (this.selectedusername == undefined || this.selectedusername == '')
+    errorval.push({ message: 'Please enter the User Name' });
+
+    if (this.selectedpassword == undefined || this.selectedpassword == '')
+    errorval.push({ message: 'Please enter the Password' });
+    
+    return errorval;
+  }
+
+  validateDBSelection() : any[]
+  {
+    let errorval = [];
+    let seldb = this.databaseSelect.nativeElement.value
+    console.log("seldb : " + seldb);
+    if (seldb == undefined  || seldb == '' )
+    errorval.push({ message: 'Database connection is not valid or click on Test Connection Button' });
+    else if( seldb == 'Select a database' )
+    errorval.push({ message: 'Please select database' });
+
+    return errorval;
+  }
+
+  validateFiledirPart() : any[]
+  {
+    let errorval = []; 
+    if (this.selectedfolderlocation == undefined || this.selectedfolderlocation == '')
+    errorval.push({ message: 'Please enter the Folder Location' });
+
+    return errorval;
+  }
+
+
   /* Calling get service function*/
 
   getConnectionSource() {
@@ -508,6 +630,45 @@ export class CreateconnectionComponent implements OnInit {
     }
     return false;
   }
+
+  onLocateDirectory()
+  {
+    let errArray = [];
+    let err1 = this.validateOtherPart();
+    let err2 = this.validateFiledirPart();
+    Array.prototype.push.apply(errArray, err1);
+    Array.prototype.push.apply(errArray, err2);
+    let val = this.validate(errArray);
+
+    if (val) {
+      this.showlocate = true;
+      this.ServiceURL.getDirectoryStatus(this.selectedfolderlocation)
+        .subscribe(
+        (data: any) => {
+          console.log("data : " + data);
+          this.popmessage = 'Directory  exists.'
+          this.showlocate = false;
+          this.status = 'succes';
+          this.showDialog = true;
+        }
+        ,
+        (error) => {
+          const errorData = error.json();
+          console.log('error:', errorData);
+          this.popmessage = 'Directory does not exist, you can still save and continue. Kindly ask administrator to create directory.'
+          this.showlocate = false;
+          this.status = 'error';
+          this.showDialog = true;
+        });
+    }
+    else {
+      this.status = 'validation';
+      this.showDialog = true;
+      this.default = false;
+    }
+  }
+
+
 }
 
 export class ConnectionList {

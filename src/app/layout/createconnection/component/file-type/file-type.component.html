@@ -1,3 +1,17 @@
-<p>
-  file-type works!
-</p>
+<tr >
+  <td>Folder Location</td>
+  <td colspan="2">
+    <input type="text" id="folder" class="form-control" placeholder="{{'Full Location Path'| translate}}" [(ngModel)]="selectedfolderlocation"
+      name="folder" required  #folder="ngModel">
+      <span class="help-block" style="color:red" *ngIf="!folder.valid && folder.touched">{{'Please enter folder location'| translate}}</span>
+  </td>
+</tr>
+<tr>
+  <td colspan="2">&npsp;</td>
+    <button class="btn btn-primary" (click)="onLocateDirectory(); false">
+       <i class="fa fa-check-square-o"></i> Locate Directory</button>
+
+    <span *ngIf="showtest"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+  </td>
+</tr>

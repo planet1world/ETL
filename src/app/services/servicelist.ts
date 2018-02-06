@@ -12,6 +12,7 @@ export class servicelist {
     getConnectionType: string;
     getConEngineType: string;
     getTestConection: string;
+    GetDirectoryLocationStatus : string;
     RetrieveSQLSchemaList: string;
     CreateNewSourceConnection: string;
     GetConnectionList: string;
@@ -122,6 +123,7 @@ export class servicelist {
         this.getConnectionType = url + "api/ConnectionManager/GetConnectionType"
         this.getConEngineType = url + "api/ConnectionManager/GetConEngineType"
         this.getTestConection = url + "api/ConnectionManager/TestConnectionWithDBList";
+        this.GetDirectoryLocationStatus = url + "api/ConnectionManager/GetDirectoryLocationStatus";
         this.RetrieveSQLSchemaList = url + "api/ConnectionManager/RetrieveSQLSchemaList";
         this.CreateNewSourceConnection = url + "api/ConnectionManager/CreateNewSourceConnection";
         this.GetConnectionList = url + "api/ConnectionManager/GetConnectionList";

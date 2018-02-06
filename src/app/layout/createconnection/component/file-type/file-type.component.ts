@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileTypeComponent implements OnInit {
 
+  showtest = false;
   constructor() { }
 
   ngOnInit() {
   }
 
+  onLocateDirectory()
+  {
+
+  }
 }

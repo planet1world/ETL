@@ -20,7 +20,7 @@ export class SchedullingComponent implements OnInit {
   dailyFrequencyMessage = "";
   duration_Message = "";
   finalMessage = "";
-  isEnable = false;
+  isEnable = true;
   success=false;
   error=false;
   popmessage="";
@@ -62,7 +62,10 @@ export class SchedullingComponent implements OnInit {
   {
     this.ServiceURL.GetJobScheduleDetails(this.Job.JobId)
     .subscribe((data) => {
-     this.oldSchedulerInfo=data;
+      console.log('data outstatus :', data.status);
+      console.log('data outmessage :', data.message);
+      this.isEnable = data.status == '1' ? true : false;
+     this.oldSchedulerInfo=data.message;
     },
     (error) => {
       const errorData = error.json();

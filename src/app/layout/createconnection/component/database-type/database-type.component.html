@@ -1,3 +1,60 @@
-<p>
-  database-type works!
-</p>
+<tr>
+  <td>Server Name</td>
+  <td colspan="2">
+    <input type="text" id="servername" class="form-control" placeholder="{{'Server Address / IP'| translate}}" [(ngModel)]="selectedservername"
+      name="servername" required   #server="ngModel">
+     <span class="help-block" style="color:red" *ngIf="!server.valid && server.touched">{{'Please enter value in textbox'| translate}}</span>
+  </td>
+</tr>
+<tr>
+  <td>User Name</td>
+  <td colspan="2">
+    <input type="text" id="uname" ngModel name="uname" class="form-control" placeholder="{{'User Name'| translate}}" [(ngModel)]="selectedusername"
+      name="un" required #user="ngModel">
+    <span class="help-block" style="color:red" *ngIf="!user.valid && user.touched">{{'Please enter value in textbox'| translate}}</span>
+  </td>
+</tr>
+<tr>
+  <td>Password</td>
+  <td>
+    <input type="password" id="pas" class="form-control" placeholder="{{'*****'| translate}}" [(ngModel)]="selectedpassword"
+      name="pass" required>
+  </td>
+  <td>
+    <button class="btn btn-primary" (click)="onTestConnection(); false">
+       <i class="fa fa-check-square-o"></i> Test Connection</button>
+
+    <span *ngIf="showtest"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+
+  </td>
+</tr>
+<tr>
+  <td>Database</td>
+  <td colspan="2">
+    <select #databaseSelect (change)="onChangeDB(databaseSelect.value)" class="form-control " name="d">
+              <option *ngFor="let d of db" 
+                  [value]="d.db" >
+                  {{ d.db }}
+               </option>
+             </select>
+    <!--[(ngModel)]="selecteddatabase"-->
+  </td>
+  <td>
+    <span *ngIf="showdb"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+  </td>
+</tr>
+<tr>
+  <td>Schema</td>
+  <td colspan="2">
+    <select #schemaSelect class="form-control " name="s">
+              <option *ngFor="let lang of schema" 
+                  [value]="lang.db" >
+                  {{ lang.db }}
+               </option>
+             </select>
+    <!--[(ngModel)]="selectedschema"-->
+  </td>
+  <td>
+    <span *ngIf="showschema"><i class="fa fa-spinner fa-spin fa-2x " aria-hidden="true"></i></span>
+  </td>
+</tr>
