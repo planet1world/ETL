@@ -85,7 +85,7 @@ export class ViewJobComponent implements OnInit {
   {
     this.ServiceURL.GetJobScheduleDetails(jobId)
     .subscribe((data) => {
-     this.scheduledInfo=data;
+     this.scheduledInfo=data.message;
     },
     (error) => {
       const errorData = error.json();
