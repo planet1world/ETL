@@ -50,7 +50,8 @@ export class JobHistoryDetailComponent implements OnInit {
   resetSor = '0';
   resetDest = '0';
   resetjob = '0';
-
+  showMessage = 0;
+  clicked = true;
   flagSearch = false;
   showjob = false;
 
@@ -373,4 +374,18 @@ export class JobHistoryDetailComponent implements OnInit {
     this.resetjob = '0';
   }
 
+  onExpand(id : any)
+  {
+    console.log("id : " + id);
+    if(this.clicked == true)
+    {
+      this.showMessage = id;
+      this.clicked = false;
+    }
+    else
+    {
+      this.showMessage = 0;
+      this.clicked = true;
+    }
+  }
 }

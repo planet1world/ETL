@@ -258,15 +258,16 @@
                     <th>Updated</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr *ngFor="let jobhist of jobHistList">
+                <tbody *ngFor="let jobhist of jobHistList">
+                  <tr>
                     <td>{{jobhist.ExtractJobHistID}}</td>
                     <td>{{jobhist.JobQueueHistDetail.HistID}}</td>
                     <td>{{jobhist.JobName}} ({{jobhist.JobID}})</td> 
                     <td>{{jobhist.PropertyGroupName}}</td>
                     <td>{{jobhist.PropertyName}}</td>
                     <td>{{jobhist.ProductName}}</td>   
-                    <td [ngClass]="{'green' : jobhist.Status=='Completed', 'blue' : jobhist.Status=='Running', 'yellow' : jobhist.Status=='Waiting','red': jobhist.Status=='Ended' || jobhist.Status=='Failed'}">
+                    <td [ngClass]="{'green' : jobhist.Status=='Completed', 'blue' : jobhist.Status=='Running', 'yellow' : jobhist.Status=='Waiting','red': jobhist.Status=='Ended' || jobhist.Status=='Failed'}"
+                    (click)="onExpand(jobhist.JobQueueHistDetail.HistID)" class=" message">
                       {{jobhist.Status}}
                     </td>
                     <td>{{jobhist.JobQueueHistDetail.SourceTableName}}</td>  
@@ -275,6 +276,11 @@
                     <td class="text-center">{{jobhist.EndTime}}</td>  
                     <td>{{jobhist.JobQueueHistDetail.Inserted}}</td>
                     <td>{{jobhist.JobQueueHistDetail.Updated}}</td>
+                  </tr>
+                  <tr  *ngIf="showMessage==jobhist.JobQueueHistDetail.HistID">
+                    <td colspan="13" class="red font-weight-bold">
+                      {{jobhist.JobQueueHistDetail.Message}}
+                    </td>
                   </tr>
                 </tbody>
               </table>

@@ -28,3 +28,7 @@
 .yellow{
   color:orange;
 }
+.message{
+  cursor: pointer;
+  text-decoration: underline;
+}

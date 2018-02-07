@@ -24,6 +24,7 @@ export class LicenseManagerComponent implements OnInit {
   showDialog = false;
   error = false;
   popmessage = "";
+  value = "";
   noGroupSelected = false;
 
   licenseManager : LicenseManager;
@@ -114,9 +115,8 @@ export class LicenseManagerComponent implements OnInit {
 
   onView()
   {
-    let licenseKey = this.LicenseKey.nativeElement.value;
     this.View = true;
-    this.ServiceURL.GetLicenseKeyDetails(licenseKey)
+    this.ServiceURL.GetLicenseKeyDetails(this.value)
     .subscribe(
       (data : LicenseManager) =>{
         console.log('anyGetLicenseStatus:', data)
@@ -149,7 +149,7 @@ export class LicenseManagerComponent implements OnInit {
     } 
     else
     { 
-      let licenseKey = this.LicenseKey.nativeElement.value;
+      let licenseKey = this.value;
       let pgname = this.propertygroup.find(id=>id.ID == gid);
       console.log('pgname:', JSON.stringify(pgname.Name))
       let updateLicenseModel = new UpdateLicenseModel();
