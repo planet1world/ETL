@@ -86,6 +86,7 @@ export class servicelist {
     GetLicenseDetails : string;
     GetLicenseKeyDetails : string;
     UpdateLicenseKey : string;
+    GetDashboardData : string
 
 
     constructor(private http: Http) {
@@ -195,6 +196,7 @@ export class servicelist {
         this.GetLicenseDetails=url+"api/License/GetLicenseDetails";
         this.GetLicenseKeyDetails=url+"api/License/GetLicenseKeyDetails";
         this.UpdateLicenseKey=url+"api/License/UpdatLicenseKey";
+        this.GetDashboardData=url+"api/Dashboard/GetDashboardData";
 
     }
 

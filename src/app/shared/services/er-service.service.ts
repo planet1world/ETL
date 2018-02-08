@@ -1484,6 +1484,23 @@ export class ERService {
         })
     }
 
+    GetDashboardData()
+    {
+        const header = this.CallHeader();
+        return this.http.get(this.serviceUrl.GetDashboardData, { headers: header })
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            ).catch(e => {
+                if (e.status === 401) {
+                    this.CallRedirectToLoginPage();
+                }
+                return Observable.throw(e);
+            });
+    }
+
     CallHeader() {
         const header = new Headers();
         header.append('Content-Type', 'application/json');

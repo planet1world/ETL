@@ -461,6 +461,7 @@ export class PropertyManagerComponent implements OnInit {
 
     // }
     this.PGactive = iobj.Active == 1 ? true : false;
+    this.isActive = iobj.Active ;
     this.selectedTimezone = iobj.TimeZone;
     this.showPG = true;
     this.isUpdate = true;
@@ -532,10 +533,12 @@ export class PropertyManagerComponent implements OnInit {
     this.ddP = objp.PropertyGroupID;
     if (objp.Active == 1) {
       this.Pactive = true;
+      this.isActive = 1;
       console.log('1:', this.Pactive);
     }
     else {
       this.Pactive = false;
+      this.isActive = 0;
       console.log('0:', this.Pactive);
     }
     // this.Pactive = objp.Active == 1 ? true : false;

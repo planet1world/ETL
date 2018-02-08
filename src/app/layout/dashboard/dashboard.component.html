@@ -15,16 +15,16 @@
 <hr>
 <div class="row">
     <div class="col-xl-3 col-lg-6">
-        <app-stat [bgClass]="'card-primary'" [icon]="'fa-share-alt'" [count]="26" [label]="'Source Connection'" (event)="onSource($event)" ></app-stat>
+        <app-stat [bgClass]="'card-primary'" [icon]="'fa-share-alt'" [count]="connCount" [label]="'Source Connection'" (event)="onSource($event)" ></app-stat>
     </div>   
     <div class="col-xl-3 col-lg-6">
-        <app-stat [bgClass]="'card-success'" [icon]="'fa fa-bank'" [count]="124" [label]="'Properties'" ></app-stat>
+        <app-stat [bgClass]="'card-success'" [icon]="'fa fa-bank'" [count]="propCount" [label]="'Properties'" (event)="onProperties($event)"></app-stat>
     </div>
     <div class="col-xl-3 col-lg-6">
-        <app-stat [bgClass]="'card-danger'" [icon]="'fa fa-database'" [count]="13" [label]="'Jobs'"></app-stat>
+        <app-stat [bgClass]="'card-danger'" [icon]="'fa fa-database'" [count]="jobsCount" [label]="'Jobs'"(event)="onJobs($event)"></app-stat>
     </div>
      <div class="col-xl-3 col-lg-6">
-        <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="12" [label]="'Job Run(in last 7 Days)'" ></app-stat>
+        <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="runJobsCount" [label]="'Job Run(in last 7 Days)'" (event)="onRunningJobs($event)"></app-stat>
     </div>
 </div>
 <br/>
@@ -39,7 +39,7 @@
                 </canvas>
             </div>
             <div class="card-footer">
-                <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+                <button class="btn btn-info btn-sm" (click)="getDashboardData()"> <span class=" fa fa-refresh"></span>&nbsp;Refresh</button>
             </div>
         </div>
     </div>
