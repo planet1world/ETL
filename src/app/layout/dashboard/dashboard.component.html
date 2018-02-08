@@ -35,7 +35,7 @@
                 Data Processed (in Last 7 Days)
             </div>
             <div class="card-block">
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="dayBarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                 </canvas>
             </div>
             <div class="card-footer">
@@ -51,7 +51,7 @@
             <div class="card-block">
                 <!--<canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                 </canvas>-->
-                 <canvas baseChart [datasets]="barChartDataMonth" [colors]="lineChartColors" [labels]="barChartLabelsMonth" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                 <canvas baseChart [datasets]="barChartDataMonth" [colors]="lineChartColors" [labels]="barChartLabelsMonth" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="monthBarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                 </canvas>
             </div>
         </div>

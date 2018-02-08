@@ -33,8 +33,9 @@ export class DashboardComponent implements OnInit {
         responsive: true
     };
     public barChartLabels: string[] = []; // ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
-      public barChartLabelsMonth: string[] = []; //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
-    public barChartType: string = 'bar';
+    public barChartLabelsMonth: string[] = []; //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'];
+    public dayBarChartType: string = 'bar';
+    public monthBarChartType: string = 'line';
     public barChartLegend: boolean = true;
 
     public barChartData: any[] = [{data: [], label:'Weekdays'}]; //[{data: [5, 10,5, 4, 5,15, 12], label: 'Series A'}];
@@ -127,10 +128,8 @@ export class DashboardComponent implements OnInit {
             this.runJobsCount = data.RunningJobsCount;
             this.barChartLabels = data.WeekDays;
             this.barChartData[0].data = data.WeekDaysValue;
-            console.log("this.barChartData[data]: " + JSON.stringify(  data.YearMonthsValue));
             this.barChartDataMonth[0].data = data.YearMonthsValue;
             this.barChartLabelsMonth = data.YearMonths;
-            console.log("this.barChartDataMonth[data]: " + JSON.stringify( this.barChartDataMonth));
         },
         (error) => {
           const errorData = error.json();
