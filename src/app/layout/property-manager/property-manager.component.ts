@@ -413,7 +413,7 @@ export class PropertyManagerComponent implements OnInit {
       .subscribe(
       (data: Property[]) => {
         this.propertyList = data;
-        console.log(data);
+        console.log("Property Data > " + JSON.stringify( data));
         this.filterproperty = data;
 
       },
@@ -435,7 +435,7 @@ export class PropertyManagerComponent implements OnInit {
 
   }
   onPGDelete(id: number) {
-    this.connection = 'PropertyGroup';
+    this.connection = 'Property Group';
     this.warning = true;
     this.productId = id;
     this.operationno = 1;
