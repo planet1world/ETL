@@ -13,7 +13,7 @@ export class DurationComponent implements OnInit {
   outputMessage="";
   constructor(public datepipe: DatePipe) { 
     var date=new Date();
-    this.startDate = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()+1}
+    this.startDate = {year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()+1}
   }
   @Input() JobObject: JobSchedule;
   @Output() Duration = new EventEmitter<JobSchedule>();

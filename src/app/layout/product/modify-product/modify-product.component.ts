@@ -14,7 +14,7 @@ export class ModifyProductComponent implements OnInit {
   propertygroup: PropertyGroup[];
   property: Property[];
   propertyList: Property[];
-  isActive: number;
+  isActive: number = 0;
   showPropertyGroup = '';
   showProperty = '';
   textareaLength = 30;
@@ -30,6 +30,7 @@ export class ModifyProductComponent implements OnInit {
     this.showProperty = this.data.selectedproduct[0].PropertyName;
     this.selectPropertyName = this.data.selectedproduct[0].Name;
     this.isChecked = this.data.selectedproduct[0].Active == 1 ? true : false;
+    this.isActive = this.data.selectedproduct[0].Active;
   }
 
   ngOnInit() {
